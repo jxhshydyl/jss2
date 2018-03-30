@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wf.ew.task.dao.TaskDao">
+    <resultMap id="task" type="com.wf.ew.task.model.Task">
+        <id column="Tid" property="tid"></id>
+        <result column="Task_name" property="taskName"></result>
+        <result column="Tappendixes" property="tappendixes"></result>
+        <result column="Tscore" property="tscore"></result>
+        <result column="Tno" property="tno"></result>
+        <result column="Tname" property="tname"></result>
+        <result column="SubTime" property="subtime"></result>
+        <result column="Ttype" property="ttype"></result>
+        <result column="Tstate" property="tstate"></result>
+        <result column="Cno" property="cno"></result>
+        <result column="Cname" property="cname"></result>
+        <result column="Tchapter" property="tchapter"></result>
+    </resultMap>
+    <select id="queryTask" resultMap="task">
+        select Task.*,Course.Cname from Task,Course
+        <where>
+            and Tno="1"
+            and task.Cno=course.Cno
+            <choose>
+                <when test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!='' and searchKey!='Cno'">
+                    and ${searchKey} like concat(concat("%",#{searchValue}),"%")
+                </when>
+                <when test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!='' and searchKey=='Cno'">
+                    and course.Cno in (select Cno from course where Cname like concat(concat("%",#{searchValue}),"%"))
+                </when>
+            </choose>
+        </where>
+        ORDER BY Task.SubTime DESC
+    </select>
+
+    <delete id="deleteTask">
+       delete Task,Tdetail,Ctask from Task
+					LEFT JOIN tdetail on tdetail.Tid=task.Tid
+					LEFT JOIN ctask on task.Tid=ctask.Tid  where task.Tid=#{Tid}
+    </delete>
+
+    <insert id="shareTask">
+        insert into Ctask(Tid,Cno,End_time) VALUES
+        <foreach collection="condition" item="condition" index="index" separator=",">
+            (#{tid},#{condition.cno},#{condition.time})
+        </foreach>
+    </insert>
+</mapper>

@@ -1,9 +1,13 @@
 package com.wf.ew.system.service;
 
+import com.wf.ew.clazz.model.Class;
+import com.wf.ew.clazz.model.Course;
 import com.wf.ew.core.PageResult;
 import com.wf.ew.core.exception.BusinessException;
 import com.wf.ew.core.exception.ParameterException;
 import com.wf.ew.system.model.User;
+
+import java.util.List;
 
 /**
  * UserService
@@ -53,4 +57,16 @@ public interface UserService {
 	 */
 	public boolean deleteUser(String userId) throws BusinessException;
 
+	/**
+	 * 查询教师所教班级
+	 */
+ 	List<Course> queryClassByTeacher(String Tno);
+	/**
+	 * 查询教师所教专业
+	 */
+	List<Course> queryMajorByTeacher(String tno);
+	/**
+	 * 查询教师所有课程
+	 */
+	List<Course> queryCourseByTeacher(String tno);
 }

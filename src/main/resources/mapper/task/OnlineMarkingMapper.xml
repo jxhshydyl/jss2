@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wf.ew.task.dao.TaskDao">
+    <resultMap id="submitTask" type="com.wf.ew.task.model.SubmitTask">
+        <!--班级的作业信息-->
+        <result column="Cno" property="classNo"></result>
+        <result column="Cname" property="className"></result>
+        <result column="course_name" property="courseName"></result>
+        <result column="Tid" property="tid"></result>
+        <result column="Task_name" property="taskName"></result>
+        <result column="Tchapter" property="tchapter"></result>
+        <result column="End_time" property="endTime"></result>
+        <result column="num" property="unsubmittedNumber"></result>
+<!--班级中学生提交的作业信息-->
+        <result column="Sno" property="sno"></result>
+        <result column="Sname" property="sname"></result>
+        <result column="Sdate" property="submitTime"></result>
+        <result column="Tstate" property="status"></result>
+        <result column="SubTime" property="endTime"></result>
+    </resultMap>
+    <select id="querySubmitedTask" resultMap="submitTask">
+        select s.Task_name,s.Tid,s.Tchapter,s.End_time,s.Cname,s.Cno,s.course_name ,(class.Cnum-s.num) as num
+        from (
+              select d.Task_name,d.Tid,d.Tchapter,d.End_time,d.Cname,d.Cno,d.course_name ,count(1) as num
+              from(
+                    select Task.Task_name,Task.Tid,Task.Tchapter,Ctask.End_time,Class.Cname,Class.Cno,Course.Cname as course_name
+                    from Task,Ctask,Class,Course
+                    <where>
+                        Task.Tno="1" and Task.Tid=Ctask.Tid and Class.Cno=Ctask.Cno and Task.Cno=Course.Cno
+                        <choose>
+                            <when test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!='' and searchKey=='Task_name'">
+                                and Task.${searchKey} like concat(concat("%",#{searchValue}),"%")
+                            </when>
+                            <when test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!='' and searchKey=='course_name'">
+                                and course.Cname like concat(concat("%",#{searchValue}),"%")
+                            </when>
+                            <when test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!='' and searchKey=='Cname'">
+                                and class.${searchKey} like concat(concat("%",#{searchValue}),"%")
+                            </when>
+                        </choose>
+                    </where>
+                    ORDER BY Ctask.End_time DESC
+                   ) d,stask s
+              where d.Tid=s.Tid and d.Cno=s.Cno GROUP BY d.Cno,d.Tid
+              ) s
+        LEFT JOIN class on class.Cno=s.Cno
+    </select>
+
+    <select id="queryStudentSubmitTask" resultMap="submitTask">
+        select s.Tid,s.Tstate,s.Sno,si.Sname,s.Sdate,s.Cno,t.Task_name,t.SubTime from stask s,task t,sinformation si
+        <where>
+            s.Cno=#{cno} and s.Tid=#{tid} and t.Tid=s.Tid and si.Sno=s.Sno
+            <choose>
+                <when test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!='' and searchKey=='Sno'">
+                    and si.${searchKey} like concat(concat("%",#{searchValue}),"%")
+                </when>
+                <when test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!='' and searchKey=='Sname'">
+                    and si.${searchKey} like concat(concat("%",#{searchValue}),"%")
+                </when>
+            </choose>
+        </where>
+        ORDER BY s.Sno
+    </select>
+</mapper>

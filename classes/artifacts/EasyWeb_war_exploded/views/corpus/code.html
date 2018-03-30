@@ -1,0 +1,371 @@
+<div class="content-header">
+    <h2 class="content-title">试题管理</h2>
+    <span class="layui-breadcrumb">
+	  <a href="#!home">首页</a>
+	  <a><cite>试题管理</cite></a>
+	</span>
+</div>
+
+<div id="showTable">
+    <div class="layui-form toolbar">
+        搜索：
+        <select id="searchKey">
+            <option value="">-请选择-</option>
+            <option value="Qid">ID</option>
+            <option value="Qtype">类型</option>
+            <option value="Qname">题目名称</option>
+            <option value="Cname">课程名称</option>
+        </select>&emsp;
+        <input id="searchValue" class="layui-input search-input" type="text" placeholder="输入搜索内容" />&emsp;
+        <button id="searchBtn"  class="layui-btn search-btn"><i class="layui-icon">&#xe615;</i>搜索</button>&emsp;
+        <a id="addBtn" class="layui-btn search-btn"><i class="layui-icon">&#xe654;</i>添加</a>
+    </div>
+
+    <table class="layui-table" id="table" lay-filter="table"></table>
+</div>
+
+<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" id="showQuestionDetail" style="display:none">
+    <div id="qname">
+        <strong>题目标题</strong>
+    </div>
+    <ul class="layui-tab-title">
+        <li class="layui-this" id="questionDetail">题目详情</li>
+        <li id="evaluatingStatistic">评测统计</li>
+        <li id="QuestionManage">题目管理</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <div class="layui-row layui-col-space5">
+                <div class="layui-col-md7">
+                    <div class="layui-row grid-demo grid-demo-bg1">
+                        <div class="layui-col-md12" >
+                            <textarea style="background-color: #dedede;resize: none;border:0.5px #dedede solid;border-radius:5px;min-height: 200px;width:100%;" id="qdescribe" disabled></textarea>
+                        </div>
+                        <div class="layui-col-md12" style="margin-top: 10px">
+                            <strong>输入要求</strong>
+                        </div>
+                        <div class="layui-col-md12" style="margin-top: 5px">
+                            <textarea style="background-color: #dedede;resize: none;border:0.5px #dedede solid;border-radius:5px;min-height: 100px;width:100%;" id="inputDescribe" disabled></textarea>
+                        </div>
+                        <div class="layui-col-md12" style="margin-top: 10px">
+                            <strong>输出要求</strong>
+                        </div>
+                        <div class="layui-col-md12" style="margin-top: 5px">
+                            <textarea style="background-color: #dedede;resize: none;border:0.5px #dedede solid;border-radius:5px;min-height: 100px;width:100%;" id="outputDescripe" disabled></textarea>
+                        </div>
+                        <div class="layui-col-md12" style="margin-top: 10px">
+                            <strong>测试数据</strong>
+                        </div>
+                        <div class="layui-col-md6" style="margin-top: 5px">
+                            输入示例：
+                            <div class="layui-col-md12" style="min-height: 100px">
+                                <textarea id="exampleInput" style="background-color: #dedede;resize: none;border:0.5px #dedede solid;border-radius:5px;min-height: 100px;width:90%;" disabled></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6" style="margin-top: 5px">
+                            输出示例：
+                            <div class="layui-col-md12" style="min-height: 100px">
+                                <textarea id="exampleOutput" style="background-color: #dedede;resize: none;border:0.5px #dedede solid;border-radius:5px;min-height: 100px;width:90%;" disabled></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md5">
+                    <div class="layui-col-md12">
+                        <div class="layui-col-md6">
+                            题目类型
+                        </div>
+                        <div class="layui-col-md6">
+                            标准题目
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-col-md6">
+                            题目难度
+                        </div>
+                        <div class="layui-col-md6" id="qdegree">
+                            3
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-col-md6">
+                            时间限制
+                        </div>
+                        <div class="layui-col-md6" id="limitTime">
+                            300ms
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-col-md6">
+                            内存限制
+                        </div>
+                        <div class="layui-col-md6" id="limitMemory">
+                            66874KB
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-tab-item">
+            内容2
+        </div>
+        <div class="layui-tab-item">
+            <div class="layui-row layui-col-space5">
+                <form id="">
+                    <div class="layui-col-md7">
+                        <div class="layui-row grid-demo grid-demo-bg1">
+                            <div class="layui-col-md12" >
+                                <textarea style="background-color: #dedede;resize: none;border:0.5px #dedede solid;border-radius:5px;min-height: 200px;width:100%;" id="qdescribe_editor" disabled></textarea>
+                            </div>
+                            <div class="layui-col-md12" style="margin-top: 10px">
+                                <strong>输入要求</strong>
+                            </div>
+                            <div class="layui-col-md12" style="margin-top: 5px">
+                                <textarea style="background-color: #dedede;resize: none;border:0.5px #dedede solid;border-radius:5px;min-height: 100px;width:100%;" id="inputDescribe_editor" disabled></textarea>
+                            </div>
+                            <div class="layui-col-md12" style="margin-top: 10px">
+                                <strong>输出要求</strong>
+                            </div>
+                            <div class="layui-col-md12" style="margin-top: 5px">
+                                <textarea style="background-color: #dedede;resize: none;border:0.5px #dedede solid;border-radius:5px;min-height: 100px;width:100%;" id="outputDescripe_editor" disabled></textarea>
+                            </div>
+                            <div class="layui-col-md12" style="margin-top: 10px">
+                                <strong>测试数据</strong>
+                            </div>
+                            <div class="layui-col-md5" style="margin-top: 5px;margin-right: 5px">
+                                输入示例：
+                                <div class="layui-col-md12" style="min-height: 100px">
+                                    <textarea style="background-color: #dedede;resize: none;border:0.5px #dedede solid;border-radius:5px;min-height: 100px;width:90%;" id="exampleInput_editor" disabled></textarea>
+                                </div>
+                            </div>
+                            <div class="layui-col-md5" style="margin-top: 5px;margin-right: 5px">
+                                输出示例：
+                                <div class="layui-col-md12" style="min-height: 100px">
+                                    <textarea style="background-color: #dedede;resize: none;border:0.5px #dedede solid;border-radius:5px;min-height: 100px;width:90%;" id="exampleOutput_editor" disabled></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md5">
+                        <div class="layui-col-md12">
+                            <div class="layui-col-md6">
+                                题目类型
+                            </div>
+                            <div class="layui-col-md6">
+                                标准题目
+                            </div>
+                        </div>
+                        <div class="layui-col-md12">
+                            <div class="layui-col-md6">
+                                题目难度
+                            </div>
+                            <div class="layui-col-md6" id="qdegree">
+                                3
+                            </div>
+                        </div>
+                        <div class="layui-col-md12">
+                            <div class="layui-col-md6">
+                                时间限制
+                            </div>
+                            <div class="layui-col-md6" id="limitTime">
+                                300ms
+                            </div>
+                        </div>
+                        <div class="layui-col-md12">
+                            <div class="layui-col-md6">
+                                内存限制
+                            </div>
+                            <div class="layui-col-md6" id="limitMemory">
+                                66874KB
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="showForm" style="display:none">
+    <div class="layui-row layui-col-space5">
+        <form id="addQuestion" class="layui-form">
+            <div>
+                <div class="layui-col-md7">
+                    <div class="layui-row grid-demo grid-demo-bg1">
+                        <div class="layui-col-md12" style="margin-top: 10px">
+                            <strong>标题</strong>
+                        </div>
+                        <div class="layui-col-md12">
+                            <input type="text" style="background-color: #f0f0f0;resize: none;border:0.5px #dedede solid;min-height: 40px;width:50%;" id="addQname" name="qname"/>
+                        </div>
+                        <div class="layui-col-md12" style="margin-top: 10px">
+                            <strong>问题描述</strong>
+                        </div>
+                        <div class="layui-col-md12" >
+                            <textarea class="layui-textarea" lay-verify="content" id="addQdescribe" name="qdescribe"></textarea>
+                        </div>
+                        <div class="layui-col-md12" style="margin-top: 10px">
+                            <strong>输入要求</strong>
+                        </div>
+                        <div class="layui-col-md12" style="margin-top: 5px">
+                            <textarea class="layui-textarea" lay-verify="content" id="addInputDescribe" name="inputDescribe"></textarea>
+                        </div>
+                        <div class="layui-col-md12" style="margin-top: 10px">
+                            <strong>输出要求</strong>
+                        </div>
+                        <div class="layui-col-md12" style="margin-top: 5px">
+                            <textarea class="layui-textarea" lay-verify="content" id="addOutputDescripe" name="outputDescripe"></textarea>
+                        </div>
+                        <div class="layui-col-md12" style="margin-top: 10px">
+                            <strong>测试数据</strong>
+                        </div>
+                        <div class="layui-col-md5" style="margin-top: 5px;margin-right: 5px">
+                            输入示例：
+                            <div class="layui-col-md12" style="min-height: 100px">
+                                <textarea class="layui-textarea" lay-verify="content" id="addExampleInput" name="exampleInput"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-col-md5" style="margin-top: 5px">
+                            输出示例：
+                            <div class="layui-col-md12" style="min-height: 100px">
+                                <textarea class="layui-textarea" lay-verify="content" id="addExampleOutput" name="exampleOutput"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md5">
+                    <div class="layui-col-md12">
+                        <div class="layui-col-md6">
+                            题目类型
+                        </div>
+                        <div class="layui-col-md6">
+                            标准题目
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-col-md6">
+                            题目难度
+                        </div>
+                        <div class="layui-col-md6" id="qdegree">
+                            3
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-col-md6">
+                            时间限制
+                        </div>
+                        <div class="layui-col-md6" id="limitTime">
+                            300ms
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="layui-col-md6">
+                            内存限制
+                        </div>
+                        <div class="layui-col-md6" id="limitMemory">
+                            66874KB
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="layui-form-item" style="margin-top: 10px">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary" id="reset">返回</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+
+        layui.use(['form', 'layedit'], function(){
+            var form = layui.form
+                ,layer = layui.layer
+                ,layedit = layui.layedit;
+
+            createEdit(layedit);
+
+            //自定义验证规则
+            form.verify({
+                title: function(value){
+                    if(value.length < 5){
+                        return '标题至少得5个字符啊';
+                    }
+                }
+                ,content: function(value){
+                    layedit.sync(addQdescribe);
+                    layedit.sync(addInputDescribe);
+                    layedit.sync(addOutputDescripe);
+                    layedit.sync(addExampleInput);
+                    layedit.sync(addExampleOutput);
+                }
+            });
+
+            //监听提交
+            form.on('submit(demo1)', function(data){
+                layer.alert(JSON.stringify(data.field), {
+                    title: '最终的提交信息'
+                });
+                return true;
+            });
+
+            $("#reset").click(function(){
+                $("#addQdescribe").val("");
+                $("#addInputDescribe").val("");
+                $("#addOutputDescripe").val("");
+                $("#addExampleInput").val("");
+                $("#addExampleOutput").val("");
+                createEdit(layedit);
+
+                $("#showTable").css('display','');
+                $("#showForm").css('display','none');
+                $("#showQuestionDetail").css('display','none');
+            });
+
+            $("#addBtn").click(function(){
+                $("#showTable").css('display','none');
+                $("#showForm").css('display','');
+                $("#showQuestionDetail").css('display','none');
+            });
+            form.render();
+        });
+        function createEdit(layedit){
+            //创建一个编辑器
+            var addQdescribe = layedit.build('addQdescribe',{
+                height: 200,
+                tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
+            });
+            var addInputDescribe = layedit.build('addInputDescribe',{
+                height: 150,
+                tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
+            });
+            var addOutputDescripe = layedit.build('addOutputDescripe',{
+                height: 150,
+                tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
+            });
+            var addExampleInput = layedit.build('addExampleInput',{
+                height: 150,
+                tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
+            });
+            var addExampleOutput = layedit.build('addExampleOutput',{
+                height: 150,
+                tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
+            });
+        }
+    </script>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="barTpl">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">详情</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script>
+    $("#questionDetail").click(function(){
+        $("#showQuestionDetail").css("display","");
+        $("#showTable").css("display","none");
+    });
+</script>
+<script type="text/javascript" src="assets/js/corpus/code.js"></script>

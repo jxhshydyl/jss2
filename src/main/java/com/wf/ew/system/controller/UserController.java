@@ -40,7 +40,8 @@ public class UserController extends BaseController {
 	 */
 	@GetMapping()
 	public PageResult<User> list(Integer page, Integer limit, Integer status, String searchKey, String searchValue) throws UnsupportedEncodingException {
-		if(searchValue != null){
+			System.out.println("执行方法：list");
+			if(searchValue != null){
 			searchValue = new String(searchValue.getBytes("ISO-8859-1"), "UTF-8");
 		}
 		if(page == null) {
@@ -49,7 +50,6 @@ public class UserController extends BaseController {
 		}
 		return userService.getUsers(page, limit, status, searchKey, searchValue);
 	}
-	
 	/**
 	 * 添加用户
 	 */

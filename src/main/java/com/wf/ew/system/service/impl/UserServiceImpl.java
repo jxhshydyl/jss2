@@ -3,6 +3,7 @@ package com.wf.ew.system.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.wf.ew.clazz.model.Course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
 		PageResult<User> result = new PageResult<User>();
 		result.setData(users);
 		result.setCount(startPage.getTotal());
+		System.out.println(result);
 		return result;
 	}
 
@@ -88,5 +90,28 @@ public class UserServiceImpl implements UserService {
 			e.printStackTrace();
 			throw new BusinessException("用户已被关联");
 		}
+	}
+	/**
+	 * 查询教师所教班级
+	 */
+	public List<Course> queryClassByTeacher(String tno){
+		List<Course> courses = userMapper.queryClassByTeacher(tno);
+		return courses;
+	}
+
+	/**
+	 * 查询教师所教专业
+	 */
+	public List<Course> queryMajorByTeacher(String tno){
+		List<Course> courses = userMapper.queryMajorByTeacher(tno);
+		return courses;
+	}
+
+	/**
+	 * 查询教师所有课程
+	 */
+	public List<Course> queryCourseByTeacher(String tno){
+		List<Course> courses = userMapper.queryCourseByTeacher(tno);
+		return courses;
 	}
 }

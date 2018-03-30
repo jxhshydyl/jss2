@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wf.ew.corpus.dao.CodeDao">
+    <resultMap id="code" type="com.wf.ew.corpus.model.Code">
+        <id column="Qid" property="qid"></id>
+        <result column="Qname" property="qname"></result>
+        <result column="Qdescribe" property="qdescribe"></result>
+        <result column="Input_describe" property="inputDescribe"></result>
+        <result column="Output_descripe" property="outputDescripe"></result>
+        <result column="Example_input" property="exampleInput"></result>
+        <result column="Example_output" property="exampleOutput"></result>
+        <result column="reference_answer" property="referenceAnswer"></result>
+        <result column="Qtype" property="qtype"></result>
+        <result column="Limit_time" property="limitTime"></result>
+        <result column="Limit_memory" property="limitMemory"></result>
+        <result column="Qdegree" property="qdegree"></result>
+        <result column="Total_submit_count" property="totalSubmitCount"></result>
+        <result column="Total_right_count" property="totalRightCount"></result>
+        <result column="Qchapter" property="qchapter"></result>
+        <result column="Qparagraph" property="qparagraph"></result>
+        <result column="Cname" property="cname"></result>
+    </resultMap>
+    <select id="queryCode" resultMap="code">
+        select * from code
+        <where>
+            <if test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!=''">
+                AND ${searchKey} like '%${searchValue}%'
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteCode">
+        delete from code where qid=#{qid}
+    </delete>
+</mapper>

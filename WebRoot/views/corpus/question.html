@@ -1,0 +1,209 @@
+<div class="content-header">
+	<h2 class="content-title">试题管理</h2>
+	<span class="layui-breadcrumb">
+	  <a href="#!home">首页</a>
+	  <a><cite>试题管理</cite></a>
+	</span>
+</div>
+
+<div id="showTable">
+	<div class="layui-form toolbar">
+		搜索：
+		<select id="searchKey">
+			<option value="">-请选择-</option>
+			<option value="Qid">ID</option>
+			<option value="Qtype">类型</option>
+			<option value="Qcontent">内容</option>
+			<option value="Cname">课程名称</option>
+		</select>&emsp;
+		<input id="searchValue" class="layui-input search-input" type="text" placeholder="输入搜索内容" />&emsp;
+		<button id="searchBtn"  class="layui-btn search-btn"><i class="layui-icon">&#xe615;</i>搜索</button>&emsp;
+		<a id="addBtn" class="layui-btn search-btn"><i class="layui-icon">&#xe654;</i>添加</a>
+	</div>
+	
+	<table class="layui-table" id="table" lay-filter="table"></table>
+</div>
+
+<div id="showForm" style="display:none">
+	<form class="layui-form" action="" id="questionForm" style="width:60%;">
+		<div class="layui-form-item">
+			<label class="layui-form-label">所属课程</label>
+			<div class="layui-input-inline">
+				<select name="cname">
+					<option value="">请选择课程</option>
+					<option value="a" selected="">java</option>
+					<option value="b">c</option>
+					<option value="c">c++</option>
+				</select>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">所属章</label>
+				<div class="layui-input-inline">
+					<select name="qchapter" lay-verify="required" lay-search="">
+						<option value="">直接选择或搜索选择</option>
+						<option value="第一章">第一章</option>
+						<option value="第二章">第二章</option>
+						<option value="第三章">第三章</option>
+						<option value="第四章">第四章</option>
+						<option value="第五章">第五章</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">所属节</label>
+				<div class="layui-input-inline">
+					<select name="qparagraph" lay-search="">
+						<option value="">直接选择或搜索选择</option>
+						<option value="第一节">第一节</option>
+						<option value="第二节">第二节</option>
+						<option value="第三节">第三节</option>
+						<option value="第四节">第四节</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">题目类型</label>
+			<div class="layui-input-inline">
+				<select name="qtype" id="qtype" lay-filter="qtype">
+					<option value="单选题" selected="">单选题</option>
+					<option value="多选题">多选题</option>
+					<option value="填空题">填空题</option>
+                    <option value="判断题">判断题</option>
+                    <option value="简答题">简答题</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">题目内容</label>
+          <div class="layui-input-block">
+            <textarea class="layui-textarea" name="qcontent" lay-verify="content" id="LAY_demo_editor"></textarea>
+          </div>
+        </div>
+		<div class="layui-form-item" id="xuanze">
+			<label class="layui-form-label">题目选项</label>
+			<div class="layui-input-block">
+				<button class="layui-btn layui-btn-sm" type="button" id="addOptions"><i class="layui-icon">&#xe654;</i></button>
+			</div>
+			<div class="layui-input-block">
+				<table class="layui-table" id="options">
+					<colgroup>
+						<col width="100">
+						<col >
+						<col width="100">
+						<col width="100">
+					</colgroup>
+					<thead>
+					<tr>
+						<th>选项</th>
+						<th>内容</th>
+						<th>答案</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr name="xuanxianghangshu">
+							<td>A</td>
+							<td><textarea style="resize:none;border:0;height:40px;width:100%;margin: 0 0" name="answer1"></textarea></td>
+							<td><input type="radio" name="daan" value="A" ></td>
+							<td><a onClick="deletexuanxiang('A')">
+								<span class="am-icon-trash-o"></span> 删除
+							</a></td>
+						</tr>
+						<tr name="xuanxianghangshu">
+							<td>B</td>
+							<td><textarea style="resize:none;border:0;height:40px;width:100%;margin: 0 0" name="answer2"></textarea></td>
+							<td><input type="radio" name="daan" value="B" ></td>
+							<td><a onClick="deletexuanxiang('B')">
+								<span class="am-icon-trash-o"></span> 删除
+							</a></td>
+						</tr>
+						<tr name="xuanxianghangshu">
+							<td>C</td>
+							<td><textarea style="resize:none;border:0;height:40px;width:100%;margin: 0 0" name="answer3"></textarea></td>
+							<td><input type="radio" name="daan" value="C" ></td>
+							<td> <a onClick="deletexuanxiang('C')">
+								<span class="am-icon-trash-o"></span> 删除
+							</a></td>
+						</tr>
+						<tr name="xuanxianghangshu">
+							<td>D</td>
+							<td><textarea style="resize:none;border:0;height:40px;width:100%;margin: 0 0" name="answer4"></textarea></td>
+							<td><input type="radio" name="daan" value="D" ></td>
+							<td><a onClick="deletexuanxiang('D')">
+								<span class="am-icon-trash-o"></span> 删除
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+        <div class="layui-form-item" id="panduan" style="display:none;">
+            <label class="layui-form-label">题目答案</label>
+			<div class="layui-input-inline">
+				<input type="radio" name="daan1" value="true" title="✔" checked>
+				<input type="radio" name="daan1" value="false" title="✖">
+			</div>
+        </div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" lay-filter="demo1" lay-submit>立即提交</button>
+				<button type="reset" class="layui-btn layui-btn-primary" id="reset">返回</button>
+			</div>
+		</div>
+	</form>
+	<script>
+
+	</script>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="barTpl">
+  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">详情</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+
+<script type="text/javascript" src="assets/js/corpus/question.js"></script>
+<script>
+    //增加选项
+	$("#addOptions").click(function(){
+        var xuanxiang=new Array(["A"],["B"],["C"],["D"],["E"],["F"],["G"],["H"],["I"]);
+        var num=$("#options tr").length;
+	    var tr="<tr name=\"xuanxianghangshu\">\n" +
+            "<td>"+xuanxiang[num-1]+"</td>\n" +
+            "<td><textarea style=\"resize:none;border:0;height:40px;width:100%;margin: 0 0\" name='answer"+num+"'></textarea></td>\n" +
+            "<td><input type=\"radio\" name=\"daan\" value='"+xuanxiang[num-1]+"'></td>\n" +
+            "<td><a onClick=\"deletexuanxiang('"+xuanxiang[num-1]+"')\">\n" +
+            "<span class=\"am-icon-trash-o\"></span> 删除\n" +
+            "</a></td>\n" +
+            "</tr>";
+	    $("#options").append(tr);
+        layui.form.render();
+	});
+    var key=0;
+    //删除选项并重新排序（A,B,C,D,E,F,G,H）
+    function deletexuanxiang(obj){
+        key=key-1;
+        var flag=window.confirm("是否删除？");
+        if(flag==true){
+            var table = document.getElementById("options");
+            var tr=document.getElementsByName("xuanxianghangshu");
+            var xuanxiang=new Array(["A"],["B"],["C"],["D"],["E"],["F"],["G"],["H"],["I"]);
+            for(var i=0;i<xuanxiang.length;i++){
+                if(obj==xuanxiang[i]){
+                    var key=i;
+                }else{
+                    var key=tr.length-1;
+                }
+            }
+            table.deleteRow(key+1);
+            for(var i=1;i<tr.length+1;i++){
+                table.rows[i].cells[0].innerHTML=xuanxiang[i-1];
+            }
+        }
+    }
+</script>

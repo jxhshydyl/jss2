@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wf.ew.clazz.dao.ClassDao">
+    <resultMap id="class" type="com.wf.ew.clazz.model.Class">
+        <id column="Cno" property="cno"></id>
+        <result column="Cname" property="cname"></result>
+        <result column="Cnum" property="cnum"></result>
+        <result column="Academy" property="academy"></result>
+        <result column="Major" property="major"></result>
+        <result column="Ctime_start" property="ctime_start"></result>
+        <result column="Ctime_end" property="ctime_end"></result>
+    </resultMap>
+    <resultMap id="students" type="com.wf.ew.clazz.model.Students">
+        <id column="Sno" property="sno"></id>
+        <result column="Sname" property="sname"></result>
+        <result column="Ssex" property="ssex"></result>
+        <result column="Syear" property="syear"></result>
+        <result column="Sacademy" property="sacademy"></result>
+        <result column="Smajor" property="smajor"></result>
+        <result column="Sclass" property="sclass"></result>
+    </resultMap>
+    <select id="queryClass" resultMap="class">
+        select * from class
+        <where>
+            and Cno in (select DISTINCT(Cno) from tclass where Tno="1")
+            <if test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!=''">
+                AND ${searchKey} like concat(concat("%",#{searchValue}),"%")
+            </if>
+        </where>
+    </select>
+    <select id="queryStudentsByClass" resultMap="students">
+        select * from Sinformation
+        <where>
+            and Sclass=(select Cname from class where cno=#{cno})
+            <if test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!=''">
+                AND ${searchKey} like '%${searchValue}%'
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,9 +1,11 @@
 package com.wf.ew.system.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.wf.ew.clazz.model.Course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,11 +65,16 @@ public class LoginController extends BaseController {
 		if (!loginUser.getUserPassword().equals(encryPsw)) {
 			return ResultMap.error("密码错误");
 		}
+
+		List<Course> clazzs = userService.queryClassByTeacher(loginUser.getUserId());
+		List<Course> courses = userService.queryCourseByTeacher(loginUser.getUserId());
+		List<Course> majors = userService.queryMajorByTeacher(loginUser.getUserId());
 		// 添加到登录日志
 		addLoginRecord(request, loginUser.getUserId());
 		String token = SubjectUtil.getInstance().createToken(loginUser.getUserId(), DateUtil.getAppointDate(new Date(), 30));
 		loginUser.setUserPassword(null);
-		return ResultMap.ok("登录成功").put("user", loginUser).put("token", token);
+		return ResultMap.ok("登录成功").put("user", loginUser)
+				.put("token", token).put("clazz",clazzs).put("course",courses).put("major",majors);
 	}
 
 	/**

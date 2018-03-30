@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wf.ew.corpus.dao.QuestionDao">
+    <resultMap id="question" type="com.wf.ew.corpus.model.Question">
+        <id column="Qid" property="qid"></id>
+        <result column="Qtype" property="qtype"></result>
+        <result column="Qcontent" property="qcontent"></result>
+        <result column="Qchoice" property="qchoice"></result>
+        <result column="Qanswer" property="qanswer"></result>
+        <result column="Qdegree" property="qdegree"></result>
+        <result column="Cname" property="cname"></result>
+        <result column="Qchapter" property="qchapter"></result>
+        <result column="Qparagraph" property="qparagraph"></result>
+    </resultMap>
+    <select id="queryQuestion" resultMap="question">
+        select * from Question
+        <where>
+            <if test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!=''">
+                AND ${searchKey} like '%${searchValue}%'
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteQuestion">
+        delete from Question where qid=#{qid}
+    </delete>
+</mapper>

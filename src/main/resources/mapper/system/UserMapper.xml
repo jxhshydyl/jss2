@@ -16,6 +16,16 @@
 	<!-- 关联属性 -->
 	<result column="role_name" property="roleName" jdbcType="VARCHAR" />
   </resultMap>
+
+  <resultMap id="courseToClassToMajor" type="com.wf.ew.clazz.model.Course">
+    <result column="Cno" property="cno"></result>
+    <result column="Cname" property="cname"></result>
+    <result column="Cid" property="cid"></result>
+    <result column="Course_name" property="courseName"></result>
+    <result column="Major" property="major"></result>
+    <result column="Mno" property="mno"></result>
+  </resultMap>
+
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -317,4 +327,16 @@
 	<if test="searchKey!=null and searchKey!='' and searchValue!=null and searchValue!=''">AND a.${searchKey} like '%${searchValue}%' </if>
 	ORDER BY a.create_time ASC
 	</select>
+
+  <select id="queryClassByTeacher" resultMap="courseToClassToMajor">
+    select DISTINCT(Cname),Cno from tclass where Tno="1"
+  </select>
+
+  <select id="queryMajorByTeacher" resultMap="courseToClassToMajor">
+    select DISTINCT(Major) ,Mno from class,major where Cno in(select DISTINCT(Cno) from tclass where Tno="1") and class.Major=major.Mname
+  </select>
+
+  <select id="queryCourseByTeacher" resultMap="courseToClassToMajor">
+    select DISTINCT(Course_name),Cid from tclass where Tno="1"
+  </select>
 </mapper>

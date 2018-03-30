@@ -1,0 +1,48 @@
+<div class="content-header">
+    <h2 class="content-title">在线批阅</h2>
+    <span class="layui-breadcrumb">
+	  <a href="#!home">首页</a>
+	  <a href="#!task/onlineMarking"><cite>在线批阅</cite></a>
+	</span>
+</div>
+
+<div>
+    <div class="layui-form toolbar">
+        <span id="class">
+            搜索：
+            <select id="searchKey">
+                <option value="">-请选择-</option>
+                <option value="Cname">班级</option>
+                <option value="Task_name">作业名称</option>
+                <option value="course_name">课程名称</option>
+            </select>&emsp;
+            <input id="searchValue" class="layui-input search-input" type="text" placeholder="输入搜索内容" />&emsp;
+        </span>
+
+        <span style="display: none" id="student">
+            搜索：
+            <select id="searchKeys" style="display:none">
+                <option value="">-请选择-</option>
+                <option value="Sno">学号</option>
+                <option value="Sname">姓名</option>
+            </select>&emsp;
+            <input id="searchValues" class="layui-input search-input" type="text" placeholder="输入搜索内容" />&emsp;
+        </span>
+        <button id="searchBtn" class="layui-btn search-btn"><i class="layui-icon">&#xe615;</i>搜索</button>&emsp;
+        <!--<button id="addBtn" class="layui-btn search-btn"><i class="layui-icon">&#xe654;</i>添加</button>-->
+    </div>
+
+    <table class="layui-table" id="table" lay-filter="table"></table>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="barTpl">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="view">查看详情</a>
+</script>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="readOver">批阅</a>
+</script>
+
+<script type="text/javascript" src="assets/js/task/onlineMarking.js"></script>

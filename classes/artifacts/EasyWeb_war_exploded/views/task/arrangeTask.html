@@ -1,0 +1,33 @@
+<div class="content-header">
+    <h2 class="content-title">用户管理</h2>
+    <span class="layui-breadcrumb">
+	  <a href="#!home">首页</a>
+	  <a><cite>用户管理</cite></a>
+	</span>
+</div>
+
+<div>
+    <div class="layui-form toolbar">
+        搜索：
+        <select id="searchKey">
+            <option value="">-请选择-</option>
+            <option value="user_id">ID</option>
+            <option value="user_account">账号</option>
+            <option value="user_nickname">用户名</option>
+            <option value="mobile_phone">手机号</option>
+        </select>&emsp;
+        <input id="searchValue" class="layui-input search-input" type="text" placeholder="输入搜索内容" />&emsp;
+        <button id="searchBtn" class="layui-btn search-btn"><i class="layui-icon">&#xe615;</i>搜索</button>&emsp;
+        <!--<button id="addBtn" class="layui-btn search-btn"><i class="layui-icon">&#xe654;</i>添加</button>-->
+    </div>
+
+    <table class="layui-table" id="table" lay-filter="table"></table>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="barTpl">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="view">查看人数</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script type="text/javascript" src="assets/js/class/classList.js"></script>
