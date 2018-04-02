@@ -7,6 +7,7 @@ import com.wf.ew.clazz.service.ClassService;
 import com.wf.ew.core.PageResult;
 import com.wf.ew.corpus.dao.CodeDao;
 import com.wf.ew.corpus.dao.QuestionDao;
+import com.wf.ew.corpus.dao.UploadDao;
 import com.wf.ew.corpus.model.Code;
 import com.wf.ew.corpus.model.Question;
 import com.wf.ew.corpus.service.QuestionService;
@@ -40,6 +41,8 @@ public class QuestionTest {
     CodeDao codeDao;
     @Autowired
     TaskDao taskDao;
+    @Autowired
+    UploadDao uploadDao;
     @Test
     public void test(){
         PageResult<Question> question = questionService.getQuestion(1, 10, null, null);
@@ -89,5 +92,20 @@ public class QuestionTest {
     public void test8(){
         List<SubmitTask> submitTasks = taskDao.queryStudentSubmitTask(null, null, "c-2014","1");
         System.out.println(submitTasks);
+    }
+    @Test
+    public void test9(){
+        List<Question> questions = new ArrayList<Question>();
+        Question question=new Question();
+        question.setAnswer("");
+        question.setQtype("ds");
+        question.setQcontent("ds");
+        questions.add(question);
+        Question question1=new Question();
+        question1.setAnswer("");
+        question1.setQtype("ds");
+        question1.setQcontent("ds");
+        questions.add(question1);
+        uploadDao.bulkAddQuestion(questions);
     }
 }

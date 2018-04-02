@@ -12,8 +12,8 @@ public class Code {
     private String exampleOutput;//输出示例
     private String referenceAnswer;//参考答案
     private String qtype;//问题类型
-    private Float limitTime;//限制时间
-    private Float limitMemory;//限制内存
+    private int limitTime;//限制时间
+    private int limitMemory;//限制内存
     private Integer qdegree;//问题难度
     private Integer totalSubmitCount;//总提交次数
     private Integer totalRightCount;//正确提交次数
@@ -93,19 +93,19 @@ public class Code {
         this.qtype = qtype;
     }
 
-    public Float getLimitTime() {
+    public int getLimitTime() {
         return limitTime;
     }
 
-    public void setLimitTime(Float limitTime) {
+    public void setLimitTime(int limitTime) {
         this.limitTime = limitTime;
     }
 
-    public Float getLimitMemory() {
+    public int getLimitMemory() {
         return limitMemory;
     }
 
-    public void setLimitMemory(Float limitMemory) {
+    public void setLimitMemory(int limitMemory) {
         this.limitMemory = limitMemory;
     }
 

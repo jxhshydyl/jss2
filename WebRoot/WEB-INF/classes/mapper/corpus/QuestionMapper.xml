@@ -24,4 +24,9 @@
     <delete id="deleteQuestion">
         delete from Question where qid=#{qid}
     </delete>
+
+    <insert id="addQuestion">
+        insert into question(Qtype,Qcontent,Qchoice,Qanswer,Qdegree,Qchapter,Cname,Qparagraph)
+        VALUES (#{qtype},#{qcontent},#{qchoice},#{qanswer},#{qdegree},#{qchapter},#{cname},#{qparagraph})
+    </insert>
 </mapper>
