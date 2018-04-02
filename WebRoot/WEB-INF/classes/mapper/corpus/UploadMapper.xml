@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wf.ew.corpus.dao.UploadDao">
+
+    <insert id="bulkAddCode">
+        insert into code(`Qname`,`Qdescribe`,`Input_describe`,`Output_descripe`,`Example_input`,
+        `Example_output`,`reference_answer`,`Limit_time`,`Limit_memory`,`Qdegree`,`Qtype`,
+        `Qchapter`,`Qparagraph`,`Cname`) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.qname},#{item.qdescribe},#{item.inputDescribe},#{item.outputDescripe},#{item.exampleInput},
+            #{item.exampleOutput},#{item.referenceAnswer},#{item.limitTime},#{item.limitMemory},
+            #{item.qdegree},#{item.qtype},#{item.qchapter},#{item.qparagraph},#{item.cname})
+        </foreach>
+    </insert>
+
+    <insert id="bulkAddQuestion" >
+        insert into question(Qtype,Qcontent,Qchoice,Qanswer,Qdegree,Qchapter,Cname,Qparagraph) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.qtype},#{item.qcontent},#{item.qchoice},#{item.qanswer},#{item.qdegree},#{item.qchapter},#{item.cname},#{item.qparagraph})
+        </foreach>
+    </insert>
+
+</mapper>

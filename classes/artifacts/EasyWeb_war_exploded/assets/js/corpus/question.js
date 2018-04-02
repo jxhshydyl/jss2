@@ -97,20 +97,6 @@ $(function() {
                     }
                 }
 			});
-            /*$.post("jss/addQuestion", data.field, function(data){
-                layer.closeAll('loading');
-                if(data.code==200){
-                    /!*$("#xuanze").css('display','');
-                    $("#showTable").css('display','');
-                    $("#showForm").css('display','none');
-                    layer.msg(data.msg,{icon: 1});
-                    layer.closeAll('page');*!/
-                    window.location.reload();
-                   // layui.table.reload('table', {});
-                }else{
-                    layer.msg(data.msg,{icon: 2});
-                }
-            }, "JSON");*/
             return false;
         });
 
@@ -121,8 +107,17 @@ $(function() {
         });
 
         $("#addBtn").click(function(){
+            var course=getCurrentCourse();
+            console.log(course);
+            html='';
+            for(var i=0;i<course.length;i++){
+                html+="<option value='"+course[i].courseName+"'>"+course[i].courseName+"</option>";
+            }
+            console.log(html);
+            $("#course").html(html);
             $("#showTable").css('display','none');
             $("#showForm").css('display','');
+            form.render();
         });
         form.render();
     });

@@ -25,24 +25,25 @@ $(function() {
 	//添加按钮点击事件
 
 	
+
 	//表单提交事件
-	layui.form.on('submit(btnSubmit)', function(data) {
-		data.field.token = getToken();
-		data.field._method = $("#editForm").attr("method");
-		layer.load(1);
-		$.post("api/question", data.field, function(data){
-			layer.closeAll('loading');
-			if(data.code==200){
-				layer.msg(data.msg,{icon: 1});
-				layer.closeAll('page');
-				layui.table.reload('table', {});
-			}else{
-				layer.msg(data.msg,{icon: 2});
-			}
-		}, "JSON");
-		return false;
-	});
-	
+	// layui.form.on('submit(btnSubmit)', function(data) {
+	// 	data.field.token = getToken();
+	// 	data.field._method = $("#editForm").attr("method");
+	// 	layer.load(1);
+	// 	$.post("api/question", data.field, function(data){
+	// 		layer.closeAll('loading');
+	// 		if(data.code==200){
+	// 			layer.msg(data.msg,{icon: 1});
+	// 			layer.closeAll('page');
+	// 			layui.table.reload('table', {});
+	// 		}else{
+	// 			layer.msg(data.msg,{icon: 2});
+	// 		}
+	// 	}, "JSON");
+	// 	return false;
+	// });
+
 	//工具条点击事件
 	layui.table.on('tool(table)', function(obj){
 		var data = obj.data;
@@ -69,13 +70,7 @@ $(function() {
 		doSearch(table);
 	});
 
-/*	//增加选项
-	$("#addOptions").click(function(){
-		console.log("zengjiaxuanxiang");
-        showEditModel(null);
-	});*/
 });
-
 
 //显示表单弹窗
 function showQuestionDetail(data){
@@ -168,3 +163,21 @@ function doSearch(table){
 	}
 	layui.table.reload('table', {where: {searchKey: key,searchValue: value}});
 }
+$("#formSubmit").click(function(){
+	var data=$("#addQuestion").serialize();
+    $.ajax({
+        url: "jss/addQuestion/code",
+        type: "post",
+        data:data,
+        dataType: "JSON",
+        success: function(data){
+            layer.closeAll('loading');
+            if(data.code==200){
+                window.location.reload();
+                // layer.msg(data.msg,{icon: 1});
+            }else{
+                layer.msg(data.msg,{icon: 2});
+            }
+        }
+    });
+});

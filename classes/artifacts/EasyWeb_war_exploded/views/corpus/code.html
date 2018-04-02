@@ -83,7 +83,7 @@
                         <div class="layui-col-md6">
                             题目难度
                         </div>
-                        <div class="layui-col-md6" id="qdegree">
+                        <div class="layui-col-md6" id="qdegrees">
                             3
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                         <div class="layui-col-md6">
                             时间限制
                         </div>
-                        <div class="layui-col-md6" id="limitTime">
+                        <div class="layui-col-md6" id="limitTimes">
                             300ms
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                         <div class="layui-col-md6">
                             内存限制
                         </div>
-                        <div class="layui-col-md6" id="limitMemory">
+                        <div class="layui-col-md6" id="limitMemorys">
                             66874KB
                         </div>
                     </div>
@@ -111,7 +111,7 @@
         </div>
         <div class="layui-tab-item">
             <div class="layui-row layui-col-space5">
-                <form id="">
+                <form action="">
                     <div class="layui-col-md7">
                         <div class="layui-row grid-demo grid-demo-bg1">
                             <div class="layui-col-md12" >
@@ -188,7 +188,7 @@
 
 <div id="showForm" style="display:none">
     <div class="layui-row layui-col-space5">
-        <form id="addQuestion" class="layui-form">
+        <form id="addQuestion" class="layui-form"  action="">
             <div>
                 <div class="layui-col-md7">
                     <div class="layui-row grid-demo grid-demo-bg1">
@@ -233,37 +233,64 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-md5">
-                    <div class="layui-col-md12">
-                        <div class="layui-col-md6">
-                            题目类型
-                        </div>
-                        <div class="layui-col-md6">
-                            标准题目
-                        </div>
-                    </div>
-                    <div class="layui-col-md12">
-                        <div class="layui-col-md6">
-                            题目难度
-                        </div>
-                        <div class="layui-col-md6" id="qdegree">
-                            3
+                <div class="layui-col-md4" style="margin-left: 20px">
+                    <div class="layui-col-md12" style="margin-top: 5px">
+                        题目类型:
+                        <div class="layui-col-md12">
+                            <select name="qtype">
+
+                            </select>
                         </div>
                     </div>
-                    <div class="layui-col-md12">
-                        <div class="layui-col-md6">
-                            时间限制
-                        </div>
-                        <div class="layui-col-md6" id="limitTime">
-                            300ms
+                    <div class="layui-col-md12" style="margin-top: 5px">
+                        题目难度:
+                        <div class="layui-col-md12" >
+                            <input type="number" id="addqdegree" name="qdegree">
                         </div>
                     </div>
-                    <div class="layui-col-md12">
-                        <div class="layui-col-md6">
-                            内存限制
+                    <div class="layui-col-md12" style="margin-top: 5px">
+                            时间限制:
+                        <div class="layui-col-md12">
+                            <input type="number" id="addlimitTime" name="limitTime">ms
                         </div>
-                        <div class="layui-col-md6" id="limitMemory">
-                            66874KB
+                    </div>
+                    <div class="layui-col-md12" style="margin-top: 5px" name="">
+                        内存限制:
+                        <div class="layui-col-md12">
+                            <input type="number" id="addlimitMemory" name="limitMemory">KB
+                        </div>
+                    </div>
+                    <div class="layui-col-md12" style="margin-top: 5px">
+                        所属课程:
+                        <div class="layui-col-md12" id="cname">
+                            <select name="cname" lay-verify="required" id="course">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12" style="margin-top: 5px">
+                        所属章:
+                        <div class="layui-col-md12" >
+                            <select name="qchapter" lay-verify="required" lay-search="">
+                                <option value="">直接选择或搜索选择</option>
+                                <option value="第一章">第一章</option>
+                                <option value="第二章">第二章</option>
+                                <option value="第三章">第三章</option>
+                                <option value="第四章">第四章</option>
+                                <option value="第五章">第五章</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12" style="margin-top: 5px">
+                        所属节:
+                        <div class="layui-col-md12" >
+                            <select name="qparagraph" lay-verify="required" lay-search="">
+                                <option value="">直接选择或搜索选择</option>
+                                <option value="第一节">第一节</option>
+                                <option value="第二节">第二节</option>
+                                <option value="第三节">第三节</option>
+                                <option value="第四节">第四节</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -271,89 +298,14 @@
             <br>
             <div class="layui-form-item" style="margin-top: 10px">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                    <button class="layui-btn" lay-submit="" lay-filter="formSubmit">立即提交</button>
+                    <!--<button class="layui-btn" lay-filter="demo1" id="formSubmit" type="button">立即提交</button>-->
                     <button type="reset" class="layui-btn layui-btn-primary" id="reset">返回</button>
                 </div>
             </div>
         </form>
     </div>
-    <script>
 
-        layui.use(['form', 'layedit'], function(){
-            var form = layui.form
-                ,layer = layui.layer
-                ,layedit = layui.layedit;
-
-            createEdit(layedit);
-
-            //自定义验证规则
-            form.verify({
-                title: function(value){
-                    if(value.length < 5){
-                        return '标题至少得5个字符啊';
-                    }
-                }
-                ,content: function(value){
-                    layedit.sync(addQdescribe);
-                    layedit.sync(addInputDescribe);
-                    layedit.sync(addOutputDescripe);
-                    layedit.sync(addExampleInput);
-                    layedit.sync(addExampleOutput);
-                }
-            });
-
-            //监听提交
-            form.on('submit(demo1)', function(data){
-                layer.alert(JSON.stringify(data.field), {
-                    title: '最终的提交信息'
-                });
-                return true;
-            });
-
-            $("#reset").click(function(){
-                $("#addQdescribe").val("");
-                $("#addInputDescribe").val("");
-                $("#addOutputDescripe").val("");
-                $("#addExampleInput").val("");
-                $("#addExampleOutput").val("");
-                createEdit(layedit);
-
-                $("#showTable").css('display','');
-                $("#showForm").css('display','none');
-                $("#showQuestionDetail").css('display','none');
-            });
-
-            $("#addBtn").click(function(){
-                $("#showTable").css('display','none');
-                $("#showForm").css('display','');
-                $("#showQuestionDetail").css('display','none');
-            });
-            form.render();
-        });
-        function createEdit(layedit){
-            //创建一个编辑器
-            var addQdescribe = layedit.build('addQdescribe',{
-                height: 200,
-                tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
-            });
-            var addInputDescribe = layedit.build('addInputDescribe',{
-                height: 150,
-                tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
-            });
-            var addOutputDescripe = layedit.build('addOutputDescripe',{
-                height: 150,
-                tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
-            });
-            var addExampleInput = layedit.build('addExampleInput',{
-                height: 150,
-                tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
-            });
-            var addExampleOutput = layedit.build('addExampleOutput',{
-                height: 150,
-                tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
-            });
-        }
-    </script>
 </div>
 
 <!-- 表格操作列 -->
@@ -367,5 +319,105 @@
         $("#showQuestionDetail").css("display","");
         $("#showTable").css("display","none");
     });
+
+    $("#addBtn").click(function(){
+        $("#showTable").css('display','none');
+        $("#showForm").css('display','');
+        $("#showQuestionDetail").css('display','none');
+    });
 </script>
+<script>
+
+    layui.use(['form', 'layedit'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit;
+        var $ = layui.$;
+        createEdit(layedit);
+
+        //自定义验证规则
+        form.verify({
+            title: function(value){
+                if(value.length < 5){
+                    return '标题至少得5个字符啊';
+                }
+            }
+            ,content: function(value){
+                layedit.sync(addQdescribe);
+                layedit.sync(addInputDescribe);
+                layedit.sync(addOutputDescripe);
+                layedit.sync(addExampleInput);
+                layedit.sync(addExampleOutput);
+            }
+        });
+        //监听指定开关
+        form.on('switch(switchTest)', function(data){
+            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+        });
+
+        //监听提交
+        form.on('submit(formSubmit)',function(data){
+            layer.load(1);
+            console.log("daima1");
+            /*$.ajax({
+                url: "jss/addQuestion/code",
+                type: "post",
+                data:data.field,
+                dataType: "JSON",
+                success: function(data){
+                    layer.closeAll('loading');
+                    if(data.code==200){
+                        window.location.reload();
+                        // layer.msg(data.msg,{icon: 1});
+                    }else{
+                        layer.msg(data.msg,{icon: 2});
+                    }
+                }
+            });*/
+            return false;
+        });
+        $("#reset").click(function(){
+            $("#addQdescribe").val("");
+            $("#addInputDescribe").val("");
+            $("#addOutputDescripe").val("");
+            $("#addExampleInput").val("");
+            $("#addExampleOutput").val("");
+            createEdit(layedit);
+            $("#showTable").css('display','');
+            $("#showForm").css('display','none');
+            $("#showQuestionDetail").css('display','none');
+        });
+        form.render();
+    });
+
+
+
+    function createEdit(layedit){
+        //创建一个编辑器
+        var addQdescribe = layedit.build('addQdescribe',{
+            height: 200,
+            tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
+        });
+        var addInputDescribe = layedit.build('addInputDescribe',{
+            height: 150,
+            tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
+        });
+        var addOutputDescripe = layedit.build('addOutputDescripe',{
+            height: 150,
+            tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
+        });
+        var addExampleInput = layedit.build('addExampleInput',{
+            height: 150,
+            tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
+        });
+        var addExampleOutput = layedit.build('addExampleOutput',{
+            height: 150,
+            tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
+        });
+    }
+</script>
+
 <script type="text/javascript" src="assets/js/corpus/code.js"></script>
