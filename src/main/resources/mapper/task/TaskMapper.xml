@@ -16,9 +16,9 @@
         <result column="Tchapter" property="tchapter"></result>
     </resultMap>
     <select id="queryTask" resultMap="task">
-        select Task.*,Course.Cname from Task,Course
+        select task.*,course.Cname from task,course
         <where>
-            and Tno="1"
+            and task.Tno="1"
             and task.Cno=course.Cno
             <choose>
                 <when test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!='' and searchKey!='Cno'">
@@ -29,7 +29,7 @@
                 </when>
             </choose>
         </where>
-        ORDER BY Task.SubTime DESC
+        ORDER BY task.SubTime DESC
     </select>
 
     <delete id="deleteTask">
