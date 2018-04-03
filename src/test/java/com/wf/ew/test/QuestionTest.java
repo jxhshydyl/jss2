@@ -11,6 +11,7 @@ import com.wf.ew.corpus.dao.UploadDao;
 import com.wf.ew.corpus.model.Code;
 import com.wf.ew.corpus.model.Question;
 import com.wf.ew.corpus.service.QuestionService;
+import com.wf.ew.task.dao.ArrangeDao;
 import com.wf.ew.task.dao.TaskDao;
 import com.wf.ew.task.model.Condition;
 import com.wf.ew.task.model.SubmitTask;
@@ -43,6 +44,8 @@ public class QuestionTest {
     TaskDao taskDao;
     @Autowired
     UploadDao uploadDao;
+    @Autowired
+    ArrangeDao arrangeDao;
     @Test
     public void test(){
         PageResult<Question> question = questionService.getQuestion(1, 10, null, null);
@@ -107,5 +110,10 @@ public class QuestionTest {
         question1.setQcontent("ds");
         questions.add(question1);
         uploadDao.bulkAddQuestion(questions);
+    }
+    @Test
+    public void test10(){
+        int num = arrangeDao.queryQuestionCountByType("单选题", "c-02", new String[]{});
+        System.out.println(num);
     }
 }

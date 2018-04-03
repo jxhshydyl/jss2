@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<script>
+		var _hmt = _hmt || [];
+		(function() {
+	  		var hm = document.createElement("script");
+	  		hm.src = "https://hm.baidu.com/hm.js?bf515042093c3de99a0ba28c661b07b4";
+	  		var s = document.getElementsByTagName("script")[0]; 
+	  		s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="./layui/css/layui.css"/>
+		<link rel="stylesheet" type="text/css" href="./jquery/jquery.json-viewer.css"/>
+		<style type="text/css">
+			body{padding: 20px;}
+			.layui-form-item{margin-bottom: 0;}
+			.layui-field-box{padding: 20px;}
+			select:focus + .layui-form-selected dl{display: block;}
+		</style>
+	</head>
+	<body>
+		<blockquote class="layui-elem-quote">
+			<a href="http://fly.layui.com/jie/13571" target="_blank">Fly社区交流贴 http://fly.layui.com/jie/13571</a>
+		</blockquote>
+		<fieldset class="layui-elem-field" style="height: 350px;">
+		  	<legend>Layui Select多选</legend>
+		  	<div class="layui-field-box">
+		  		<div class="layui-form layui-form-pane">
+					<div class="layui-form-item">
+						<label class="layui-form-label">选择框</label>
+					    <div class="layui-input-block">
+					      	<select name="city" lay-filter="city">
+						        <option value=""></option>
+						        <option value="0">北京</option>
+						        <option value="1">上海</option>
+						        <option value="2">广州</option>
+						        <option value="3">深圳</option>
+						        <option value="4">杭州</option>
+					      	</select>
+					    </div>
+					</div>	
+				</div>
+		  	</div>
+		</fieldset>
+		<fieldset class="layui-elem-field">
+		  	<legend>result</legend>
+		  	<div class="layui-field-box">
+		  		<span id="json-view"></span>
+		  	</div>
+		</fieldset>
+  		<fieldset class="layui-elem-field">
+		  	<legend>使用说明</legend>
+		  	<div class="layui-field-box">
+				<ul class="layui-timeline">
+					<li class="layui-timeline-item">
+					    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+					    <div class="layui-timeline-content layui-text">
+					      	<h3 class="layui-timeline-title">第一步</h3>
+					      	<p>
+					      		引入js, 依赖于layui.js, result展示区域是用jquery.json-viewer.js实现的, 不需要可以不引入
+<pre class="layui-code" lay-title="" lay-height="" lay-skin="" lay-encode="">
+&lt;script src="formSelects.js" type="text/javascript" charset="utf-8"&&gt;&lt;/script&gt;
+</pre>   
+					      	</p>
+					    </div>
+					</li>
+					<li class="layui-timeline-item">
+					    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+					    <div class="layui-timeline-content layui-text">
+					      	<h3 class="layui-timeline-title">第二步</h3>
+					      	<p>
+					      		调用
+<pre class="layui-code" lay-title="" lay-height="" lay-skin="" lay-encode="">
+formSelects.on({
+	layFilter: 'city',	//绑定select lay-filter
+	left: '【',		//显示的符号left
+	right: '】',		//显示的符号right
+	separator: '',		//多选分隔符
+});
+</pre>   					
+								最终多选的数据会存储在 <b>formSelects.arr</b> 中
+					      	</p>
+					    </div>
+					</li>
+					<li class="layui-timeline-item">
+					    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+					    <div class="layui-timeline-content layui-text">
+					      <div class="layui-timeline-title">
+					      	版本记录
+					      	<ul>
+					      		<li>1.0 Layui-select多选</li>
+					      		<li>
+					      			1.0.1 bug修复
+					      			<ul>
+					      				<li>解决双击Select时出现的bug</li>
+					      				<li>每次选完后Select会隐藏修改为一直展示</li>
+					      				<li>增加一些配置选项</li>
+					      				<li>select框的高度是layui(贤心大大)处理好的, Demo中设置高度是为了美观~~</li>
+					      				<li>@浅蓝色的海 感谢分享,代码优化</li>
+					      			</ul>
+					      		</li>
+					      	</ul>
+					      </div>
+					    </div>
+					</li>
+					<li class="layui-timeline-item">
+						<i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+						<div class="layui-timeline-content layui-text">over</div>
+					</li>
+				</ul>
+		  	</div>
+		</fieldset>
+  		<a href="formSelects.zip" class="layui-btn layui-btn-warm">点我下载</a>
+		
+		<script src="./jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./jquery/jquery.json-viewer.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./layui/layui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="formSelects.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			formSelects.on({
+				layFilter: 'city',	//绑定select lay-filter
+				left: '【',			//显示的符号left
+				right: '】',			//显示的符号right
+				separator: '',		//多选分隔符
+			});
+			//formSelects.arr 可以获取到已经选择的数据
+			function formatJson(arr){
+				try{
+					$('#json-view').jsonViewer(eval('('+JSON.stringify(arr)+')'), {
+						collapsed: false,
+						withQuotes: true
+					});
+				}catch(error){}
+			}
+		</script>
+	</body>
+</html>
+
