@@ -10,4 +10,30 @@
             </foreach>
         </if>
     </select>
+    <select id="queryCodeCountByType" resultType="java.lang.Integer">
+        select count(1) from code where Cname=(select Cname from course where Cno=#{cno})
+        <if test="chapter!=null and chapter.length > 0">
+            and Qchapter in
+            <foreach  collection="chapter" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <insert id="arrangeTask" useGeneratedKeys="true" keyProperty="tid">
+        insert into task(Task_name,Tappendixes,Tstate,Ttype,
+        Tscore,Tno,Tname,SubTime,Cno,Tchapter)
+        values(#{taskName},#{tappendixes},#{tstate},#{ttype},
+        #{tscore},#{tno},#{tname},#{subtime},#{cno},
+        #{tchapter});
+    </insert>
+
+    <insert id="arrangeQuestionTask">
+        insert into tdetail(tid,type,Qid,Score)
+        values(#{tid},#{type},
+        "2",
+        #{score})
+        insert into tdetail(tid,type,Qid,Score) select column1,column2... from table_name_old
+
+    </insert>
 </mapper>

@@ -15,6 +15,33 @@ public class Task {
     private String cno;//课程编号
     private String cname;//课程名称
     private String tchapter;//所属章节
+    private String isAnswer;//是否开启答案（是，否）
+    private String isMessage;//是否开启消息(是，否)
+    private String isEqully;//学生题目是否相同(true,false)
+
+    public String getIsAnswer() {
+        return isAnswer;
+    }
+
+    public void setIsAnswer(String isAnswer) {
+        this.isAnswer = isAnswer;
+    }
+
+    public String getIsMessage() {
+        return isMessage;
+    }
+
+    public void setIsMessage(String isMessage) {
+        this.isMessage = isMessage;
+    }
+
+    public String getIsEqully() {
+        return isEqully;
+    }
+
+    public void setIsEqully(String isEqully) {
+        this.isEqully = isEqully;
+    }
 
     public int getTid() {
         return tid;

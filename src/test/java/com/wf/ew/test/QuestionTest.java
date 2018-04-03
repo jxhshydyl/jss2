@@ -116,4 +116,19 @@ public class QuestionTest {
         int num = arrangeDao.queryQuestionCountByType("单选题", "c-02", new String[]{});
         System.out.println(num);
     }
+    @Test
+    public void test11(){
+        Task task=new Task();
+        task.setTaskName("java");
+        task.setTstate("已发布");
+        task.setCno("1");
+        task.setTno("1");
+        int num = arrangeDao.arrangeTask(task);
+        System.out.println(task.getTid());
+        System.out.println(num);
+    }
+    @Test
+    public void test12(){
+        arrangeDao.autoMakeQuestionPaper(16,"5","10","单选题");
+    }
 }

@@ -1,6 +1,9 @@
 package com.wf.ew.task.controller;
 
 import com.wf.ew.core.ResultMap;
+import com.wf.ew.task.model.AutoMakePaperPara;
+import com.wf.ew.task.model.Condition;
+import com.wf.ew.task.model.Task;
 import com.wf.ew.task.service.ArrangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,5 +26,13 @@ public class ArrangeTaskController {
         System.out.println(chapter.length);
         int num = arrangeService.queryQuestionCountByType(type,cno,chapter);
         return ResultMap.ok(0,"查询成功！").put("value",num);
+    }
+    @PostMapping("/arrange")
+    public ResultMap arrangeTask(Task task,AutoMakePaperPara autoMakePaperPara,Condition condition){
+        System.out.println(task);
+        System.out.println(autoMakePaperPara);
+        System.out.println(condition);
+        arrangeService.arrangeTask(task,autoMakePaperPara,condition);
+        return null;
     }
 }
