@@ -32,6 +32,11 @@
 		</property>
 	</bean>
 
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/views/task/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
 	<!-- token拦截器配置 -->
 	<mvc:interceptors>
 		<mvc:interceptor>

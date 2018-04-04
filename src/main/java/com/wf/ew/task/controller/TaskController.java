@@ -25,11 +25,7 @@ public class TaskController {
             page = 0;
             limit = 0;
         }
-        System.out.println(searchKey);
-        System.out.println(searchValue);
-        System.out.println(tno);
         PageResult<Task> taskPageResult = taskService.queryTask(page, limit, searchKey, searchValue, tno);
-        System.out.println(taskPageResult);
         return taskPageResult;
     }
 
@@ -37,7 +33,7 @@ public class TaskController {
     @ResponseBody
     public ResultMap deleteTask(@PathVariable("tid") Integer tid){
         int num = taskService.deleteTask(tid);
-        if(num==1){
+        if(num>=1){
             return ResultMap.ok(200,"删除成功！");
         }
         return ResultMap.error(0,"删除失败！");

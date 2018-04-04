@@ -1,5 +1,7 @@
 package com.wf.ew.task.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Objects;
 
 public class Task {
@@ -18,6 +20,15 @@ public class Task {
     private String isAnswer;//是否开启答案（是，否）
     private String isMessage;//是否开启消息(是，否)
     private String isEqully;//学生题目是否相同(true,false)
+    private MultipartFile appendixesFile;
+
+    public MultipartFile getAppendixesFile() {
+        return appendixesFile;
+    }
+
+    public void setAppendixesFile(MultipartFile appendixesFile) {
+        this.appendixesFile = appendixesFile;
+    }
 
     public String getIsAnswer() {
         return isAnswer;
@@ -143,7 +154,7 @@ public class Task {
     public String toString() {
         return "Task{" +
                 "tid=" + tid +
-                ", task_name='" + taskName + '\'' +
+                ", taskName='" + taskName + '\'' +
                 ", tappendixes='" + tappendixes + '\'' +
                 ", tscore=" + tscore +
                 ", tno='" + tno + '\'' +
@@ -154,6 +165,10 @@ public class Task {
                 ", cno='" + cno + '\'' +
                 ", cname='" + cname + '\'' +
                 ", tchapter='" + tchapter + '\'' +
+                ", isAnswer='" + isAnswer + '\'' +
+                ", isMessage='" + isMessage + '\'' +
+                ", isEqully='" + isEqully + '\'' +
+                ", appendixesFile=" + appendixesFile +
                 '}';
     }
 }

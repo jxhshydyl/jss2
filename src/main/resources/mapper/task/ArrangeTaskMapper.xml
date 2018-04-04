@@ -28,12 +28,25 @@
         #{tchapter});
     </insert>
 
-    <insert id="arrangeQuestionTask">
-        insert into tdetail(tid,type,Qid,Score)
-        values(#{tid},#{type},
-        "2",
-        #{score})
-        insert into tdetail(tid,type,Qid,Score) select column1,column2... from table_name_old
+    <select id="queryCodeList" resultType="java.lang.Integer">
+        select Qid from code where Cname=(select Cname from course where Cno=#{cno})
+        <if test="chapter!=null and chapter!=''">
+            and Qchapter=#{chapter}
+        </if>
+        ORDER BY RAND() LIMIT #{count}
+    </select>
 
+    <select id="queryQuestionList" resultType="java.lang.Integer">
+        select Qid from question where Cname=(select Cname from course where Cno=#{cno})
+        <if test="chapter!=null and chapter!=''">
+            and Qchapter=#{chapter}
+        </if>
+        ORDER BY RAND() LIMIT #{count}
+    </select>
+    <insert id="autoMakeQuestionPaper">
+        insert into tdetail(tid,type,Qid,Score) VALUES
+        <foreach  collection="list" item="item" separator=",">
+            (#{tid},#{type},#{item},#{score})
+        </foreach>
     </insert>
 </mapper>

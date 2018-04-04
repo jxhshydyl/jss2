@@ -22,10 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring/spring-context.xml" })
@@ -129,6 +126,17 @@ public class QuestionTest {
     }
     @Test
     public void test12(){
-        arrangeDao.autoMakeQuestionPaper(16,"5","10","单选题");
+        //arrangeDao.autoMakeQuestionPaper(16,"5","10","单选题");
+        List<Integer> list = arrangeDao.queryCodeList("c-02", "第一章", 10);
+        System.out.println(list);
+    }
+    @Test
+    public void test13(){
+        //arrangeDao.autoMakeQuestionPaper(16,"5","10","单选题");
+        List<Integer> list=new ArrayList<>();
+        list.add(3);
+        list.add(5);
+        int i = arrangeDao.autoMakeQuestionPaper(90, list, "3", 0);
+        System.out.println(i);
     }
 }

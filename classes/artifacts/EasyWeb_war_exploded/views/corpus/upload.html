@@ -8,13 +8,13 @@
 <div>
     <form class="layui-form">
         <div class="layui-form-item">
-            <label class="layui-form-label" style="font-size: 15px">编程题</label>
             <div class="layui-input-block">
-                <input type="checkbox" checked="" id="type" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="是|否">
+                <input type="radio" name="sex" value="男" title="编程题">
+                <input type="radio" name="sex" value="女" title="非编程题" checked>
             </div>
         </div>
         <div class="layui-upload">
-            <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
+            <button type="button" class="layui-btn layui-btn-normal" id="testList">选择文件</button>
             <div class="layui-upload-list">
                 <table class="layui-table">
                     <thead>
@@ -36,10 +36,6 @@
         var form = layui.form
             ,layer = layui.layer;
         var $ = layui.jquery;
-        //监听指定开关
-        form.on('switch(switchTest)', function(data){
-            type=this.checked;
-        });
         form.render();
 
     });

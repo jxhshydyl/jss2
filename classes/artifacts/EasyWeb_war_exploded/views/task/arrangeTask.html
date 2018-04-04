@@ -51,17 +51,15 @@
 	  <a><cite>用户管理</cite></a>
 	</span>
 </div>
-
 <div>
     <div class="main">
-
-        <form class="layui-form" action="">
+        <form class="layui-form" action="/jss/arrangeTask/arrange" method="post" enctype="multipart/form-data">
             <div id="step"></div>
             <div id="taskBasicCorpus">
                 <div class="layui-form-item">
                     <label class="layui-form-label">作业名称</label>
                     <div class="layui-input-block" style="width:40%;">
-                        <input type="text" name="taskName" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                        <input type="text" name="taskName" lay-verify="required" autocomplete="off" placeholder="请输入标题"
                                class="layui-input">
                     </div>
                 </div>
@@ -76,7 +74,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">所属章节</label>
                     <div class="layui-input-block" style="width:40%;">
-                        <select name="tchapter" id="tchapter" lay-verify="required" lay-search="" multiple name="aaa">
+                        <select name="tchapter" id="tchapter" lay-verify="required" lay-filter="aaa" lay-search="" multiple name="aaa">
                             <option value="">直接选择或搜索选择</option>
                             <option value="第一章">第一章</option>
                             <option value="第二章">第二章</option>
@@ -93,36 +91,28 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">作业附件</label>
                         <div class="layui-input-inline">
-                            <input type="file" name="appendixesFile">
-                        </div>
-                    </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label">验证日期</label>
-                        <div class="layui-input-inline">
-                            <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd"
-                                   autocomplete="off" class="layui-input">
+                            <input type="file" name="appendixesFile" id="appendixesFile">
                         </div>
                     </div>
                 </div>
-
                 <div class="layui-form-item">
                     <label class="layui-form-label">开启答案功能</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+                        <input type="checkbox" name="isAnswer" lay-skin="switch" lay-text="是|否">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">开启消息功能</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest"
-                               lay-text="ON|OFF">
+                        <input type="checkbox" checked="" name="isMessage" lay-skin="switch" lay-filter="switchTest"
+                               lay-text="是|否">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">作业类型</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="sex" value="题型一" title="题型一" checked="">
-                        <input type="radio" name="sex" value="题型二" title="题型二">
+                        <input type="radio" name="isEqully" value="true" title="题型一" checked="">
+                        <input type="radio" name="isEqully" value="false" title="题型二">
                     </div>
                 </div>
             </div>
@@ -150,12 +140,13 @@
                         </dl>
                     </div>
                     <div style="margin-left: 180px">
+                        <input type="hidden" name="tscore" id="tscore" value=0>
                         <b style="font-size: 20px" id="total_score">
                         </b>
                     </div>
             </div>
             </div>
-            <div id="confirmClass">
+            <div id="confirmClass" style="display:none">
                 <table width="90%" cellpadding="0" cellspacing="0" style="table-layout: fixed;margin: 0 auto">
                     <thead >
                     <tr style="margin-top: 30px">
@@ -171,22 +162,21 @@
             </div>
             <div class="layui-form-item">
                 <br>
-                <div class="layui-input-inline">
-                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                </div>
             </div>
             <div class="btns">
                 <button id="prevBtn" type="button">上一步</button>
-                <button id="nextBtn" type="button">下一步</button>
+                <button id="nextBtn" type="button" lay-submit="">下一步</button>
             </div>
         </form>
     </div>
 </div>
 <!---->
+
 <script type="text/javascript">
+
     var $step = $("#step");
     var $index = $("#index");
+    var keyCount=0;
     $step.step({
         index: 0,
         time: 500,
@@ -194,16 +184,83 @@
     });
     $index.text($step.getIndex());
     $("#prevBtn").on("click", function () {
-        $step.prevStep();
-        $("#taskBasicCorpus").css("display","");
-        $("#confirmQuestions").css("display","none");
-        $index.text($step.getIndex());
+        if(keyCount==2){
+            $step.prevStep();
+            $("#taskBasicCorpus").css("display","none");
+            $("#confirmQuestions").css("display","");
+            $("#confirmClass").css("display","none");
+            $index.text($step.getIndex());
+            $("#nextBtn").text("下一步");
+            $("#nextBtn").attr("type","button");
+            keyCount--;
+        }else if(keyCount==1){
+            $step.prevStep();
+            $("#taskBasicCorpus").css("display","");
+            $("#confirmQuestions").css("display","none");
+            $("#confirmClass").css("display","none");
+            $index.text($step.getIndex());
+            keyCount--;
+        }
     });
     $("#nextBtn").on("click", function () {
-        $step.nextStep();
-        $("#taskBasicCorpus").css("display","none");
-        $("#confirmQuestions").css("display","");
-        $index.text($step.getIndex());
+        if(keyCount==0){
+            $step.nextStep();
+            $("#taskBasicCorpus").css("display","none");
+            $("#confirmQuestions").css("display","");
+            $("#confirmClass").css("display","none");
+            $index.text($step.getIndex());
+            keyCount++;
+        }else if(keyCount==1){
+            var k=0;
+            if($("span[name='tixing_count']").length!=0){
+                $("span[name='tixing_count']").each(function(data,index){
+                    if($(this).text()=='0'){
+                        k++;
+                    }
+                });
+                if(k!=0){
+                    layui.layer.msg("请选择题型！");
+                }else{
+                    $step.nextStep();
+                    $("#taskBasicCorpus").css("display","none");
+                    $("#confirmQuestions").css("display","none");
+                    $("#confirmClass").css("display","");
+                    $("#nextBtn").text("完成");
+                    $index.text($step.getIndex());
+                    keyCount++;
+                }
+            }else{
+                if($("#appendixesFile").val()!=''){
+                    $step.nextStep();
+                    $("#taskBasicCorpus").css("display","none");
+                    $("#confirmQuestions").css("display","none");
+                    $("#confirmClass").css("display","");
+                    $("#nextBtn").text("完成");
+                    $index.text($step.getIndex());
+                    keyCount++;
+                }else{
+                    layui.layer.msg("请选择题型或文件！");
+                }
+            }
+        }else if(keyCount==2){
+            var time=$("input[name=time]");
+            var clzz=$("input[name=classNo]");
+            var x=0,y=0;
+            for(var i=0;i<clzz.length;i++){
+                if(clzz[i].checked){
+                    x++;
+                }
+                if(time[i].value!=''){
+                    y++;
+                }
+            }
+            if(x==y){
+                $("#nextBtn").attr("type","submit");
+                window.location.reload();
+            }else{
+                layui.layer.msg("请选择班级或截止时间！");
+            }
+        }
     });
 </script>
 <script>
@@ -224,11 +281,11 @@
                     }
                     $("#user_ul").append("<li class='li1' id='"+type+"' style='margin-top: 10px;margin-left: 5%'>"+
                     " <b class='b1' style='margin-right: 5%'>"+type+"</b>"+
-                    "<span class='span1' style='margin-right: 10%'>"+num+"</span>"+
+                    "<span class='span1' style='margin-right: 10%' name='tixing_count'>"+num+"</span>"+
                     "<div class='div2' style='display:inline-block;margin-right: 5%'>"+
                     " <input type='number' onChange='totalscore1(this,"+num+")' name='count' onkeypress='keyPress(this)' onkeyup='keyUp(this)' onblur='onBlur(this)' name='count' value='1' style='width:40px;'>题"+
                     "</div>"+
-                    "<input type='hidden' name='ampp.types' value="+index+">"+
+                    "<input type='hidden' name='types' value="+type+">"+
                     "<div class='div3' style='display:inline-block;'>"+
                     "   <input type='text' onChange='totalscore2(this)' name='score' onkeypress='keyPress(this)' onkeyup='keyUp(this)' onblur='onBlur(this)' name='score' value='1' style='width:40px;'>分"+
                     "</div>"+
@@ -237,6 +294,7 @@
                     "</a>"+
                     "</li>");
                     $("#total_score").text("总分：" + totalScore());
+                    $("#tscore").val(totalScore());
                 }
             });
             $(this).attr("disabled","false");
@@ -253,8 +311,10 @@
         if(document.getElementsByName("count").length>0){
             var tatal_score = totalScore();
             $("#total_score").text("总分：" + tatal_score);
+            $("#tscore").val(tatal_score);
         }else{
             $("#total_score").text("");
+            $("#tscore").val(0);
         }
     }
     function totalScore(){
@@ -305,10 +365,12 @@
         }
         var tatal_score = totalScore();
         $("#total_score").text("总分：" + tatal_score);
+        $("#tscore").val(tatal_score);
     }
     function totalscore2(obj) {
         var tatal_score = totalScore();
         $("#total_score").text("总分：" + tatal_score);
+        $("#tscore").val(tatal_score);
     }
 </script>
 <script type="text/javascript" src="assets/js/task/selectMultiple.js"></script>
@@ -319,14 +381,7 @@
             , layedit = layui.layedit
             , laydate = layui.laydate
             ,$ = layui.jquery;
-        //日期
-        laydate.render({
-            elem: '#date'
-        });
-        laydate.render({
-            elem: '#date1'
-        });
-        $("#cno").append()
+
         createShareTaskTable();
 
         createSelectCourse();
@@ -337,19 +392,8 @@
                     return '标题至少得5个字符啊';
                 }
             }
-            , pass: [/(.+){6,12}$/, '密码必须6到12位']
-            , content: function (value) {
-                layedit.sync(editIndex);
-            }
         });
 
-        //监听指定开关
-        form.on('switch(switchTest)', function (data) {
-            layer.msg('开关checked：' + (this.checked ? 'true' : 'false'), {
-                offset: '6px'
-            });
-            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
-        });
 
         //监听提交
         form.on('submit(demo1)', function (data) {
@@ -377,10 +421,10 @@
         var clazz=getCurrentClass();
         for(var i=0;i<clazz.length;i++){
             str+= "<tr height='50px'>" +
-                "<td style=\"margin-left: 10px\"><input type='checkbox' name='classNo' lay-filter='classNo' value='" + clazz[i].cno + "'></td>" +
+                "<td style=\"margin-left: 10px\"><input type='checkbox' name='classNo' lay-skin='primary' lay-filter='classNo' value='" + clazz[i].cno + "'></td>" +
                 "<td style=\"margin-left: 10px\">" +clazz[i].cname+ "</td>" +
                 "<td style=\"margin-left: 10px\">" +
-                "<input type='text' style='display: none;width: 50%;' class='layui-input' id='test"+i+"' name='time' placeholder='yyyy-MM-dd HH:mm:ss'>" +
+                "<input type='text' style='display: none;width: 50%;' class='layui-input'  id='" + clazz[i].cno + "' name='time' placeholder='yyyy-MM-dd HH:mm:ss'>" +
                 "</td>" +
                 "</tr>";
         }
@@ -391,24 +435,22 @@
                 //时间选择器
                 console.log("时间");
                 laydate.render({
-                    elem: '#test'+i,
+                    elem: "#"+clazz[i].cno+"",
                     type: 'datetime'
                 });
             });
             layui.form.render();
         }
-        var time=document.getElementsByName("time");
         form.on('checkbox(classNo)', function(data){
             console.log(data.elem); //得到checkbox原始DOM对象
             console.log(data.elem.checked); //是否被选中，true或者false
             console.log(data.value); //复选框value值，也可以通过data.elem.value得到
-            console.log(data.othis); //得到美化后的DOM对象
             if(data.elem.checked){
-                time[index].style.display='';
-                time[index].value='';
+                $("#"+data.value+"").css("display","");
+                $("#"+data.value+"").val("");
             }else{
-                time[index].style.display='none';
-                time[index].value='';
+                $("#"+data.value+"").css("display","none");
+                $("#"+data.value+"").val("");
             }
         });
         layui.form.render();

@@ -136,7 +136,6 @@ function shareTask(obj){
 }
 //删除
 function doDelete(obj){
-    console.log(obj.data);
 	layer.confirm('确定要删除吗？', function(index){
 		layer.close(index);
 		layer.load(1);
@@ -145,6 +144,7 @@ function doDelete(obj){
 			type: "DELETE", 
 			dataType: "JSON",
 			success: function(data){
+			    console.log(data);
 				layer.closeAll('loading');
 				if(data.code==200){
 					layer.msg(data.msg,{icon: 1});
