@@ -111,7 +111,7 @@
         </div>
         <div class="layui-tab-item">
             <div class="layui-row layui-col-space5">
-                <form action="">
+                <form action="" class="layui-form">
                     <div class="layui-col-md7">
                         <div class="layui-row grid-demo grid-demo-bg1">
                             <div class="layui-col-md12" >
@@ -188,7 +188,7 @@
 
 <div id="showForm" style="display:none">
     <div class="layui-row layui-col-space5">
-        <form id="addQuestion" class="layui-form"  action="">
+        <form id="addQuestion" class="layui-form">
             <div>
                 <div class="layui-col-md7">
                     <div class="layui-row grid-demo grid-demo-bg1">
@@ -238,33 +238,32 @@
                         题目类型:
                         <div class="layui-col-md12">
                             <select name="qtype">
-
+                                <option>语言入门</option>
                             </select>
                         </div>
                     </div>
                     <div class="layui-col-md12" style="margin-top: 5px">
                         题目难度:
                         <div class="layui-col-md12" >
-                            <input type="number" id="addqdegree" name="qdegree">
+                            <input type="number" style="background-color: #f0f0f0;resize: none;border:0.5px #dedede solid;min-height: 40px;width:50%;" id="addqdegree" name="qdegree">
                         </div>
                     </div>
                     <div class="layui-col-md12" style="margin-top: 5px">
                             时间限制:
                         <div class="layui-col-md12">
-                            <input type="number" id="addlimitTime" name="limitTime">ms
+                            <input type="number" style="background-color: #f0f0f0;resize: none;border:0.5px #dedede solid;min-height: 40px;width:50%;" id="addlimitTime" name="limitTime">ms
                         </div>
                     </div>
                     <div class="layui-col-md12" style="margin-top: 5px" name="">
                         内存限制:
                         <div class="layui-col-md12">
-                            <input type="number" id="addlimitMemory" name="limitMemory">KB
+                            <input type="number" style="background-color: #f0f0f0;resize: none;border:0.5px #dedede solid;min-height: 40px;width:50%;" id="addlimitMemory" name="limitMemory">KB
                         </div>
                     </div>
                     <div class="layui-col-md12" style="margin-top: 5px">
                         所属课程:
                         <div class="layui-col-md12" id="cname">
-                            <select name="cname" lay-verify="required" id="course">
-
+                            <select name="cname" id="cno" lay-verify="required" id="course">
                             </select>
                         </div>
                     </div>
@@ -298,7 +297,7 @@
             <br>
             <div class="layui-form-item" style="margin-top: 10px">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="formSubmit">立即提交</button>
+                    <button class="layui-btn" lay-submit lay-filter="formSubmit">立即提交</button>
                     <!--<button class="layui-btn" lay-filter="demo1" id="formSubmit" type="button">立即提交</button>-->
                     <button type="reset" class="layui-btn layui-btn-primary" id="reset">返回</button>
                 </div>
@@ -327,7 +326,17 @@
     });
 </script>
 <script>
-
+    function createSelectCourse(){
+        var course=getCurrentCourse();
+        console.log(course);
+        html='';
+        for(var i=0;i<course.length;i++){
+            html+="<option value='"+course[i].cid+"'>"+course[i].courseName+"</option>";
+        }
+        console.log(html);
+        $("#cno").html(html);
+    }
+    createSelectCourse();
     layui.use(['form', 'layedit'], function(){
         var form = layui.form
             ,layer = layui.layer
@@ -337,12 +346,7 @@
 
         //自定义验证规则
         form.verify({
-            title: function(value){
-                if(value.length < 5){
-                    return '标题至少得5个字符啊';
-                }
-            }
-            ,content: function(value){
+            content: function(value){
                 layedit.sync(addQdescribe);
                 layedit.sync(addInputDescribe);
                 layedit.sync(addOutputDescripe);
@@ -350,19 +354,11 @@
                 layedit.sync(addExampleOutput);
             }
         });
-        //监听指定开关
-        form.on('switch(switchTest)', function(data){
-            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
-                offset: '6px'
-            });
-            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
-        });
-
         //监听提交
         form.on('submit(formSubmit)',function(data){
             layer.load(1);
             console.log("daima1");
-            /*$.ajax({
+            $.ajax({
                 url: "jss/addQuestion/code",
                 type: "post",
                 data:data.field,
@@ -376,7 +372,7 @@
                         layer.msg(data.msg,{icon: 2});
                     }
                 }
-            });*/
+            });
             return false;
         });
         $("#reset").click(function(){

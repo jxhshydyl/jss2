@@ -51,10 +51,9 @@
 	  <a><cite>用户管理</cite></a>
 	</span>
 </div>
-
 <div>
     <div class="main">
-        <form class="layui-form" action="/jss/arrangeTask/arrange" method="post">
+        <form class="layui-form" action="/jss/arrangeTask/arrange" method="post" enctype="multipart/form-data">
             <div id="step"></div>
             <div id="taskBasicCorpus">
                 <div class="layui-form-item">
@@ -75,7 +74,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">所属章节</label>
                     <div class="layui-input-block" style="width:40%;">
-                        <select name="tchapter" id="tchapter" lay-verify="required" lay-search="" multiple name="aaa">
+                        <select name="tchapter" id="tchapter" lay-verify="required" lay-filter="aaa" lay-search="" multiple name="aaa">
                             <option value="">直接选择或搜索选择</option>
                             <option value="第一章">第一章</option>
                             <option value="第二章">第二章</option>
@@ -92,7 +91,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label">作业附件</label>
                         <div class="layui-input-inline">
-                            <input type="file" name="appendixesFile">
+                            <input type="file" name="appendixesFile" id="appendixesFile">
                         </div>
                     </div>
                 </div>
@@ -141,6 +140,7 @@
                         </dl>
                     </div>
                     <div style="margin-left: 180px">
+                        <input type="hidden" name="tscore" id="tscore" value=0>
                         <b style="font-size: 20px" id="total_score">
                         </b>
                     </div>
@@ -171,7 +171,9 @@
     </div>
 </div>
 <!---->
+
 <script type="text/javascript">
+
     var $step = $("#step");
     var $index = $("#index");
     var keyCount=0;
@@ -209,13 +211,37 @@
             $index.text($step.getIndex());
             keyCount++;
         }else if(keyCount==1){
-            $step.nextStep();
-            $("#taskBasicCorpus").css("display","none");
-            $("#confirmQuestions").css("display","none");
-            $("#confirmClass").css("display","");
-            $("#nextBtn").text("完成");
-            $index.text($step.getIndex());
-            keyCount++;
+            var k=0;
+            if($("span[name='tixing_count']").length!=0){
+                $("span[name='tixing_count']").each(function(data,index){
+                    if($(this).text()=='0'){
+                        k++;
+                    }
+                });
+                if(k!=0){
+                    layui.layer.msg("请选择题型！");
+                }else{
+                    $step.nextStep();
+                    $("#taskBasicCorpus").css("display","none");
+                    $("#confirmQuestions").css("display","none");
+                    $("#confirmClass").css("display","");
+                    $("#nextBtn").text("完成");
+                    $index.text($step.getIndex());
+                    keyCount++;
+                }
+            }else{
+                if($("#appendixesFile").val()!=''){
+                    $step.nextStep();
+                    $("#taskBasicCorpus").css("display","none");
+                    $("#confirmQuestions").css("display","none");
+                    $("#confirmClass").css("display","");
+                    $("#nextBtn").text("完成");
+                    $index.text($step.getIndex());
+                    keyCount++;
+                }else{
+                    layui.layer.msg("请选择题型或文件！");
+                }
+            }
         }else if(keyCount==2){
             var time=$("input[name=time]");
             var clzz=$("input[name=classNo]");
@@ -228,9 +254,9 @@
                     y++;
                 }
             }
-            console.log(x);console.log(y);
             if(x==y){
                 $("#nextBtn").attr("type","submit");
+                window.location.reload();
             }else{
                 layui.layer.msg("请选择班级或截止时间！");
             }
@@ -255,7 +281,7 @@
                     }
                     $("#user_ul").append("<li class='li1' id='"+type+"' style='margin-top: 10px;margin-left: 5%'>"+
                     " <b class='b1' style='margin-right: 5%'>"+type+"</b>"+
-                    "<span class='span1' style='margin-right: 10%'>"+num+"</span>"+
+                    "<span class='span1' style='margin-right: 10%' name='tixing_count'>"+num+"</span>"+
                     "<div class='div2' style='display:inline-block;margin-right: 5%'>"+
                     " <input type='number' onChange='totalscore1(this,"+num+")' name='count' onkeypress='keyPress(this)' onkeyup='keyUp(this)' onblur='onBlur(this)' name='count' value='1' style='width:40px;'>题"+
                     "</div>"+
@@ -268,6 +294,7 @@
                     "</a>"+
                     "</li>");
                     $("#total_score").text("总分：" + totalScore());
+                    $("#tscore").val(totalScore());
                 }
             });
             $(this).attr("disabled","false");
@@ -284,8 +311,10 @@
         if(document.getElementsByName("count").length>0){
             var tatal_score = totalScore();
             $("#total_score").text("总分：" + tatal_score);
+            $("#tscore").val(tatal_score);
         }else{
             $("#total_score").text("");
+            $("#tscore").val(0);
         }
     }
     function totalScore(){
@@ -336,10 +365,12 @@
         }
         var tatal_score = totalScore();
         $("#total_score").text("总分：" + tatal_score);
+        $("#tscore").val(tatal_score);
     }
     function totalscore2(obj) {
         var tatal_score = totalScore();
         $("#total_score").text("总分：" + tatal_score);
+        $("#tscore").val(tatal_score);
     }
 </script>
 <script type="text/javascript" src="assets/js/task/selectMultiple.js"></script>
