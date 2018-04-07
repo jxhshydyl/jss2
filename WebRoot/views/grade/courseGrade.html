@@ -1,0 +1,311 @@
+<div class="content-header">
+    <h2 class="content-title">作业列表</h2>
+    <span class="layui-breadcrumb">
+	  <a href="#!home">首页</a>
+	  <a href="#!task/taskList"><cite>作业列表</cite></a>
+	</span>
+</div>
+
+<div>
+    <div class="layui-form toolbar">
+        搜索：
+        <select id="course">
+            <option value="">-请选择-</option>
+            <option value="Task_name">作业名称</option>
+            <option value="Cno">课程</option>
+            <option value="Tchapter">章节</option>
+        </select>&emsp;
+        <input id="time_start" class="layui-input search-input" type="text" placeholder="输入搜索内容" />&emsp;
+        <button id="searchBtn" class="layui-btn search-btn"><i class="layui-icon">&#xe615;</i>搜索</button>&emsp;
+        <div>
+            <div style="width: 100%;min-height:400px;" id="cuecharts"></div>
+            <div id="main" style="width: 100%;height:400px;" ></div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="assets/js/grade/echarts.js"></script>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    chart();
+    $("#submitTimeAndCno").click(function(){
+        chart();
+    });
+    function chart(){
+        var cno=$("#course").val();
+        var time=$("#time_start").val();
+        console.log(cno);
+        console.log(time);
+        cno='c-02';
+        $.ajax({
+            type : "POST",
+            url : "/grade/courseGradeByCnoAndTime",
+            data : {"cno":cno,"time":time},
+            dataType : "json",
+            success:function(data){
+                console.log(data);
+                var data = data.list;
+                console.log(data);
+                var className=new Array();//课程
+                var time=new Array();//时间轴
+                var totaldata=new Array();
+                if(data.courseGrade.length==0){
+                    className=null;
+                    totaldata=null;
+                    document.getElementById('cuecharts').innerHTML="暂无数据";
+                    document.getElementById('cuecharts').style.display="";
+                    document.getElementById('main').style.display="none";
+                }else{
+                    document.getElementById('cuecharts').style.display="none";
+                    document.getElementById('main').style.display="";
+                    for(var i=0;i<data.courseGrade.length;i++){
+                        if(-1==className.indexOf(data.courseGrade[i].cname)){
+                            className.push(data.courseGrade[i].cname);
+                        }
+                        if(-1==time.indexOf(data.courseGrade[i].taskName)){
+                            time.push(data.courseGrade[i].taskName);
+                        }
+                    }
+                    for(var i=0;i<className.length;i++){
+                        var totalGrade=new Array(time.length);
+                        for(var j=0;j<data.courseGrade.length;j++){
+                            if(className[i]==data.courseGrade[j].cname){
+                                totalGrade[time.indexOf(data.courseGrade[j].taskName)]=data.courseGrade[j].totalGrade;
+                            }
+                        }
+                        var datas= {
+                            name:className[i],
+                            type:'bar',
+                            data:totalGrade,
+                            markPoint : {
+                                data : [
+                                    {type : 'max', name: '最大值'},
+                                    {type : 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine : {
+                                data : [
+                                    {type : 'average', name: '平均值'}
+                                ]
+                            }
+                        };
+                        totaldata.push(datas);
+                    }
+                }
+
+                var option = {
+                    noDataLoadingOption: {
+                        text: '暂无数据',
+                        effect: 'bubble',
+                        effectOption: {
+                            effect: {
+                                n: 0
+                            }
+                        }
+                    },
+                    title : {
+                        text: '班级的作业成绩',
+                        subtext: '纯属虚构'
+                    },
+                    tooltip : {
+                        trigger : 'axis',
+                        axisPointer : { // 坐标轴指示器，坐标轴触发有效
+                            type : 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                        }
+                    },
+                    legend: {
+                        data:className
+                    },
+                    toolbox: {
+                        show : true,
+                        feature : {
+                            dataView : {show: true, readOnly: false},
+                            magicType : {show: true, type: ['line', 'bar']},
+                            restore : {show: true},
+                            saveAsImage : {show: true}
+                        }
+                    },
+                    calculable : true,
+                    xAxis : [
+                        {
+                            type : 'category',
+                            data : time
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value'
+                        }
+                    ],
+                    series :totaldata
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option,true);
+            }
+        });
+    }
+
+    myChart.on('click', function(params) {
+        if (params.componentType === 'series') {
+            var cname = params.seriesName;
+            var taskName = params.name;
+            var cno = $("#course").val();
+            console.log(params.seriesName);
+            console.log(params.name);
+            $.ajax({
+                type : "POST",
+                url : "/grade/courseDetailGradeByCnameAndTaskName",
+                data : {"cname" : cname,"taskName" : taskName,"cno":cno},
+                dataType : "json",
+                success : function(data) {
+
+                    var data = data.list;
+                    console.log(data);
+                    var courseName = new Array();//课程
+                    var time = new Array();//时间轴
+                    var totaldata = new Array();
+                    var totalGrade;
+                    var title = "";
+                    var legend = new Array();
+                    console.log(data.courseDetailGrade);
+                    if (data.courseDetailGrade.length == 0) {
+                        courseName = null;
+                        title = "";
+                        legend = "";
+                        var datas = {
+                            name : null,
+                            type : 'bar',
+                            data : null,
+                            markPoint : {
+                                data : [ {
+                                    type : 'max',
+                                    name : '最大值'
+                                }, {
+                                    type : 'min',
+                                    name : '最小值'
+                                } ]
+                            },
+                            markLine : {
+                                data : [ {
+                                    type : 'average',
+                                    name : '平均值'
+                                } ]
+                            }
+                        };
+                        totaldata.push(datas);
+                    } else {
+                        title = data.courseDetailGrade[0].sclass;
+                        legend.push(data.courseDetailGrade[0].taskName);
+                        totalGrade = new Array();
+                        for (var i = 0; i < data.courseDetailGrade.length; i++) {
+                            totalGrade
+                                .push(data.courseDetailGrade[i].grade);
+                            courseName
+                                .push(data.courseDetailGrade[i].sname);
+                        }
+                        var datas = {
+                            name : legend,
+                            type : 'bar',
+                            data : totalGrade,
+                            markPoint : {
+                                data : [ {
+                                    type : 'max',
+                                    name : '最大值'
+                                }, {
+                                    type : 'min',
+                                    name : '最小值'
+                                } ]
+                            },
+                            markLine : {
+                                data : [ {
+                                    type : 'average',
+                                    name : '平均值'
+                                } ]
+                            }
+                        };
+                        totaldata.push(datas);
+                    }
+
+                    var option = {
+                        noDataLoadingOption : {
+                            text : '暂无数据',
+                            effect : 'bubble',
+                            effectOption : {
+                                effect : {
+                                    n : 0
+                                }
+                            }
+                        },
+                        title : {
+                            text : title,
+                            subtext : '纯属虚构'
+                        },
+                        tooltip : {
+                            trigger : 'axis',
+                            axisPointer : { // 坐标轴指示器，坐标轴触发有效
+                                type : 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        legend : {
+                            data : legend
+                        },
+                        toolbox : {
+                            show : true,
+                            feature : {
+                                dataView : {
+                                    show : true,
+                                    readOnly : false
+                                },
+                                magicType : {
+                                    show : true,
+                                    type : [
+                                        'line',
+                                        'bar' ]
+                                },
+                                restore : {
+                                    show : true
+                                },
+                                saveAsImage : {
+                                    show : true
+                                }
+                            }
+                        },
+                        calculable : true,
+                        xAxis : [ {
+                            type : 'category',
+                            data : courseName
+                        } ],
+                        yAxis : [ {
+                            type : 'value'
+                        } ],
+                        series : {
+                            name : legend,
+                            type : 'bar',
+                            data : totalGrade,
+                            markPoint : {
+                                data : [ {
+                                    type : 'max',
+                                    name : '最大值'
+                                }, {
+                                    type : 'min',
+                                    name : '最小值'
+                                } ]
+                            },
+                            markLine : {
+                                data : [ {
+                                    type : 'average',
+                                    name : '平均值'
+                                } ]
+                            }
+                        }
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option,true);
+                }
+            });
+        }
+    });
+</script>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wf.ew.grade.dao.GradeDao">
+    <resultMap id="ClassDeatilGrade" type="com.wf.ew.grade.model.ClassDeatilGrade">
+        <result column="Sno" property="sno"></result>
+        <result column="Sname" property="sname"></result>
+        <result column="Sclass" property="sclass"></result>
+        <result column="Tid" property="tid"></result>
+        <result column="Task_name" property="taskName"></result>
+        <result column="Grade" property="grade"></result>
+        <result column="Cno" property="cno"></result>
+        <result column="Cname" property="cname"></result>
+    </resultMap>
+    <resultMap id="TaskGradeStatistic" type="com.wf.ew.grade.model.TaskGradeStatistic">
+        <result column="Cno" property="cno"></result>
+        <result column="Cname" property="cname"></result>
+        <result column="Start_time" property="startTime"></result>
+        <result column="End_time" property="endTime"></result>
+        <result column="Tid" property="tid"></result>
+        <result column="cid" property="cid"></result>
+        <result column="courseName" property="courseName"></result>
+        <result column="Tchapter" property="tchapter"></result>
+        <result column="Task_name" property="taskName"></result>
+        <result column="sumGrade" property="totalGrade"></result>
+    </resultMap>
+
+    <select id="courseGradeByCnoAndTime" resultMap="TaskGradeStatistic">
+        select t.Tid,t.Task_name,t.Cno as cid,t.Tchapter,ct.Cno,ct.End_time,ct.Start_time,co.Cname as courseName,cl.Cname,sum(st.Grade) as sumGrade
+        from task t,ctask ct,course co,class cl,stask st
+        where t.Tid=ct.Tid and t.Cno=#{cno} and t.Tno=#{tno} and co.Cno=t.Cno and cl.Cno=ct.Cno and st.Tid=t.Tid and st.Cno=ct.Cno GROUP BY t.Tid,cl.Cname
+    </select>
+
+    <select id="courseDetailGradeByCnameAndTaskName" resultMap="ClassDeatilGrade">
+        select si.Sno,si.Sname,si.Sclass,t.Tid,t.Task_name,st.Grade,t.Cno,co.Cname
+		from sinformation si LEFT JOIN stask st on si.Sno=st.Sno
+		LEFT JOIN ctask ct on ct.Tid=st.Tid and ct.Cno=(select Cno from class where Cname=#{cname})
+		LEFT JOIN task t on t.Cno=#{cno} and t.tid=ct.Tid and t.tid=st.Tid and t.Task_name=#{taskName}
+		left JOIN course co on co.Cno=t.Cno where  t.Tno=#{tno} and si.Sclass=#{cname}
+    </select>
+    <select id="taskGradeStatisticByCnoAndTime" resultMap="TaskGradeStatistic">
+        select ct.Cno,Class.Cname,ct.Start_time,ct.End_time,t.Task_name,t.Cno,c.Cname as courseName,
+        t.Tid,s.Sno,sum(s.Grade) as sumGrade
+		from Ctask ct,task t,Course c,Stask s,Class where t.Tno=#{tno} and ct.Cno=#{cno}
+		and t.Tid=ct.Tid and c.Cno=t.Cno and s.Tid=t.Tid
+		and Class.cno=#{cno} and s.Sno in (select sno from Sinformation where Sclass=(select Cname from Class where Cno=#{cno})) GROUP BY c.Cname,t.Tid ORDER BY ct.End_time
+    </select>
+    <select id="taskGradeDetailByCnameAndTime" resultMap="ClassDeatilGrade">
+        select si.Sno,si.Sname,si.Sclass,t.Tid,t.Task_name,st.Grade,t.Cno,co.Cname
+		from sinformation si LEFT JOIN stask st on si.Sno=st.Sno
+		LEFT JOIN ctask ct on ct.Tid=st.Tid and ct.Start_time=#{time}
+		LEFT JOIN task t on t.Cno=(select Cno from course where Cname=#{cname}) and t.tid=ct.Tid
+		left JOIN course co on co.Cno=t.Cno where Sclass=(select Cname from class where Cno=#{cno}) and t.Tno=#{tno}
+    </select>
+</mapper>

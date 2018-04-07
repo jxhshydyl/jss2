@@ -14,6 +14,8 @@ $(function() {
         load('class/'+path);
     }).reg('task',function(path){
         load('task/'+path);
+    }).reg('grade',function(path){
+        load('grade/'+path);
     }).init({
 		index: 'home'
 	});

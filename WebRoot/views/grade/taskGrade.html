@@ -1,0 +1,57 @@
+<div class="content-header">
+    <h2 class="content-title">作业列表</h2>
+    <span class="layui-breadcrumb">
+	  <a href="#!home">首页</a>
+	  <a href="#!task/taskList"><cite>作业列表</cite></a>
+	</span>
+</div>
+
+<div>
+    <div class="layui-form toolbar">
+        搜索：
+        <select id="searchKey">
+            <option value="">-请选择-</option>
+            <option value="Task_name">作业名称</option>
+            <option value="Cno">课程</option>
+            <option value="Tchapter">章节</option>
+        </select>&emsp;
+        <input id="searchValue" class="layui-input search-input" type="text" placeholder="输入搜索内容" />&emsp;
+        <button id="searchBtn" class="layui-btn search-btn"><i class="layui-icon">&#xe615;</i>搜索</button>&emsp;
+        <!--<button id="addBtn" class="layui-btn search-btn"><i class="layui-icon">&#xe654;</i>添加</button>-->
+    </div>
+
+    <table class="layui-table" id="table" lay-filter="table"></table>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="barTpl">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="view">查看详情</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="share">发布作业</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<!-- 表单弹窗 -->
+<script type="text/html" id="shareTask">
+    <form id="editForm" action="">
+        <table width="90%" cellpadding="0" cellspacing="0" style="table-layout: fixed;margin: 0 auto">
+            <thead >
+            <tr style="margin-top: 30px">
+                <td style="margin-left: 10px" width="40px"></td>
+                <td style="margin-left: 10px">班级</td>
+                <td style="margin-left: 10px">时间</td>
+            </tr>
+            </thead>
+            <tbody id="shareTaskToClass">
+
+            </tbody>
+        </table>
+        <div class="layui-form-item model-form-footer" style="margin-right: 200px;margin-top: 10px">
+            <button class="layui-btn layui-btn-primary" type="button" id="btnCancel">取消</button>
+            <button type="button" class="layui-btn" id="btnSubmit">保存</button>
+        </div>
+    </form>
+
+</script>
+
+
+<script type="text/javascript" src="assets/js/task/taskGrade.js"></script>
