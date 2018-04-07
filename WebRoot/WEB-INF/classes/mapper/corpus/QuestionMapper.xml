@@ -29,4 +29,25 @@
         insert into question(Qtype,Qcontent,Qchoice,Qanswer,Qdegree,Qchapter,Cname,Qparagraph)
         VALUES (#{qtype},#{qcontent},#{qchoice},#{qanswer},#{qdegree},#{qchapter},#{cname},#{qparagraph})
     </insert>
+    <insert id="addCode">
+       insert into code(Qname,Qdescribe,Input_describe,Output_descripe,Example_input,
+       Example_output,Qtype,Limit_time,Limit_memory,Qdegree,Qchapter,Qparagraph,Cname)
+        VALUES (#{qname},#{qdescribe},#{inputDescribe},#{outputDescripe},#{exampleInput}
+        ,#{exampleOutput},#{qtype},#{limitTime},#{limitMemory},#{qdegree},#{qchapter}
+        ,#{qparagraph},#{cname})
+    </insert>
+    <update id="updateCode">
+        update code set Qname=#{qname},Qdescribe=#{qdescribe},Input_describe=#{inputDescribe},
+        Output_descripe=#{outputDescripe},
+        Example_input=#{exampleInput},
+        Example_output=#{exampleOutput},Qtype=#{qtype},Limit_time=#{limitTime},Limit_memory=#{limitMemory},
+        Qdegree=#{qdegree},Qchapter=#{qchapter},Qparagraph=#{qparagraph},Cname=#{cname}
+        where Qid=#{qid}
+    </update>
+
+    <update id="modifyQuestion">
+        update  question set Qtype=#{qtype},Qcontent=#{qcontent},Qchoice=#{qchoice},
+        Qanswer=#{qanswer},Qchapter=#{qchapter},
+        Cname=#{cname},Qparagraph=#{qparagraph} where Qid=#{qid}
+    </update>
 </mapper>

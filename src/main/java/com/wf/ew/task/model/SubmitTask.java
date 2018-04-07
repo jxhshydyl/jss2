@@ -4,6 +4,7 @@ public class SubmitTask {
     /**
      * 提交的班级作业信息
      */
+    private Long id;
     private String classNo;//班级编号
     private String className;//班级名称
     private String courseName;//所属课程
@@ -19,6 +20,14 @@ public class SubmitTask {
     private String sname;//姓名
     private String submitTime;//提交时间
     private String status;//状态
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getClassNo() {
         return classNo;

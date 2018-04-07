@@ -13,6 +13,7 @@ public class Question {
     private String cname;//课程名称
     private String qchapter;//课程章
     private String qparagraph;//课程节
+    private String qdescribe;
 
     private Float score;//题目分数
     private String answer;//学生答案
@@ -121,6 +122,14 @@ public class Question {
 
     public void setGrade(Float grade) {
         this.grade = grade;
+    }
+
+    public String getQdescribe() {
+        return qdescribe;
+    }
+
+    public void setQdescribe(String qdescribe) {
+        this.qdescribe = qdescribe;
     }
 
     @Override

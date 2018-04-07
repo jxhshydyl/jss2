@@ -68,8 +68,8 @@ function creatStudentSubmitTaskTable(data){
         var data = obj.data;
         var layEvent = obj.event;
         if(layEvent === 'readOver'){//批阅
-            console.log(data);
-            console.log("批阅");
+            console.log(data)
+            window.open("/page/queryStudentSubmitPage?id="+data.id);
         }
     });
 }

@@ -8,7 +8,8 @@ $(function() {
 		var layEvent = obj.event;
  
 		if(layEvent === 'view'){//查看详情
-            window.open('views/task/page.html');
+            console.log(data);
+            window.open("/page/queryPage?tid="+data.tid);
             //creatStudentTable(data.cno);
 		} else if(layEvent === 'share'){ //发布作业
             shareTask(data);

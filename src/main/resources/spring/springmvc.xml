@@ -14,7 +14,7 @@
 
 	<!-- 使用注解驱动器代替注解映射器和注解适配器配置 -->
 	<mvc:annotation-driven />
-	<mvc:default-servlet-handler />
+	<mvc:default-servlet-handler/>
 	<!-- 扫描controller,指定controller的包 -->
 	<context:component-scan base-package="com.wf.ew.*.controller" />
 
@@ -33,7 +33,7 @@
 	</bean>
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/views/task/" />
+		<property name="prefix" value="/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
 

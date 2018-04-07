@@ -12,14 +12,18 @@ public class Code {
     private String exampleOutput;//输出示例
     private String referenceAnswer;//参考答案
     private String qtype;//问题类型
-    private int limitTime;//限制时间
-    private int limitMemory;//限制内存
+    private Integer limitTime;//限制时间
+    private Integer limitMemory;//限制内存
     private Integer qdegree;//问题难度
     private Integer totalSubmitCount;//总提交次数
     private Integer totalRightCount;//正确提交次数
     private String qchapter;//所属章
     private String qparagraph;//所属节
     private String cname;//所属课程
+
+    private Float score;//题目分数
+    private String answer;//学生答案
+    private Float grade;//学生得到的分数
 
     public BigInteger getQid() {
         return qid;
@@ -93,19 +97,19 @@ public class Code {
         this.qtype = qtype;
     }
 
-    public int getLimitTime() {
+    public Integer getLimitTime() {
         return limitTime;
     }
 
-    public void setLimitTime(int limitTime) {
+    public void setLimitTime(Integer limitTime) {
         this.limitTime = limitTime;
     }
 
-    public int getLimitMemory() {
+    public Integer getLimitMemory() {
         return limitMemory;
     }
 
-    public void setLimitMemory(int limitMemory) {
+    public void setLimitMemory(Integer limitMemory) {
         this.limitMemory = limitMemory;
     }
 
@@ -155,6 +159,30 @@ public class Code {
 
     public void setCname(String cname) {
         this.cname = cname;
+    }
+
+    public Float getScore() {
+        return score;
+    }
+
+    public void setScore(Float score) {
+        this.score = score;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public Float getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Float grade) {
+        this.grade = grade;
     }
 
     @Override

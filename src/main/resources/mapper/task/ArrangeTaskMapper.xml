@@ -37,7 +37,7 @@
     </select>
 
     <select id="queryQuestionList" resultType="java.lang.Integer">
-        select Qid from question where Cname=(select Cname from course where Cno=#{cno})
+        select Qid from question where Cname=(select Cname from course where Cno=#{cno}) and Qtype=#{type}
         <if test="chapter!=null and chapter!=''">
             and Qchapter=#{chapter}
         </if>

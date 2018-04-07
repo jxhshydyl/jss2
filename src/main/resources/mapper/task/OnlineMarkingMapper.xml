@@ -3,6 +3,7 @@
 <mapper namespace="com.wf.ew.task.dao.TaskDao">
     <resultMap id="submitTask" type="com.wf.ew.task.model.SubmitTask">
         <!--班级的作业信息-->
+        <id column="id" property="id"></id>
         <result column="Cno" property="classNo"></result>
         <result column="Cname" property="className"></result>
         <result column="course_name" property="courseName"></result>
@@ -47,7 +48,7 @@
     </select>
 
     <select id="queryStudentSubmitTask" resultMap="submitTask">
-        select s.Tid,s.Tstate,s.Sno,si.Sname,s.Sdate,s.Cno,t.Task_name,t.SubTime from stask s,task t,sinformation si
+        select s.id, s.Tid,s.Tstate,s.Sno,si.Sname,s.Sdate,s.Cno,t.Task_name,t.SubTime from stask s,task t,sinformation si
         <where>
             s.Cno=#{cno} and s.Tid=#{tid} and t.Tid=s.Tid and si.Sno=s.Sno
             <choose>

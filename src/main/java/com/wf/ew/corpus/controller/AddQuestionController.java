@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping("/jss/addQuestion")
 public class AddQuestionController {
@@ -30,15 +32,15 @@ public class AddQuestionController {
     }
 
     @PostMapping
-    @ResponseBody
     @RequestMapping("/code")
-    public ResultMap addCode(Code code){
-        System.out.println("代码");
-        System.out.println(code);
-        int num=addQuestionService.addCode(code);
-        if(num==1){
-            return ResultMap.ok(200,"增加成功！");
+    public String addCode(Code code,HttpServletRequest request){
+        try{
+            System.out.println("代码");
+            System.out.println(code);
+            addQuestionService.addCode(code);
+            return "redirect:"+request.getScheme()+"://"+ request.getServerName()+":"+request.getServerPort()+"/"+request.getContextPath()+"index.html#!corpus/code";
+        }catch (Exception e){
+            return "redirect:"+request.getScheme()+"://"+ request.getServerName()+":"+request.getServerPort()+"/"+request.getContextPath()+"index.html#!corpus/code";
         }
-        return ResultMap.ok(0,"增加失败！");
     }
 }

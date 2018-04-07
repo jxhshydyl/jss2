@@ -24,26 +24,6 @@ $(function() {
 	});
 	//添加按钮点击事件
 
-	
-
-	//表单提交事件
-	// layui.form.on('submit(btnSubmit)', function(data) {
-	// 	data.field.token = getToken();
-	// 	data.field._method = $("#editForm").attr("method");
-	// 	layer.load(1);
-	// 	$.post("api/question", data.field, function(data){
-	// 		layer.closeAll('loading');
-	// 		if(data.code==200){
-	// 			layer.msg(data.msg,{icon: 1});
-	// 			layer.closeAll('page');
-	// 			layui.table.reload('table', {});
-	// 		}else{
-	// 			layer.msg(data.msg,{icon: 2});
-	// 		}
-	// 	}, "JSON");
-	// 	return false;
-	// });
-
 	//工具条点击事件
 	layui.table.on('tool(table)', function(obj){
 		var data = obj.data;
@@ -70,6 +50,29 @@ $(function() {
 		doSearch(table);
 	});
 
+
+
+    layui.use(['form', 'layedit'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit;
+        var $ = layui.$;
+        //createEdit(layedit);
+
+        $("#resets").click(function(){
+            $("#addQdescribe").val("");
+            $("#addInputDescribe").val("");
+            $("#addOutputDescripe").val("");
+            $("#addExampleInput").val("");
+            $("#addExampleOutput").val("");
+            createEdit(layedit);
+            $("#showTable").css('display','');
+            $("#showForm").css('display','none');
+            $("#showQuestionDetail").css('display','none');
+        });
+        form.render();
+    });
+
 });
 
 //显示表单弹窗
@@ -84,50 +87,38 @@ function showQuestionDetail(data){
         $("#outputDescripe").val(data.outputDescripe);
         $("#exampleInput").val(data.exampleInput);
         $("#exampleOutput").val(data.exampleOutput);
-        $("#qdegree").html(data.qdegree);
+        $("#qdegrees").html(data.qdegree);
+        $("#limitTimes").html(data.limitTime+"ms");
+        $("#limitMemorys").html(data.limitMemory+"KB");
+        $("#cnames").html(data.cname);
+        $("#chapter").html(data.qchapter);
+        $("#paragraph").html(data.qparagraph);
 	}
 }
+function createSelectCourse(){
+    var course=getCurrentCourse();
+    html='';
+    for(var i=0;i<course.length;i++){
+        html+="<option value='"+course[i].courseName+"'>"+course[i].courseName+"</option>";
+    }
+    $("#courses").html(html);
+}
 function editQuestion(data){
-    var layedit = layui.layedit
-        ,$ = layui.jquery;
-    console.log($("#qdescribe_editor"));
-    $("#qdescribe_editor").val(data.qdescribe);
-    console.log($("#qdescribe_editor"));
-    $("#inputDescribe_editor").val(data.inputDescribe);
-    $("#limitMemory").html(data.limitMemory);
-    $("#limitTime").html(data.limitTime);
-    $("#outputDescripe_editor").val(data.outputDescripe);
-    $("#exampleInput_editor").val(data.exampleInput);
-    $("#exampleOutput_editor").val(data.exampleOutput);
-    $("#qdegree").html(data.qdegree);
-    $("#inputDescribe_editor").html(data.qdescribe);
-    document.getElementById("qdescribe_editor").value=data.qdescribe;
-
-    //创建一个编辑器
-    var editQdescribe = layedit.build('qdescribe_editor',{
-        height: 200,
-        tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
-    });
-    //创建一个编辑器
-    var editInputDescribe = layedit.build('inputDescribe_editor',{
-        height: 150,
-        tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
-    });
-    //创建一个编辑器
-    var editOutputDescripe = layedit.build('outputDescripe_editor',{
-        height: 150,
-        tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
-    });
-    //创建一个编辑器
-    var editExampleInput = layedit.build('exampleInput_editor',{
-        height: 150,
-        tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
-    });
-    //创建一个编辑器
-    var editExampleOutput = layedit.build('exampleOutput_editor',{
-        height: 150,
-        tool: [ 'strong','italic','underline','del','|','left','center','right'  ,'image']
-    });
+    createSelectCourse();
+    $("#addQnames").val(data.qname);
+    $("#qid").val(data.qid);
+    $("#addQdescribes").val(data.qdescribe);
+    $("#addInputDescribes").val(data.inputDescribe);
+    $("#addlimitMemorys").val(data.limitMemory);
+    $("#addlimitTimes").val(data.limitTime);
+    $("#addOutputDescripes").val(data.outputDescripe);
+    $("#addExampleInputs").val(data.exampleInput);
+    $("#addExampleOutputs").val(data.exampleOutput);
+    $("#addqdegrees").val(data.qdegree);
+    $("#qchapters").val(data.qchapter);
+    $("#qparagraphs").val(data.qparagraph);
+    $("#courses").val(data.cname);
+    layui.form.render();
 }
 
 //删除

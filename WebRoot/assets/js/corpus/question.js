@@ -25,16 +25,14 @@ $(function() {
     console.log("question1");
 	//添加按钮点击事件
 
-
+    //增加题目信息
     layui.use(['form', 'layedit'], function(){
         var form = layui.form
             ,layer = layui.layer
             ,layedit = layui.layedit;
         var $ = layui.$;
-
         //创建一个编辑器
         var editIndex = layedit.build('LAY_demo_editor');
-
         //自定义验证规则
         form.verify({
             title: function(value){
@@ -121,14 +119,61 @@ $(function() {
         });
         form.render();
     });
-	
+
+    //修改题目信息
+    layui.use(['form', 'layedit'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit;
+        var $ = layui.$;
+
+        $("#resets").click(function(){
+            $("#addQdescribe").val("");
+            $("#addInputDescribe").val("");
+            $("#addOutputDescripe").val("");
+            $("#addExampleInput").val("");
+            $("#addExampleOutput").val("");
+            //createEdit(layedit);
+            $("#showTable").css('display','');
+            $("#showForm").css('display','none');
+            $("#showQuestionDetail").css('display','none');
+        });
+        form.on('submit(demo2)', function(data){
+            data.field.token = getToken();
+            data.field._method = $("#editForm").attr("method");
+            layer.load(1);
+            $.ajax({
+                url: "jss/addQuestion",
+                type: "post",
+                data:data.field,
+                dataType: "JSON",
+                success: function(data){
+                    layer.closeAll('loading');
+                    if(data.code==200){
+                        window.location.reload();
+                        // layer.msg(data.msg,{icon: 1});
+                    }else{
+                        layer.msg(data.msg,{icon: 2});
+                    }
+                }
+            });
+            return false;
+        });
+        form.render();
+    });
 	//工具条点击事件
 	layui.table.on('tool(table)', function(obj){
 		var data = obj.data;
 		var layEvent = obj.event;
 		console.log(obj);
 		if(layEvent === 'edit'){ //修改
-			showEditModel(data);
+            console.log(data);
+            $("#showQuestionDetail").css("display","");
+            $("#showTable").css("display","none");
+            $("#showForm").css('display','none');
+            showDataModel(data);
+            showEditModel(data);
+			//showEditModel(data);
 		} else if(layEvent === 'del'){ //删除
 			doDelete(obj);
 		}
@@ -150,6 +195,122 @@ $(function() {
         showEditModel(null);
 	});*/
 });
+
+function showDataModel(data){
+    var course=getCurrentCourse();
+    html='';
+    for(var i=0;i<course.length;i++){
+        html+="<option value='"+course[i].courseName+"'>"+course[i].courseName+"</option>";
+    }
+    $("#courses1").html(html);
+    $("#courses1").val(data.cname);
+    $("#qchapter1").val(data.qchapter);
+    $("#qparagraph1").val(data.qparagraph);
+    $("#qtypes1").val(data.qtype);
+    $("#LAY_demo_editors1").val(data.qcontent);
+    if("单选题"==data.qtype){
+        $("#xuanzes1").css("display","");
+        $("#panduans1").css("display","none");
+        var html='';
+        var arr=data.qchoice.split(/[A-Z][、:：.]\s*/g);
+        // var arr=data.qchoice.split(/[A-Z][|:|：|、|.| .| 、]/);
+        var char=["A","B","C","D","E","F","G","H","I"];
+        var k=0;
+        console.log(arr);
+        for(var i=0;i<arr.length;i++){
+            if(arr[i]!==''){
+                html+=`<tr name="xuanxianghangshu">
+							<td>${char[k]}</td>
+							<td><textarea name="answer${k+1}" style="resize:none;border:0;height:40px;width:100%;margin: 0 0" disabled>${arr[i]}</textarea></td>
+							<td><input type="radio" name="daans" value="A" ></td>
+						</tr>`;
+                k++;
+            }
+        }
+        $("#xuanxiang1").html(html);
+        for(var i=0;i<char.length;i++){
+            if(char[i]==data.qanswer.trim()){
+                console.log(char[i]);
+                $("input[name=daans]")[i].checked=true;
+            }
+        }
+    }else if("多选题"==data.qtype){
+        $("#xuanzes1").css("display","");
+        $("#panduans1").css("display","none");
+    }else if("判断题"==data.qtype){
+        $("#xuanzes1").css("display","none");
+        $("#panduans1").css("display","");
+        console.log();
+        if(data.qanswer==="true"){
+            $("#daantrue1").attr("checked",true);
+        }else{
+            $("#daanfalse1").attr("checked",true);
+        }
+
+    }else{
+        $("#xuanzes1").css("display","none");
+        $("#panduans1").css("display","none");
+    }
+    layui.form.render();
+}
+function showEditModel(data){
+    var course=getCurrentCourse();
+    html='';
+    for(var i=0;i<course.length;i++){
+        html+="<option value='"+course[i].courseName+"'>"+course[i].courseName+"</option>";
+    }
+    $("#courses").html(html);
+    $("#courses").val(data.cname);
+    $("#qids").val(data.qid);
+    $("#qchapters").val(data.qchapter);
+    $("#qparagraphs").val(data.qparagraph);
+    $("#qtypes").val(data.qtype);
+    $("#LAY_demo_editors").val(data.qcontent);
+    if("单选题"==data.qtype){
+        $("#xuanzes").css("display","");
+        $("#panduans").css("display","none");
+        var html='';
+        var arr=data.qchoice.split(/[A-Z][、:：.]\s*/g);
+        var char=["A","B","C","D","E","F","G","H","I"];
+        var k=0;
+        console.log(arr);
+        var k=0;
+        for(var i=0;i<arr.length;i++){
+            if(arr[i].trim()!==''){
+                html+=`<tr name="xuanxianghangshu">
+							<td>${char[k]}</td>
+							<td><textarea style="resize:none;border:0;height:40px;width:100%;margin: 0 0" disabled>${arr[i]}</textarea></td>
+							<td><input type="radio" name="daan" value="A" ></td>
+						</tr>`;
+                k++;
+            }
+        }
+        $("#xuanxiang").html(html);
+       for(var i=0;i<char.length;i++){
+            if(char[i]==data.qanswer.trim()){
+                console.log(char[i]);
+                $("input[name=daan]")[i].checked=true;
+            }
+        }
+    }else if("多选题"==data.qtype){
+        $("#xuanzes1").css("display","");
+        $("#panduans1").css("display","none");
+    }else if("判断题"==data.qtype){
+        $("#xuanzes1").css("display","none");
+        $("#panduans1").css("display","");
+        console.log();
+        if(data.qanswer==="true"){
+            $("#daantrue1").attr("checked",true);
+        }else{
+            $("#daanfalse1").attr("checked",true);
+        }
+
+    }else{
+        $("#xuanzes1").css("display","none");
+        $("#panduans1").css("display","none");
+    }
+    layui.form.render();
+}
 
 //删除
 function doDelete(obj){

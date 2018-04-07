@@ -62,9 +62,24 @@ public class AddQuestionServiceImpl implements AddQuestionService{
             question.setAnswer(addQuestion.getDaan1());
         }
         System.out.println(question);
-        return questionDao.addQuestion(question);
+        if(question.getQid()==null){
+            return questionDao.addQuestion(question);
+        }else{
+            return questionDao.modifyQuestion(question);
+        }
+
     }
+
     public int addCode(Code code){
-        return questionDao.addCode(code);
+        try{
+            if(code.getQid()==null){
+                return questionDao.addCode(code);
+            }else{
+                return questionDao.updateCode(code);
+            }
+
+        }catch (Exception e){
+            return 0;
+        }
     }
 }

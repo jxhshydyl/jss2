@@ -2,17 +2,14 @@ package com.wf.ew.task.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.wf.ew.clazz.model.Students;
 import com.wf.ew.core.PageResult;
 import com.wf.ew.task.dao.TaskDao;
 import com.wf.ew.task.model.Condition;
 import com.wf.ew.task.model.SubmitTask;
 import com.wf.ew.task.model.Task;
 import com.wf.ew.task.service.TaskService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

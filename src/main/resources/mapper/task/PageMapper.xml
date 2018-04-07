@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wf.ew.task.dao.PageDao">
+    <resultMap id="code" type="com.wf.ew.corpus.model.Code">
+        <id column="Qid" property="qid"></id>
+        <result column="Qname" property="qname"></result>
+        <result column="Qdescribe" property="qdescribe"></result>
+        <result column="Input_describe" property="inputDescribe"></result>
+        <result column="Output_descripe" property="outputDescripe"></result>
+        <result column="Example_input" property="exampleInput"></result>
+        <result column="Example_output" property="exampleOutput"></result>
+        <result column="reference_answer" property="referenceAnswer"></result>
+        <result column="Qtype" property="qtype"></result>
+        <result column="Limit_time" property="limitTime"></result>
+        <result column="Limit_memory" property="limitMemory"></result>
+        <result column="Qdegree" property="qdegree"></result>
+        <result column="Total_submit_count" property="totalSubmitCount"></result>
+        <result column="Total_right_count" property="totalRightCount"></result>
+        <result column="Qchapter" property="qchapter"></result>
+        <result column="Qparagraph" property="qparagraph"></result>
+        <result column="Cname" property="cname"></result>
+    </resultMap>
+    <resultMap id="question" type="com.wf.ew.corpus.model.Question">
+        <id column="Qid" property="qid"></id>
+        <result column="Qtype" property="qtype"></result>
+        <result column="Qcontent" property="qcontent"></result>
+        <result column="Qchoice" property="qchoice"></result>
+        <result column="Qanswer" property="qanswer"></result>
+        <result column="Qdegree" property="qdegree"></result>
+        <result column="Cname" property="cname"></result>
+        <result column="Qchapter" property="qchapter"></result>
+        <result column="Qparagraph" property="qparagraph"></result>
+        <result column="Score" property="score"></result>
+        <result column="Sanswer" property="answer"></result>
+        <result column="grade" property="grade"></result>
+    </resultMap>
+    <resultMap id="taskBasic" type="com.wf.ew.task.model.TaskBasic">
+        <result column="tid" property="tid"></result>
+        <result column="Task_name" property="taskName"></result>
+        <result column="Tscore" property="score"></result>
+        <result column="Cname" property="cname"></result>
+        <result column="Cno" property="cno"></result>
+        <result column="Tchapter" property="chapter"></result>
+        <collection property="list" ofType="com.wf.ew.task.model.AutoMakePaperPara">
+            <result column="count" property="count"></result>
+            <result column="score" property="score"></result>
+            <result column="types" property="types"></result>
+        </collection>
+    </resultMap>
+    <resultMap id="students" type="com.wf.ew.clazz.model.Students">
+        <id column="Sno" property="sno"></id>
+        <result column="id" property="id"></result>
+        <result column="Sname" property="sname"></result>
+        <result column="Sclass" property="sclass"></result>
+        <result column="Grade" property="taskGrade"></result>
+        <result column="Task_name" property="taskName"></result>
+        <result column="Tchapter" property="taskChapter"></result>
+        <result column="Cname" property="courseName"></result>
+    </resultMap>
+    <!--查询作业基本信息-->
+    <select id="queryBasicPageQuestionByTid" resultMap="taskBasic">
+       select task.tid,task.Task_name,task.Tscore,task.Tchapter,course.Cno,course.Cname,question.Qtype types,sum(tdetail.Score) score,count(1) count  from task,course,tdetail,question
+       where task.Tid=#{tid} and task.Cno=course.Cno and tdetail.Tid=task.Tid and question.Qid=tdetail.Qid and tdetail.type=0
+       GROUP BY question.Qtype
+    </select>
+    <select id="queryBasicPageCodeByTid" resultMap="taskBasic">
+        select task.tid,task.Task_name,task.Tscore,task.Tchapter,course.Cno,course.Cname,code.Qtype types,sum(tdetail.Score) score,count(1) count from task,course,tdetail,code
+       where task.Tid=19 and task.Cno=course.Cno and tdetail.Tid=task.Tid and code.Qid=tdetail.Qid and tdetail.type=1
+    </select>
+    <!--查询非编程题-->
+    <select id="queryPageQuestionByTid" resultMap="question">
+       select * from Question where Qid in (select Qid from Tdetail where Tid=#{tid} and type=0)
+    </select>
+    <!--查询编程题-->
+    <select id="queryPageCodeByTid" resultMap="code">
+      select * from code where Qid in (select Qid from Tdetail where Tid=#{tid} and type=1)
+    </select>
+
+    <!--查询类似的非编程题-->
+    <select id="querySimilarQuestion" resultMap="question">
+        SELECT * FROM Question where Qchapter=#{qchapter} and Qtype=#{type}
+        and Cname=#{cname}
+        and Qid not in (select Qid from Tdetail where Tid=#{tid} and Qtype=#{type})
+        ORDER BY  RAND() LIMIT 5
+    </select>
+    <!--查询类似编程题-->
+    <select id="querySililarCode" resultMap="code">
+        select * from code where Qchapter=#{qchapter}
+        and Cname=#{cname} and Qid not in (select Qid from Tdetail where Tid=#{tid} and Qtype=#{type})
+         ORDER BY  RAND() LIMIT 5
+    </select>
+    <update id="replaceSilimarQuestion">
+        update tdetail set Qid=#{newQid} where Qid=#{oldQid} and Tid=#{tid}
+    </update>
+    <delete id="deleteTaskQuestion">
+        delete from tdetail where Qid=#{qid} and Tid=#{tid} and type=#{qtype}
+    </delete>
+    <update id="updateTotalScore">
+        update task set Tscore=(select sum(score) from tdetail where Tid=#{tid} GROUP BY Tid) where Tid=#{tid}
+    </update>
+    <select id="querySubmitTaskQuestionDetail" resultMap="question">
+        select s.Qid,s.Sanswer,s.Score as grade,q.Qtype,q.Qcontent,q.Qchoice,
+        q.Qanswer,q.Qdegree,t.Score
+		from STdetail s LEFT JOIN Question q on q.Qid=s.Qid
+		LEFT JOIN Tdetail t on t.Qid=s.Qid and t.Tid=(select Tid from Stask where id=#{id}) and t.type=0
+		where s.id=#{id}
+    </select>
+    <select id="querySubmitTaskCodeDetail" resultMap="code">
+        select s.Qid,s.Sanswer,s.Score as grade,c.Qtype,c.Qdescribe,c.Qdegree,t.Score
+		from stdetail_code s LEFT JOIN code c on c.Qid=s.Qid
+		LEFT JOIN Tdetail t on t.Qid=s.Qid and t.Tid=(select Tid from Stask where id=#{id}) and t.type=1
+		where s.id=#{id}
+    </select>
+    <select id="queryStudentByStaskId" resultMap="students">
+        select Stask.id,Stask.Grade, s.Sno,s.Sname,s.Sclass,t.Task_name,
+        t.Tchapter,Course.Cname
+        from Sinformation s, Task t,Course,Stask where s.Sno=Stask.Sno
+        and t.Tid=Stask.Tid and Course.Cno=t.Cno and Stask.id=#{id}
+    </select>
+    <update id="saveSubmitTaskScore">
+        update stask set Grade=#{totalScore} where id=#{id}
+    </update>
+
+    <update id="saveSubmitTaskQuestionDetail">
+        update stdetail set Score=#{scores} where id=#{id} and Qid=#{qids}
+    </update>
+
+    <update id="saveSubmitTaskCodeDetail">
+        update stdetail_code set Score=#{scores} where id=#{id} and Qid=#{qids}
+    </update>
+</mapper>

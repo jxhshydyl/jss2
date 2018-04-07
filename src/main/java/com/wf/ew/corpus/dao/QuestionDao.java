@@ -11,4 +11,6 @@ public interface QuestionDao {
     int deleteQuestion(Long qid);
     int addQuestion(Question question);
     int addCode(Code code);
+    int updateCode(Code code);
+    int modifyQuestion(Question question);
 }
