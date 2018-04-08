@@ -58,6 +58,7 @@ public class UploadController {
     public ResultMap bulkAddQuestion(@RequestParam("file") MultipartFile file, HttpServletRequest request,String questionType) throws Exception {
         InputStream is = file.getInputStream();
         String fileName = file.getOriginalFilename();
+        System.out.println(questionType);
         int num = uploadService.bulkAddQuestion(file.getInputStream(), questionType, file.getOriginalFilename());
         if(num!=0){
             return ResultMap.ok(0,"上传成功");

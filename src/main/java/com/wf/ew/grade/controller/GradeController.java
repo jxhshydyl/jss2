@@ -33,14 +33,14 @@ public class GradeController {
     @RequestMapping("/courseGradeByCnoAndTime")
     @ResponseBody
     public ResultMap courseGradeByCnoAndTime(String cno,String time, String tno) {
-        List<TaskGradeStatistic> list = gradeService.courseGradeByCnoAndTime(cno,time,"1");
+        List<TaskGradeStatistic> list = gradeService.courseGradeByCnoAndTime(cno,time,tno);
         return ResultMap.ok().put("list",list);
     }
 
     @RequestMapping("/courseDetailGradeByCnameAndTaskName")
     @ResponseBody
     public ResultMap courseDetailGradeByCnameAndTaskName(String cname, String taskName, String cno,String tno) {
-        List<ClassDeatilGrade> list = gradeService.courseDetailGradeByCnameAndTaskName(cname,taskName,cno,"1");
+        List<ClassDeatilGrade> list = gradeService.courseDetailGradeByCnameAndTaskName(cname,taskName,cno,tno);
         return ResultMap.ok().put("list",list);
     }
 }

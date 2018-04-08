@@ -10,10 +10,6 @@
     <div class="layui-form toolbar">
         搜索：
         <select id="course">
-            <option value="">-请选择-</option>
-            <option value="Task_name">作业名称</option>
-            <option value="Cno">课程</option>
-            <option value="Tchapter">章节</option>
         </select>&emsp;
         <input id="time_start" class="layui-input search-input" type="text" placeholder="输入搜索内容" />&emsp;
         <button id="searchBtn" class="layui-btn search-btn"><i class="layui-icon">&#xe615;</i>搜索</button>&emsp;
@@ -27,23 +23,44 @@
 
 <script type="text/javascript" src="assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="assets/js/grade/echarts.js"></script>
+<script>
+    createSelectCourse();
+    function createSelectCourse(){
+        var course=getCurrentCourse();
+        html='';
+        for(var i=0;i<course.length;i++){
+            html+="<option value='"+course[i].cid+"'>"+course[i].courseName+"</option>";
+        }
+        $("#course").html(html);
+    }
+    $("#searchBtn").click(function(){
+        chart();
+    });
+</script>
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#time_start' //指定元素
+        });
+    });
+</script>
 <script type="text/javascript">
+    var tno=getCurrentUser().userId;
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('main'));
     chart();
-    $("#submitTimeAndCno").click(function(){
-        chart();
-    });
     function chart(){
         var cno=$("#course").val();
         var time=$("#time_start").val();
         console.log(cno);
         console.log(time);
-        cno='c-02';
         $.ajax({
             type : "POST",
             url : "/grade/courseGradeByCnoAndTime",
-            data : {"cno":cno,"time":time},
+            data : {"cno":cno,"time":time,"tno":"1"},
             dataType : "json",
             success:function(data){
                 console.log(data);
@@ -52,7 +69,7 @@
                 var className=new Array();//课程
                 var time=new Array();//时间轴
                 var totaldata=new Array();
-                if(data.courseGrade.length==0){
+                if(data.length==0){
                     className=null;
                     totaldata=null;
                     document.getElementById('cuecharts').innerHTML="暂无数据";
@@ -61,19 +78,19 @@
                 }else{
                     document.getElementById('cuecharts').style.display="none";
                     document.getElementById('main').style.display="";
-                    for(var i=0;i<data.courseGrade.length;i++){
-                        if(-1==className.indexOf(data.courseGrade[i].cname)){
-                            className.push(data.courseGrade[i].cname);
+                    for(var i=0;i<data.length;i++){
+                        if(-1==className.indexOf(data[i].cname)){
+                            className.push(data[i].cname);
                         }
-                        if(-1==time.indexOf(data.courseGrade[i].taskName)){
-                            time.push(data.courseGrade[i].taskName);
+                        if(-1==time.indexOf(data[i].taskName)){
+                            time.push(data[i].taskName);
                         }
                     }
                     for(var i=0;i<className.length;i++){
                         var totalGrade=new Array(time.length);
-                        for(var j=0;j<data.courseGrade.length;j++){
-                            if(className[i]==data.courseGrade[j].cname){
-                                totalGrade[time.indexOf(data.courseGrade[j].taskName)]=data.courseGrade[j].totalGrade;
+                        for(var j=0;j<data.length;j++){
+                            if(className[i]==data[j].cname){
+                                totalGrade[time.indexOf(data[j].taskName)]=data[j].totalGrade;
                             }
                         }
                         var datas= {
@@ -158,20 +175,17 @@
             $.ajax({
                 type : "POST",
                 url : "/grade/courseDetailGradeByCnameAndTaskName",
-                data : {"cname" : cname,"taskName" : taskName,"cno":cno},
+                data : {"cname" : cname,"taskName" : taskName,"cno":cno,"tno":"1"},
                 dataType : "json",
                 success : function(data) {
-
                     var data = data.list;
-                    console.log(data);
                     var courseName = new Array();//课程
                     var time = new Array();//时间轴
                     var totaldata = new Array();
                     var totalGrade;
                     var title = "";
                     var legend = new Array();
-                    console.log(data.courseDetailGrade);
-                    if (data.courseDetailGrade.length == 0) {
+                    if (data.length == 0) {
                         courseName = null;
                         title = "";
                         legend = "";
@@ -197,14 +211,14 @@
                         };
                         totaldata.push(datas);
                     } else {
-                        title = data.courseDetailGrade[0].sclass;
-                        legend.push(data.courseDetailGrade[0].taskName);
+                        title = data[0].sclass;
+                        legend.push(data[0].taskName);
                         totalGrade = new Array();
-                        for (var i = 0; i < data.courseDetailGrade.length; i++) {
+                        for (var i = 0; i < data.length; i++) {
                             totalGrade
-                                .push(data.courseDetailGrade[i].grade);
+                                .push(data[i].grade);
                             courseName
-                                .push(data.courseDetailGrade[i].sname);
+                                .push(data[i].sname);
                         }
                         var datas = {
                             name : legend,

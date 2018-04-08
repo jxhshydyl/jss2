@@ -9,8 +9,11 @@
     <form class="layui-form">
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <input type="radio" name="sex" value="男" title="编程题">
-                <input type="radio" name="sex" value="女" title="非编程题" checked>
+                <input type="radio" name="type" value="code" lay-filter="encrypt" title="编程题" >
+                <input type="radio" name="type" value="noCode" lay-filter="encrypt" title="非编程题" checked>
+                <button class="layui-btn layui-btn-sm layui-btn-normal">
+                    <i class="layui-icon">&#xe601;</i>下载模板
+                </button>
             </div>
         </div>
         <div class="layui-upload">
@@ -31,18 +34,21 @@
     </form>
 </div>
 <script>
-    var type='on';
+    var types="noCode";
     layui.use(['form'], function(){
         var form = layui.form
             ,layer = layui.layer;
         var $ = layui.jquery;
         form.render();
-
+        form.on('radio(encrypt)', function(data){
+            types=data.value; //被点击的radio的value值
+        });
     });
     layui.use('upload', function() {
         var $ = layui.jquery
             , upload = layui.upload;
-        console.log(type);
+
+        console.log($('input:radio[name="sex"]:checked').val());
         //多文件列表示例
         var demoListView = $('#demoList')
             , uploadListIns = upload.render({
@@ -50,6 +56,10 @@
             , url: '/upload'
             , accept: 'file'
             , multiple: true
+            ,before: function(obj){
+                layer.load(); //上传loading
+                this.data={'questionType':types};
+            }
             , auto: false
             , bindAction: '#testListAction'
             , choose: function (obj) {
@@ -84,6 +94,7 @@
                 console.log(res);
                 console.log(index);
                 console.log(upload);
+                layer.closeAll('loading');
                 if (res.code == 0) { //上传成功
                     var tr = demoListView.find('tr#upload-' + index)
                         , tds = tr.children();

@@ -17,9 +17,6 @@ public class UploadServiceImpl implements UploadService{
     UploadDao uploadDao;
 
     public int bulkAddQuestion(InputStream inputStream, String questonType, String fileName) {
-        questonType="noCode";
-        System.out.println(fileName);
-        System.out.println("上传文件");
         if ("code".equals(questonType)) {
             try {
                 int temp2;
@@ -104,6 +101,7 @@ public class UploadServiceImpl implements UploadService{
                     }
                     codes.add(que);
                 }
+                System.out.println(codes);
                 return uploadDao.bulkAddCode(codes);
             } catch (Exception e) {
             }
@@ -170,6 +168,7 @@ public class UploadServiceImpl implements UploadService{
                         continue;
                     }
                 }
+                System.out.println(questions);
                 return uploadDao.bulkAddQuestion(questions);
             } catch (Exception e) {
             }
