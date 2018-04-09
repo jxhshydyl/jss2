@@ -13,7 +13,9 @@ $(function() {
             $("#students").css("display","");
 		} else if(layEvent === 'del'){ //删除
 			doDelete(obj);
-		}
+		} else if(layEvent === 'viewDetail'){
+            showEditModel(data);
+        }
 	});
 	
 	//搜索按钮点击事件
@@ -63,6 +65,7 @@ function creatStudentTable(cno){
             {field:'sacademy', sort: true, title: '所属学院'},
             {field:'smajor', sort: true,title: '所属专业'},
             {field:'sclass', sort: true,title: '所属班级'},
+            {align:'center', toolbar: '#view', minWidth: 180, title: '操作'}
         ]]
     });
 }
@@ -108,7 +111,16 @@ function doSearch(table){
             }
         });
 }
-
+//显示表单弹窗
+function showEditModel(data){
+    layer.open({
+        type: 1,
+        title: data==null?"添加用户":"修改用户",
+        area: '450px',
+        offset: '120px',
+        content: $("#addModel").html()
+    });
+}
 //查看
 function viewStudentsByClass(cno){
         layer.load(1);

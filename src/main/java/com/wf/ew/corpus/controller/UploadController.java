@@ -7,6 +7,9 @@ import com.wf.ew.corpus.service.QuestionService;
 import com.wf.ew.corpus.service.UploadService;
 import com.wf.ew.task.util.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileInputStream;
@@ -64,5 +68,31 @@ public class UploadController {
             return ResultMap.ok(0,"上传成功");
         }
         return ResultMap.ok(1,"上传失败");
+    }
+    @RequestMapping("/fileDownLoad")
+    public ResponseEntity<byte[]> fileDownLoad(HttpServletRequest request) throws Exception{
+        //public ResponseEntity（T  body，
+        //                       MultiValueMap < String，String > headers，
+        //                       HttpStatus  statusCode）
+        //HttpEntity使用给定的正文，标题和状态代码创建一个新的。
+        //参数：
+        //body - 实体机构
+        //headers - 实体头
+        //statusCode - 状态码
+
+        //ServletContext servletContext = request.getServletContext();
+        String fileName="问题模板.rar";
+        //String realPath = servletContext.getRealPath("D:\\IDEAWorkspace\\jss2\\WebRoot\\WEB-INF\\muban\\"+fileName);//得到文件所在位置
+        InputStream in=new FileInputStream(new File("D:\\IDEAWorkspace\\jss2\\WebRoot\\WEB-INF\\muban\\"+fileName));//将该文件加入到输入流之中
+        byte[] body=null;
+        body=new byte[in.available()];// 返回下一次对此输入流调用的方法可以不受阻塞地从此输入流读取（或跳过）的估计剩余字节数
+        in.read(body);//读入到输入流里面
+
+        fileName=new String(fileName.getBytes("gbk"),"iso8859-1");//防止中文乱码
+        HttpHeaders headers=new HttpHeaders();//设置响应头
+        headers.add("Content-Disposition", "attachment;filename="+fileName);
+        HttpStatus statusCode = HttpStatus.OK;//设置响应吗
+        ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(body, headers, statusCode);
+        return response;
     }
 }
