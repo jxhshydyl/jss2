@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui-select-multiple</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../assets/layui/css/layui.css" media="all"/>
+    <style>
+        /* 下拉多选样式 需要引用*/
+        select[multiple] + .layui-form-select > .layui-select-title > input.layui-input {
+            border-bottom: 0
+        }
+
+        select[multiple] + .layui-form-select dd {
+            padding: 0;
+        }
+
+        select[multiple] + .layui-form-select .layui-form-checkbox[lay-skin=primary] {
+            margin: 0 !important;
+            display: block;
+            line-height: 36px !important;
+            position: relative;
+            padding-left: 26px;
+        }
+
+        select[multiple] + .layui-form-select .layui-form-checkbox[lay-skin=primary] span {
+            line-height: 36px !important;
+            float: none;
+        }
+
+        select[multiple] + .layui-form-select .layui-form-checkbox[lay-skin=primary] i {
+            position: absolute;
+            left: 10px;
+            top: 0;
+            margin-top: 9px;
+        }
+
+        .multiSelect {
+            line-height: normal;
+            height: auto;
+            padding: 4px 10px;
+            overflow: hidden;
+            min-height: 38px;
+            margin-top: -38px;
+            left: 0;
+            z-index: 99;
+            position: relative;
+            background: none;
+        }
+
+        .multiSelect a {
+            padding: 2px 5px;
+            background: #908e8e;
+            border-radius: 2px;
+            color: #fff;
+            display: block;
+            line-height: 20px;
+            height: 20px;
+            margin: 2px 5px 2px 0;
+            float: left;
+        }
+
+        .multiSelect a span {
+            float: left;
+        }
+
+        .multiSelect a i {
+            float: left;
+            display: block;
+            margin: 2px 0 0 2px;
+            border-radius: 2px;
+            width: 8px;
+            height: 8px;
+            background: url("../assets/layui/images/close.png") no-repeat center;
+            background-size: 65%;
+            padding: 4px;
+        }
+
+        .multiSelect a i:hover {
+            background-color: #545556;
+        }
+
+        /* 下面是页面内样式，无需引用 */
+        .layui-block {
+            margin-bottom: 10px;
+        }
+
+        .layui-form-label {
+            width: 180px;
+        }
+
+        .code {
+            color: gray;
+            margin-left: 10px;
+        }
+
+        .unshow > #result {
+            display: none;
+        }
+
+        pre {
+            padding: 5px;
+            margin: 5px;
+        }
+
+        .string {
+            color: green;
+        }
+
+        .number {
+            color: darkorange;
+        }
+
+        .boolean {
+            color: blue;
+        }
+
+        .null {
+            color: magenta;
+        }
+
+        .key {
+            color: red;
+        }
+    </style>
+</head>
+<body class="childrenBody" style="padding: 10px">
+
+<form class="layui-form">
+    <div class="layui-block">
+        <label class="layui-form-label">多选</label>
+        <div class="layui-input-inline">
+            <select name="多选" multiple>
+                <option value="">请选择您的兴趣爱好</option>
+                <option>sing1</option>
+                <option value="sing2" selected>sing2</option>
+                <option>SING1-大写</option>
+                <option selected>movie1</option>
+                <option>movie2</option>
+                <option>movie3</option>
+                <option>MOVIE4</option>
+                <option>swim</option>
+                <option>moon</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <a class="layui-btn" lay-submit="" lay-filter="*">查看表单信息</a>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="../assets/libs/layui/layui.all.js"></script>
+<script type="text/javascript" src="../assets/libs/layui/lay/modules/form.js"></script>
+<script>
+    layui.use(['form', 'code'], function () {
+        var form = layui.form,
+            $ = layui.$;
+
+        form.render();
+
+    })
+</script>
+</body>
+</html>

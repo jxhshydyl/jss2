@@ -43,7 +43,7 @@
     }
 </style>
 
-
+<script src=""></script>
 <div class="content-header">
     <h2 class="content-title">用户管理</h2>
     <span class="layui-breadcrumb">
@@ -70,11 +70,27 @@
                         </select>
                     </div>
                 </div>
-
+                <div class="layui-block">
+                    <label class="layui-form-label">多选</label>
+                    <div class="layui-input-inline">
+                        <select name="多选" multiple>
+                            <option value="">请选择您的兴趣爱好</option>
+                            <option>sing1</option>
+                            <option value="sing2" selected>sing2</option>
+                            <option>SING1-大写</option>
+                            <option selected>movie1</option>
+                            <option>movie2</option>
+                            <option>movie3</option>
+                            <option>MOVIE4</option>
+                            <option>swim</option>
+                            <option>moon</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">所属章节</label>
                     <div class="layui-input-block" style="width:40%;">
-                        <select name="tchapter" id="tchapter" lay-verify="required" lay-filter="aaa" lay-search="" multiple name="aaa">
+                        <select name="tchapter" id="tchapter" lay-verify="required" lay-filter="aaa" >
                             <option value="">直接选择或搜索选择</option>
                             <option value="第一章">第一章</option>
                             <option value="第二章">第二章</option>
@@ -373,38 +389,36 @@
         $("#tscore").val(tatal_score);
     }
 </script>
-<script type="text/javascript" src="assets/js/task/selectMultiple.js"></script>
+<script type="text/javascript" src="../assets/libs/layui/lay/modules/form.js"></script>
 <script>
-    layui.use(['form', 'layedit', 'laydate'], function () {
-        var form = layui.form
-            , layer = layui.layer
-            , layedit = layui.layedit
-            , laydate = layui.laydate
-            ,$ = layui.jquery;
+        !function(){
+            var layer = layui.layer
+                ,$ = layui.jquery
+                , layedit = layui.layedit
+                , laydate = layui.laydate
+                ,form = layui.form;
 
-        createShareTaskTable();
+            createShareTaskTable();
 
-        createSelectCourse();
-        //自定义验证规则
-        form.verify({
-            title: function (value) {
-                if (value.length < 5) {
-                    return '标题至少得5个字符啊';
+            createSelectCourse();
+            //自定义验证规则
+            form.verify({
+                title: function (value) {
+                    if (value.length < 5) {
+                        return '标题至少得5个字符啊';
+                    }
                 }
-            }
-        });
+            });
+            //监听提交
+            form.on('submit(demo1)', function (data) {
+                layer.alert(JSON.stringify(data.field), {
+                    title: '最终的提交信息'
+                })
+                return false;
+            });
 
-
-        //监听提交
-        form.on('submit(demo1)', function (data) {
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })
-            return false;
-        });
-
-        form.render();
-    });
+            form.render();
+        }();
     function createSelectCourse(){
         var course=getCurrentCourse();
         console.log(course);
@@ -441,7 +455,7 @@
             });
             layui.form.render();
         }
-        form.on('checkbox(classNo)', function(data){
+        layui.form.on('checkbox(classNo)', function(data){
             console.log(data.elem); //得到checkbox原始DOM对象
             console.log(data.elem.checked); //是否被选中，true或者false
             console.log(data.value); //复选框value值，也可以通过data.elem.value得到
