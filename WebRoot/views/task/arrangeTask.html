@@ -1,5 +1,10 @@
+
+<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">
+<link rel="stylesheet" type="text/css" href="../../assets/dist/Mutipluy/jquery.dropdown.min.css">
+<script src="../../assets/dist/Mutipluy/jquery.dropdown.min.js"></script>
+
+
 <link rel="stylesheet" type="text/css" href="../../assets/js/jqueryStep/css/jquery.step.css"/>
-<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
 <script src="../../assets/js/jqueryStep/js/jquery.step.min.js"></script>
 <style>
     button {
@@ -43,7 +48,8 @@
     }
 </style>
 
-<script src=""></script>
+
+
 <div class="content-header">
     <h2 class="content-title">用户管理</h2>
     <span class="layui-breadcrumb">
@@ -53,7 +59,7 @@
 </div>
 <div>
     <div class="main">
-        <form class="layui-form" action="/jss/arrangeTask/arrange" method="post" enctype="multipart/form-data">
+        <form action="/jss/arrangeTask/arrange" method="post" enctype="multipart/form-data">
             <div id="step"></div>
             <div id="taskBasicCorpus">
                 <div class="layui-form-item">
@@ -71,20 +77,19 @@
                     </div>
                 </div>
                 <div class="layui-block">
-                    <label class="layui-form-label">多选</label>
-                    <div class="layui-input-inline">
-                        <select name="多选" multiple>
-                            <option value="">请选择您的兴趣爱好</option>
-                            <option>sing1</option>
-                            <option value="sing2" selected>sing2</option>
-                            <option>SING1-大写</option>
-                            <option selected>movie1</option>
-                            <option>movie2</option>
-                            <option>movie3</option>
-                            <option>MOVIE4</option>
-                            <option>swim</option>
-                            <option>moon</option>
-                        </select>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="dropdown-mul-2">
+                                <select style="display:none" name="" id="mul-2" multiple placeholder="请选择">
+                                    <option value="1" selected>1</option>
+                                    <option value="2">2</option>
+                                    <option value="3" selected>我是默认选中的</option>
+                                    <option value="4" disabled>4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -186,8 +191,16 @@
         </form>
     </div>
 </div>
-<!---->
+<script>
 
+    $('.dropdown-mul-2').dropdown({
+        limitCount: 5,
+        searchable: false,
+        choice: function() {
+            console.log('.dropdown-mul-2 picked')
+        }
+    });
+</script>
 <script type="text/javascript">
 
     var $step = $("#step");
