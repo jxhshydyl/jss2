@@ -66,13 +66,12 @@ public class ArrangeServiceImpl implements ArrangeService{
             map.put("tid",tid);
             taskDao.shareTask(map);
         }
-        //todo
         if(autoMakePaperPara.getTypes()!=null && autoMakePaperPara.getScore()!=null){
             String[] scores=autoMakePaperPara.getScore().split(",");
             String[] counts=autoMakePaperPara.getCount().split(",");
             String[] types=autoMakePaperPara.getTypes().split(",");
             String courseNo=task.getCno();
-            String chapter=task.getTchapter();
+            String[] chapter=task.getTchapter().split(",");
             for(int i=0;i<types.length;i++){
                 if("编程题".equals(types[i])){
                     List<Integer> integers = arrangeDao.queryCodeList(courseNo, chapter, Integer.valueOf(counts[i]));

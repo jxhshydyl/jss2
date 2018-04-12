@@ -71,7 +71,7 @@ public class LoginController extends BaseController {
 		List<Course> majors = userService.queryMajorByTeacher(loginUser.getUserId());
 		// 添加到登录日志
 		addLoginRecord(request, loginUser.getUserId());
-		String token = SubjectUtil.getInstance().createToken(loginUser.getUserId(), DateUtil.getAppointDate(new Date(), 30));
+		String token = SubjectUtil.getInstance().createToken(loginUser.getUserId(), DateUtil.getAppointDate(new Date(), 1));
 		loginUser.setUserPassword(null);
 		return ResultMap.ok("登录成功").put("user", loginUser)
 				.put("token", token).put("clazz",clazzs).put("course",courses).put("major",majors);

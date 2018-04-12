@@ -31,7 +31,11 @@
     <select id="queryCodeList" resultType="java.lang.Integer">
         select Qid from code where Cname=(select Cname from course where Cno=#{cno})
         <if test="chapter!=null and chapter!=''">
-            and Qchapter=#{chapter}
+           and  Qchapter in
+            <foreach collection="chapter" index="index" item="item"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
         ORDER BY RAND() LIMIT #{count}
     </select>
@@ -39,7 +43,11 @@
     <select id="queryQuestionList" resultType="java.lang.Integer">
         select Qid from question where Cname=(select Cname from course where Cno=#{cno}) and Qtype=#{type}
         <if test="chapter!=null and chapter!=''">
-            and Qchapter=#{chapter}
+            and Qchapter in
+            <foreach collection="chapter" index="index" item="item"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
         ORDER BY RAND() LIMIT #{count}
     </select>

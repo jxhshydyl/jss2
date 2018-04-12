@@ -127,7 +127,7 @@ public class QuestionTest {
     @Test
     public void test12(){
         //arrangeDao.autoMakeQuestionPaper(16,"5","10","单选题");
-        List<Integer> list = arrangeDao.queryCodeList("c-02", "第一章", 10);
+        List<Integer> list = arrangeDao.queryCodeList("c-02", new String[]{}, 10);
         System.out.println(list);
     }
     @Test

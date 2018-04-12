@@ -39,7 +39,6 @@ public class UserServiceImpl implements UserService {
 		if(getUserByAccount(user.getUserAccount())!=null){
 			throw new BusinessException("账号已经存在");
 		}
-		user.setUserId(UUIDUtil.randomUUID8());
 		String decryptMd5 = EndecryptUtils.encrytMd5(user.getUserPassword(), user.getUserId(), 3);
 		user.setUserPassword(decryptMd5);
 		user.setUserStatus(0);
