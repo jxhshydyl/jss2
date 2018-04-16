@@ -11,9 +11,8 @@
         搜索：
         <select id="searchKey">
             <option value="">-请选择-</option>
-            <option value="Task_name">作业名称</option>
-            <option value="Cno">课程</option>
-            <option value="Tchapter">章节</option>
+            <option value="competition_name">比赛名称</option>
+            <option value="competition_description">比赛描述</option>
         </select>&emsp;
         <input id="searchValue" class="layui-input search-input" type="text" placeholder="输入搜索内容" />&emsp;
         <button id="searchBtn" class="layui-btn search-btn"><i class="layui-icon">&#xe615;</i>搜索</button>&emsp;
@@ -25,10 +24,21 @@
 
 <!-- 表格操作列 -->
 <script type="text/html" id="barTpl">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="view">查看详情</a>
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="share">发布作业</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="view">比赛详情</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="report">比赛报告</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
+
+
+<!-- 表格状态列 -->
+<script type="text/html" id="statusTpl1">
+    <input type="checkbox" value="{{d.competitionId}}" lay-filter="statusCB1" lay-skin="switch" lay-text="是|否" {{ d.isClose == 0 ? 'checked' : '' }}>
+</script>
+<script type="text/html" id="statusTpl2">
+    <input type="checkbox" value="{{d.competitionId}}" lay-filter="statusCB2" lay-skin="switch" lay-text="是|否" {{ d.isPublish == 0 ? 'checked' : '' }}>
+</script>
+
+
 
 <!-- 表单弹窗 -->
 <script type="text/html" id="shareTask">

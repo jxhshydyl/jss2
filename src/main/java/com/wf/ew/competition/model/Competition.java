@@ -1,15 +1,14 @@
 package com.wf.ew.competition.model;
 
-import java.util.Date;
 
 public class Competition {
     private Long competitionId;
     private String competitionName;
     private String competitionDescription;
-    private Date competitionApplyBeginTime;
-    private Date competitionApplyEndTime;
-    private Date competitionBeginTime;
-    private Date competitionEndTime;
+    private String competitionApplyBeginTime;
+    private String competitionApplyEndTime;
+    private String competitionBeginTime;
+    private String competitionEndTime;
     private Integer competitionPlayersCount;
     private Integer isClose;
     private Integer isPublish;
@@ -42,35 +41,35 @@ public class Competition {
         this.competitionDescription = competitionDescription;
     }
 
-    public Date getCompetitionApplyBeginTime() {
+    public String getCompetitionApplyBeginTime() {
         return competitionApplyBeginTime;
     }
 
-    public void setCompetitionApplyBeginTime(Date competitionApplyBeginTime) {
+    public void setCompetitionApplyBeginTime(String competitionApplyBeginTime) {
         this.competitionApplyBeginTime = competitionApplyBeginTime;
     }
 
-    public Date getCompetitionApplyEndTime() {
+    public String getCompetitionApplyEndTime() {
         return competitionApplyEndTime;
     }
 
-    public void setCompetitionApplyEndTime(Date competitionApplyEndTime) {
+    public void setCompetitionApplyEndTime(String competitionApplyEndTime) {
         this.competitionApplyEndTime = competitionApplyEndTime;
     }
 
-    public Date getCompetitionBeginTime() {
+    public String getCompetitionBeginTime() {
         return competitionBeginTime;
     }
 
-    public void setCompetitionBeginTime(Date competitionBeginTime) {
+    public void setCompetitionBeginTime(String competitionBeginTime) {
         this.competitionBeginTime = competitionBeginTime;
     }
 
-    public Date getCompetitionEndTime() {
+    public String getCompetitionEndTime() {
         return competitionEndTime;
     }
 
-    public void setCompetitionEndTime(Date competitionEndTime) {
+    public void setCompetitionEndTime(String competitionEndTime) {
         this.competitionEndTime = competitionEndTime;
     }
 

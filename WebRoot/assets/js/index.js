@@ -16,6 +16,10 @@ $(function() {
         load('task/'+path);
     }).reg('grade',function(path){
         load('grade/'+path);
+    }).reg('competition',function(path){
+        load('competition/'+path);
+    }).reg('announcement',function(path){
+        load('announcement/'+path);
     }).init({
 		index: 'home'
 	});

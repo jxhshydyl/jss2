@@ -1,5 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wf.ew.announcement.dao.AnnouncementDao">
+    <select id="queryAnnouncement" resultType="com.wf.ew.announcement.model.Announcement">
+        select * from announcement
+        <where>
+            <if test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!=''">
+                AND ${searchKey} like concat(concat("%",#{searchValue}),"%")
+            </if>
+        </where>
+    </select>
 
+    <update id="updateAnnouncementById">
+        UPDATE announcement set
+        <if test="announcementTitle!=null and announcementTitle!=''">
+            announcement_title=#{announcementTitle},
+        </if>
+        <if test="announcementIntroduction!=null and announcementIntroduction!=''">
+            announcement_introduction=#{announcementIntroduction},
+        </if>
+        <if test="announcementContent!=null and announcementContent!=''">
+            announcement_content=#{announcementContent},
+        </if>
+        <if test="isPublish != null">
+            is_publish=#{isPublish},
+        </if>
+    </update>
+
+    <delete id="deleteAnnouncement">
+        delete from announcement where announcement_id=#{announcementId}
+    </delete>
 </mapper>

@@ -4,6 +4,8 @@ import com.wf.ew.clazz.dao.ClassDao;
 import com.wf.ew.clazz.model.Class;
 import com.wf.ew.clazz.model.Students;
 import com.wf.ew.clazz.service.ClassService;
+import com.wf.ew.competition.dao.CompetitionDao;
+import com.wf.ew.competition.model.Competition;
 import com.wf.ew.core.PageResult;
 import com.wf.ew.corpus.dao.CodeDao;
 import com.wf.ew.corpus.dao.QuestionDao;
@@ -43,6 +45,8 @@ public class QuestionTest {
     UploadDao uploadDao;
     @Autowired
     ArrangeDao arrangeDao;
+    @Autowired
+    CompetitionDao competitionDao;
     @Test
     public void test(){
         PageResult<Question> question = questionService.getQuestion(1, 10, null, null);
@@ -138,5 +142,12 @@ public class QuestionTest {
         list.add(5);
         int i = arrangeDao.autoMakeQuestionPaper(90, list, "3", 0);
         System.out.println(i);
+    }
+    @Test
+    public void test14(){
+        //arrangeDao.autoMakeQuestionPaper(16,"5","10","单选题");
+        List<Competition> competitions = competitionDao.queryCompetition(null,null);
+        System.out.println("数据===============");
+        System.out.println(competitions);
     }
 }

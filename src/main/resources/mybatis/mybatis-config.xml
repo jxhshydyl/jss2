@@ -5,6 +5,8 @@
 	<settings>
 		<!-- 打印查询语句 -->
 		<setting name="logImpl" value="LOG4J" />
+		<!--驼峰设置-->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
 	<plugins>
 		<!-- 分页插件 -->

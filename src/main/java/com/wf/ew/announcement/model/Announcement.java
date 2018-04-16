@@ -8,8 +8,8 @@ public class Announcement {
     private String announcementIntroduction;
     private String announcementContent;
     private Integer announcementCreateManagerId;
-    private Date announcementCreateTime;
-    private Date announcementPublishTime;
+    private String announcementCreateTime;
+    private String announcementPublishTime;
     private Integer isPublish;
 
     public Long getAnnouncementId() {
@@ -52,19 +52,19 @@ public class Announcement {
         this.announcementCreateManagerId = announcementCreateManagerId;
     }
 
-    public Date getAnnouncementCreateTime() {
+    public String getAnnouncementCreateTime() {
         return announcementCreateTime;
     }
 
-    public void setAnnouncementCreateTime(Date announcementCreateTime) {
+    public void setAnnouncementCreateTime(String announcementCreateTime) {
         this.announcementCreateTime = announcementCreateTime;
     }
 
-    public Date getAnnouncementPublishTime() {
+    public String getAnnouncementPublishTime() {
         return announcementPublishTime;
     }
 
-    public void setAnnouncementPublishTime(Date announcementPublishTime) {
+    public void setAnnouncementPublishTime(String announcementPublishTime) {
         this.announcementPublishTime = announcementPublishTime;
     }
 
