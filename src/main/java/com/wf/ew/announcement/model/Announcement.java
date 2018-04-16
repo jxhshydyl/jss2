@@ -10,7 +10,7 @@ public class Announcement {
     private Integer announcementCreateManagerId;
     private String announcementCreateTime;
     private String announcementPublishTime;
-    private Integer isPublish;
+    private String isPublish;
 
     public Long getAnnouncementId() {
         return announcementId;
@@ -68,11 +68,11 @@ public class Announcement {
         this.announcementPublishTime = announcementPublishTime;
     }
 
-    public Integer getIsPublish() {
+    public String getIsPublish() {
         return isPublish;
     }
 
-    public void setIsPublish(Integer isPublish) {
+    public void setIsPublish(String isPublish) {
         this.isPublish = isPublish;
     }
 

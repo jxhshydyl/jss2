@@ -29,4 +29,63 @@
     <delete id="deleteAnnouncement">
         delete from announcement where announcement_id=#{announcementId}
     </delete>
+
+    <insert id="addAnnouncement">
+        INSERT INTO announcement
+        (
+        <if test="announcementTitle!=null and announcementTitle!=''">
+            announcement_title,
+        </if>
+        <if test="announcementIntroduction!=null and announcementIntroduction!=''">
+            announcement_introduction,
+        </if>
+        <if test="announcementContent!=null and announcementContent!=''">
+            announcement_content,
+        </if>
+        <if test="announcementCreateManagerId!=null">
+            announcement_create_manager_id,
+        </if>
+        <if test="announcementCreateTime!=null and announcementCreateTime!=''">
+            announcement_create_time,
+        </if>
+        <if test="announcementPublishTime!=null and announcementPublishTime!=''">
+            announcement_publish_time,
+        </if>
+        <if test="isPublish!=null">
+            is_publish
+        </if>
+        ) values(
+        <if test="announcementTitle!=null and announcementTitle!=''">
+            #{announcementTitle},
+        </if>
+        <if test="announcementIntroduction!=null and announcementIntroduction!=''">
+            #{announcementIntroduction},
+        </if>
+        <if test="announcementContent!=null and announcementContent!=''">
+            #{announcementContent},
+        </if>
+        <if test="announcementCreateManagerId!=null">
+            #{announcementCreateManagerId},
+        </if>
+        <if test="announcementCreateTime!=null and announcementCreateTime!=''">
+            #{announcementCreateTime},
+        </if>
+        <if test="announcementPublishTime!=null and announcementPublishTime!=''">
+            #{announcementPublishTime},
+        </if>
+        <if test="isPublish!=null">
+            #{isPublish}
+        </if>
+        );
+    </insert>
+    <update id="updatePublic">
+        update announcement set
+        <if test="isPublish!=null">
+            is_publish=#{isPublish},
+        </if>
+        <if test="time!=null">
+            announcement_publish_time=#{time}
+        </if>
+        where announcement_id=#{announcementId}
+    </update>
 </mapper>

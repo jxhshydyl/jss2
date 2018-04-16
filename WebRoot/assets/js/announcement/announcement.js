@@ -9,19 +9,32 @@ $(function() {
  
 		if(layEvent === 'view'){//查看详情
             console.log(data);
-            //creatStudentTable(data.cno);
+            showEditModel(data);
+            $("#showTable").css("display","none");
+            $("#addForm").css("display","");
 		}else if(layEvent === 'del'){ //删除
             console.log(obj.data);
 			doDelete(obj);
 		}
 	});
+
+
+    //监听是否发布操作
+    layui.form.on('switch(statusCB2)', function(obj){
+        updatePublic(obj);
+    });
 	
 	//搜索按钮点击事件
 	$("#searchBtn").click(function(){
 		doSearch(table);
 	});
 	$("#addBtn").click(function(){
-
+	    $("#showTable").css("display","none");
+        $("#addForm").css("display","");
+    });
+    $("#reset").click(function(){
+        $("#showTable").css("display","");
+        $("#addForm").css("display","none");
     });
 
 	//渲染表单
@@ -83,20 +96,32 @@ function doSearch(table){
 	layui.table.reload('table', {where: {searchKey: key,searchValue: value}});
 }
 
-//查看
-function viewStudentsByClass(cno){
-        layer.load(1);
-        console.log(cno);
-        $.post("api/class/students/"+cno, {
-            token: getToken(),
-            _method: "post"
-        }, function(data){
-        	console.log(data);
-            layer.closeAll('loading');
-            if(data.code==200){
-                layer.msg(data.msg,{icon: 1});
-            }else{
-                layer.msg(data.msg,{icon: 2});
-            }
-        },"JSON");
+function updatePublic(obj){
+    layer.load(1);
+    var newStatus = obj.elem.checked?1:0;
+    $.post("announcement/updatePublic", {
+        announcementId: obj.elem.value,
+        isPublish: newStatus,
+    }, function(data){
+        layer.closeAll('loading');
+        if(data.code==200){
+            layui.table.reload('table', {});
+        }else{
+            layer.msg(data.msg,{icon: 2});
+            layui.table.reload('table', {});
+        }
+    });
+}
+
+function showEditModel(data){
+    if(data!=null){
+        $("#announcementTitle").val(data.announcementTitle);
+        $("#announcementIntroduction").val(data.announcementIntroduction);
+        $("#announcementContent").val(data.announcementContent);
+        if(data.isPublish==1){
+            $("#isPublish").checked;
+        }
+        layui.form.render();
+    }
+
 }

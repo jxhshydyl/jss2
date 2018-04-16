@@ -7,4 +7,6 @@ public interface AnnouncementService {
     PageResult<Announcement> queryAnnouncement(Integer page, Integer limit, String searchKey, String searchValue);
     int updateAnnouncementById(Announcement announcement);
     int deleteAnnouncement(Long announcementId);
+    int addAnnouncement(Announcement announcement);
+    int updatePublic(Long announcementId,Integer isPublish);
 }

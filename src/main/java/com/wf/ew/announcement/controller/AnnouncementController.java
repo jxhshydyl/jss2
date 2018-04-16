@@ -7,10 +7,7 @@ import com.wf.ew.core.PageResult;
 import com.wf.ew.core.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/announcement")
 @Controller
@@ -33,7 +30,11 @@ public class AnnouncementController {
     @ResponseBody
     public ResultMap addAnnouncement(Announcement announcement){
         System.out.println(announcement);
-        return null;
+        int num=announcementService.addAnnouncement(announcement);
+        if(num==1){
+            return ResultMap.ok(200,"增加成功！");
+        }
+        return ResultMap.error(0,"增加失败！");
     }
 
     @RequestMapping("/updateAnnouncementById")
@@ -54,5 +55,14 @@ public class AnnouncementController {
             return ResultMap.ok(200,"删除成功！");
         }
         return ResultMap.error(0,"删除失败！");
+    }
+    @RequestMapping("/updatePublic")
+    @ResponseBody
+    public ResultMap updatePublic(Long announcementId,Integer isPublish){
+        int num = announcementService.updatePublic(announcementId,isPublish);
+        if(num==1){
+            return ResultMap.ok(200,"发布成功！");
+        }
+        return ResultMap.error(0,"已取消发布！");
     }
 }

@@ -6,7 +6,7 @@
 	</span>
 </div>
 
-<div>
+<div id="showTable">
     <div class="layui-form toolbar">
         搜索：
         <select id="searchKey">
@@ -22,99 +22,68 @@
 
     <table class="layui-table" id="table" lay-filter="table"></table>
 
+</div>
 
-    <form class="layui-form" action="">
-        <div class="layui-form-item">
-            <label class="layui-form-label">公告标题</label>
-            <div class="layui-input-block">
-                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题"
-                       class="layui-input">
-            </div>
+<form class="layui-form" action="" id="addForm" style="display: none">
+    <div class="layui-form-item">
+        <label class="layui-form-label">公告标题</label>
+        <div class="layui-input-block">
+            <input type="text" name="announcementTitle" id="announcementTitle" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+                   class="layui-input">
         </div>
+    </div>
 
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">公告简介</label>
-            <div class="layui-input-block">
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">公告简介</label>
+        <div class="layui-input-block">
                 <textarea class="layui-textarea layui-hide" name="announcementIntroduction" lay-verify="announcementIntroduction"
                           id="announcementIntroduction"></textarea>
-            </div>
         </div>
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">公告内容</label>
-            <div class="layui-input-block">
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">公告内容</label>
+        <div class="layui-input-block">
                 <textarea class="layui-textarea layui-hide" name="announcementContent" lay-verify="announcementContent"
                           id="announcementContent"></textarea>
-            </div>
         </div>
+    </div>
 
-        <div class="layui-form-item">
-            <label class="layui-form-label">是否发布</label>
-            <div class="layui-input-block">
-                <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
-            </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否发布</label>
+        <div class="layui-input-block">
+            <input type="checkbox" name="isPublish" id="isPublish" lay-skin="switch" lay-text="ON|OFF">
         </div>
+    </div>
 
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-            </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="demo1">提交</button>
+            <button type="reset" id="reset" class="layui-btn layui-btn-primary">返回</button>
         </div>
-    </form>
-
-</div>
+    </div>
+</form>
 
 <!-- 表格操作列 -->
 <script type="text/html" id="barTpl">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="view">查看详情</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="view">详情</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
 <script type="text/html" id="statusTpl">
-    <input type="checkbox" value="{{d.competitionId}}" lay-filter="statusCB2" lay-skin="switch" disabled lay-text="是|否"
-           {{ d.isPublish== 0 ? 'checked' : '' }}>
+    <input type="checkbox" value="{{d.announcementId}}" lay-filter="statusCB2" lay-skin="switch" lay-text="是|否"
+           {{ d.isPublish== 1 ? 'checked' : '' }}>
 </script>
 
-<!-- 表单弹窗 -->
-<script type="text/html" id="shareTask">
-    <form id="editForm" action="">
-        <table width="90%" cellpadding="0" cellspacing="0" style="table-layout: fixed;margin: 0 auto">
-            <thead>
-            <tr style="margin-top: 30px">
-                <td style="margin-left: 10px" width="40px"></td>
-                <td style="margin-left: 10px">班级</td>
-                <td style="margin-left: 10px">时间</td>
-            </tr>
-            </thead>
-            <tbody id="shareTaskToClass">
-
-            </tbody>
-        </table>
-        <div class="layui-form-item model-form-footer" style="margin-right: 200px;margin-top: 10px">
-            <button class="layui-btn layui-btn-primary" type="button" id="btnCancel">取消</button>
-            <button type="button" class="layui-btn" id="btnSubmit">保存</button>
-        </div>
-    </form>
-
-</script>
 
 
 <script type="text/javascript" src="assets/js/announcement/announcement.js"></script>
 
 <script>
-    layui.use(['form', 'layedit', 'laydate'], function () {
+    layui.use(['form', 'layedit'], function () {
         var form = layui.form
             , layer = layui.layer
-            , layedit = layui.layedit
-            , laydate = layui.laydate;
+            , layedit = layui.layedit;
 
-        //日期
-        laydate.render({
-            elem: '#date'
-        });
-        laydate.render({
-            elem: '#date1'
-        });
 
         //创建一个编辑器
         var editIndex1 = layedit.build('announcementIntroduction');
@@ -123,8 +92,8 @@
         //自定义验证规则
         form.verify({
             title: function (value) {
-                if (value.length < 5) {
-                    return '标题至少得5个字符啊';
+                if (value.length < 1) {
+                    return '标题至少得1个字符';
                 }
             }
             , announcementIntroduction: function (value) {
@@ -136,22 +105,26 @@
             }
         });
 
-        //监听指定开关
-        form.on('switch(switchTest)', function (data) {
-            layer.msg('开关checked：' + (this.checked ? 'true' : 'false'), {
-                offset: '6px'
-            });
-            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
-        });
-
         //监听提交
         form.on('submit(demo1)', function (data) {
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })
+            data.field.announcementCreateManagerId = getCurrentUser().userId;
+            $.ajax({
+                url: "announcement/addAnnouncement/",
+                type: "post",
+                data:data.field,
+                success: function(data){
+                    console.log(data);
+                    layer.closeAll('loading');
+                    if(data.code==200){
+                        layer.msg(data.msg,{icon: 1});
+                        window.location.reload();
+                    }else{
+                        layer.msg(data.msg,{icon: 2});
+                    }
+                }
+            });
             return false;
         });
-
         form.render();
     });
 </script>
