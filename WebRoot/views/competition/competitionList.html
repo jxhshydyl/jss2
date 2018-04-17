@@ -23,125 +23,102 @@
 </div>
 
 
-<form class="layui-form" action="">
+<form class="layui-form" action="" id="competitionFrom" style="display: none;">
     <div class="layui-form-item">
         <label class="layui-form-label">比赛名称</label>
         <div class="layui-input-block">
-            <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+            <input type="text" name="competitionName" id="competitionName" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
         </div>
     </div>
-    <div class="layui-form-item">
+    <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">比赛描述</label>
         <div class="layui-input-block">
-            <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+            <textarea class="layui-textarea layui-hide" name="competitionDescription" id="competitionDescription" lay-verify="content"></textarea>
         </div>
     </div>
-
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">验证手机</label>
+            <label class="layui-form-label">比赛人数</label>
             <div class="layui-input-inline">
-                <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">验证邮箱</label>
-            <div class="layui-input-inline">
-                <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input">
+                <input type="number" name="competitionPlayersCount" id="competitionPlayersCount" lay-verify="required" autocomplete="off" class="layui-input">
             </div>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">多规则验证</label>
-            <div class="layui-input-inline">
-                <input type="text" name="number" lay-verify="required|number" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">开始申请时间</label>
-            <div class="layui-input-inline">
-                <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">验证链接</label>
-            <div class="layui-input-inline">
-                <input type="tel" name="url" lay-verify="url" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">验证身份证</label>
+        <label class="layui-form-label">是否开启</label>
         <div class="layui-input-block">
-            <input type="text" name="identity" lay-verify="identity" placeholder="" autocomplete="off" class="layui-input">
+            <input type="radio" name="isClose" value="1" id="close1" title="是" checked="">
+            <input type="radio" name="isClose" value="0" id="close2" title="否">
         </div>
     </div>
+
     <div class="layui-form-item">
-        <label class="layui-form-label">自定义验证</label>
-        <div class="layui-input-inline">
-            <input type="password" name="password" lay-verify="pass" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        <label class="layui-form-label">是否发布</label>
+        <div class="layui-input-block">
+            <input type="radio" name="isPublish" value="1" id="public1" title="是" checked="">
+            <input type="radio" name="isPublish" value="0" id="public2" title="否">
         </div>
-        <div class="layui-form-mid layui-word-aux">请填写6到12位密码</div>
     </div>
 
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">范围</label>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" name="price_min" placeholder="￥" autocomplete="off" class="layui-input">
+            <label class="layui-form-label">开始时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="competitionBeginTime" id="competitionBeginTime"  placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input">
             </div>
-            <div class="layui-form-mid">-</div>
-            <div class="layui-input-inline" style="width: 100px;">
-                <input type="text" name="price_max" placeholder="￥" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">结束时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="competitionEndTime" id="competitionEndTime" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input">
             </div>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">复选框</label>
+        <label class="layui-form-label">能否申报</label>
         <div class="layui-input-block">
-            <input type="checkbox" name="like[write]" title="写作">
-            <input type="checkbox" name="like[read]" title="阅读" checked="">
-            <input type="checkbox" name="like[game]" title="游戏">
+            <input type="radio" name="isCanDeclare" value="1" id="canDeclare1" lay-filter="declare" title="是">
+            <input type="radio" name="isCanDeclare" value="0" id="canDeclare2" lay-filter="declare" title="否" checked="">
         </div>
     </div>
 
-    <div class="layui-form-item" pane="">
-        <label class="layui-form-label">原始复选框</label>
-        <div class="layui-input-block">
-            <input type="checkbox" name="like1[write]" lay-skin="primary" title="写作" checked="">
-            <input type="checkbox" name="like1[read]" lay-skin="primary" title="阅读">
-            <input type="checkbox" name="like1[game]" lay-skin="primary" title="游戏" disabled="">
+    <div class="layui-form-item" id="isCanDeclare" style="display:none">
+        <div class="layui-inline">
+            <label class="layui-form-label">申请时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="competitionApplyBeginTime" id="competitionApplyBeginTime" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">结束时间</label>
+            <div class="layui-input-inline">
+                <input type="text" name="competitionApplyEndTime" id="competitionApplyEndTime" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input">
+            </div>
         </div>
     </div>
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">单选框</label>
-        <div class="layui-input-block">
-            <input type="radio" name="sex" value="男" title="男" checked="">
-            <input type="radio" name="sex" value="女" title="女">
-            <input type="radio" name="sex" value="禁" title="禁用" disabled="">
-        </div>
-    </div>
     <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">普通文本域</label>
+        <label class="layui-form-label">比赛题目</label>
         <div class="layui-input-block">
-            <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+            <textarea placeholder="请输入内容" class="layui-textarea" name="competitionProblemIds" id="competitionProblemIds"></textarea>
         </div>
     </div>
-    <div class="layui-form-item layui-form-text">
-      <label class="layui-form-label">编辑器</label>
-      <div class="layui-input-block">
-        <textarea class="layui-textarea layui-hide" name="content" lay-verify="content" id="LAY_demo_editor"></textarea>
-      </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">题目个数</label>
+            <div class="layui-input-inline">
+                <input type="number" name="problemCount" id="problemCount" lay-verify="required" autocomplete="off" class="layui-input">
+            </div>
+        </div>
     </div>
+
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button type="reset" id="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
 </form>
@@ -158,10 +135,10 @@
 
 <!-- 表格状态列 -->
 <script type="text/html" id="statusTpl1">
-    <input type="checkbox" value="{{d.competitionId}}" lay-filter="statusCB1" lay-skin="switch" lay-text="是|否" {{ d.isClose == 0 ? 'checked' : '' }}>
+    <input type="checkbox" value="{{d.competitionId}}" lay-filter="statusCB1" lay-skin="switch" lay-text="是|否" {{ d.isClose == 1 ? 'checked' : '' }}>
 </script>
 <script type="text/html" id="statusTpl2">
-    <input type="checkbox" value="{{d.competitionId}}" lay-filter="statusCB2" lay-skin="switch" lay-text="是|否" {{ d.isPublish == 0 ? 'checked' : '' }}>
+    <input type="checkbox" value="{{d.competitionId}}" lay-filter="statusCB2" lay-skin="switch" lay-text="是|否" {{ d.isPublish == 1 ? 'checked' : '' }}>
 </script>
 
 

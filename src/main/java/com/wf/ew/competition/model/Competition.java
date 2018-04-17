@@ -10,6 +10,7 @@ public class Competition {
     private String competitionBeginTime;
     private String competitionEndTime;
     private Integer competitionPlayersCount;
+    private Integer problemCount;
     private Integer isClose;
     private Integer isPublish;
     private Integer isCanDeclare;
@@ -129,17 +130,26 @@ public class Competition {
         this.competitionContentRootPath = competitionContentRootPath;
     }
 
+    public Integer getProblemCount() {
+        return problemCount;
+    }
+
+    public void setProblemCount(Integer problemCount) {
+        this.problemCount = problemCount;
+    }
+
     @Override
     public String toString() {
         return "Competition{" +
                 "competitionId=" + competitionId +
                 ", competitionName='" + competitionName + '\'' +
                 ", competitionDescription='" + competitionDescription + '\'' +
-                ", competitionApplyBeginTime=" + competitionApplyBeginTime +
-                ", competitionApplyEndTime=" + competitionApplyEndTime +
-                ", competitionBeginTime=" + competitionBeginTime +
-                ", competitionEndTime=" + competitionEndTime +
+                ", competitionApplyBeginTime='" + competitionApplyBeginTime + '\'' +
+                ", competitionApplyEndTime='" + competitionApplyEndTime + '\'' +
+                ", competitionBeginTime='" + competitionBeginTime + '\'' +
+                ", competitionEndTime='" + competitionEndTime + '\'' +
                 ", competitionPlayersCount=" + competitionPlayersCount +
+                ", problemCount=" + problemCount +
                 ", isClose=" + isClose +
                 ", isPublish=" + isPublish +
                 ", isCanDeclare=" + isCanDeclare +

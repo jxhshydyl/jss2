@@ -70,4 +70,15 @@ public class CompetitionController {
         }
         return ResultMap.error("删除失败！");
     }
+
+    @RequestMapping("/addCompetition")
+    @ResponseBody
+    public ResultMap addCompetition(Competition competition){
+        int num = competitionService.addCompetition(competition);
+        if(num==1){
+            return ResultMap.ok(200,"增加成功！");
+        }
+        return ResultMap.error("增加失败！");
+    }
+
 }

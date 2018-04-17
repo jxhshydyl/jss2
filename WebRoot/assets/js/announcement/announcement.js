@@ -123,5 +123,4 @@ function showEditModel(data){
         }
         layui.form.render();
     }
-
 }

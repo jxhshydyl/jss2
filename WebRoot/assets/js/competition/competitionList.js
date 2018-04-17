@@ -9,7 +9,9 @@ $(function() {
  
 		if(layEvent === 'view'){//查看详情
             console.log(data);
-            window.open("/page/queryPage?tid="+data.tid);
+            showEditModel(data);
+            $("#showTable").css("display","none");
+            $("#competitionFrom").css("display","");
             //creatStudentTable(data.cno);
 		} else if(layEvent === 'del'){ //删除
             console.log(obj.data);
@@ -23,6 +25,16 @@ $(function() {
 	$("#searchBtn").click(function(){
 		doSearch(table);
 	});
+    //增加按钮点击事件
+    $("#addBtn").click(function(){
+        $("#showTable").css("display","none");
+        $("#competitionFrom").css("display","");
+    });
+
+    $("#reset").click(function(){
+        $("#showTable").css("display","");
+        $("#competitionFrom").css("display","none");
+    });
 
     //监听是否关闭开关操作
     layui.form.on('switch(statusCB1)', function(obj){
@@ -43,18 +55,28 @@ $(function() {
             ,laydate = layui.laydate;
         //日期
         laydate.render({
-            elem: '#date'
+            elem: '#competitionBeginTime',
+            type: 'datetime'
         });
         laydate.render({
-            elem: '#date1'
+            elem: '#competitionEndTime',
+            type: 'datetime'
+        });
+        laydate.render({
+            elem: '#competitionApplyBeginTime',
+            type: 'datetime'
+        });
+        laydate.render({
+            elem: '#competitionApplyEndTime',
+            type: 'datetime'
         });
         //创建一个编辑器
-        var editIndex = layedit.build('LAY_demo_editor');
+        var editIndex = layedit.build('competitionDescription');
         //自定义验证规则
         form.verify({
             title: function(value){
-                if(value.length < 5){
-                    return '标题至少得5个字符啊';
+                if(value.length < 1){
+                    return '请输入标题!';
                 }
             }
             ,pass: [/(.+){6,12}$/, '密码必须6到12位']
@@ -62,18 +84,34 @@ $(function() {
                 layedit.sync(editIndex);
             }
         });
-        //监听指定开关
-        form.on('switch(switchTest)', function(data){
-            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
-                offset: '6px'
-            });
-            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+
+        form.on('radio(declare)', function(data){
+            if(data.value==1){
+                $("#isCanDeclare").css("display","")
+            }else{
+                $("#isCanDeclare").css("display","none")
+            }
         });
         //监听提交
         form.on('submit(demo1)', function(data){
             layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
             })
+            $.ajax({
+                url: "competition/addCompetition/",
+                type: "post",
+                data:data.field,
+                success: function(data){
+                    console.log(data);
+                    layer.closeAll('loading');
+                    if(data.code==200){
+                        layer.msg(data.msg,{icon: 1});
+                        window.location.reload();
+                    }else{
+                        layer.msg(data.msg,{icon: 2});
+                    }
+                }
+            });
             return false;
         });
         form.render();
@@ -95,8 +133,8 @@ function creatClassTable(){
             {type:'numbers'},
             {field:'competitionName', sort: true, title: '比赛名称'},
             {field:'competitionDescription', sort: true, title: '比赛描述'},
-            {field:'competitionApplyBeginTime', sort: true, title: '开始申请时间'},
-            {field:'competitionApplyEndTime', sort: true, title: '申请结束时间'},
+            {field:'competitionApplyBeginTime', sort: true, title: '开始申请'},
+            {field:'competitionApplyEndTime', sort: true, title: '申请结束'},
             {field:'competitionBeginTime', sort: true, title: '开始时间'},
             {field:'competitionEndTime', sort: true,title: '结束时间'},
             {field:'isClose', sort: true,templet: '#statusTpl1',title: '是否开启'},
@@ -109,7 +147,7 @@ function creatClassTable(){
 //更改是否关闭状态
 function updateClose(obj){
     layer.load(1);
-    var newStatus = obj.elem.checked?0:1;
+    var newStatus = obj.elem.checked?1:0;
     $.post("competition/updateClose", {
         competitionId: obj.elem.value,
         isClose: newStatus,
@@ -138,7 +176,7 @@ function download(obj){
 //更改是否发布状态
 function updatePublic(obj){
     layer.load(1);
-    var newStatus = obj.elem.checked?0:1;
+    var newStatus = obj.elem.checked?1:0;
     $.post("competition/updatePublic", {
         competitionId: obj.elem.value,
         isPublish: newStatus,
@@ -201,4 +239,49 @@ function viewStudentsByClass(cno){
                 layer.msg(data.msg,{icon: 2});
             }
         },"JSON");
+}
+
+function showEditModel(data){
+    if(data!=null){
+        $("#competitionName").val(data.competitionName);
+        $("#competitionDescription").val(data.competitionDescription);
+        $("#competitionPlayersCount").val(data.competitionPlayersCount);
+
+        if(data.isClose==1){
+            $("#close1").attr("checked","checked");
+            $("#close2").removeAttr("checked");
+        }else{
+            $("#close1").removeAttr("checked");
+            $("#close2").attr("checked","checked");
+        }
+
+        $("intput[name=isPublish]").val(data.isPublish);
+        if(data.isPublish==1){
+            $("#public1").attr("checked","checked");
+            $("#public2").removeAttr("checked");
+        }else{
+            $("#public1").removeAttr("checked");
+            $("#public2").attr("checked","checked");
+        }
+        $("#competitionBeginTime").val(data.competitionBeginTime);
+        $("#competitionEndTime").val(data.competitionEndTime);
+
+        $("intput[name=isCanDeclare]").val(data.isCanDeclare);
+        if(data.isCanDeclare==1){
+            $("#canDeclare1").attr("checked","checked");
+            $("#canDeclare2").removeAttr("checked");
+            $("#isCanDeclare").css("display","")
+        }else{
+            $("#canDeclare1").removeAttr("checked");
+            $("#canDeclare2").attr("checked","checked");
+            $("#isCanDeclare").css("display","none")
+        }
+        $("#competitionApplyBeginTime").val(data.competitionApplyBeginTime);
+        $("#competitionApplyEndTime").val(data.competitionApplyEndTime);
+
+        $("#competitionProblemIds").val(data.competitionProblemIds);
+        $("#problemCount").val(data.problemCount);
+
+        layui.form.render("radio");
+    }
 }

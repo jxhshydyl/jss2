@@ -13,4 +13,5 @@ public interface CompetitionService {
     int updatePublic(Integer competitionId, Integer isPublish);
     int deleteCompetition(Integer competitionId);
     int downloadCompetitionReport(Integer competitionId);
+    int addCompetition(Competition competition);
 }

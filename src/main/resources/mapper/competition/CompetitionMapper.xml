@@ -25,4 +25,76 @@
         </if>
     </delete>
 
+    <insert id="addCompetition">
+        INSERT INTO competition
+        (
+        <if test="competitionName!=null and competitionName!=''">
+            competition_name,
+        </if>
+        <if test="competitionDescription!=null and competitionDescription!=''">
+            competition_description,
+        </if>
+        <if test="competitionApplyBeginTime!=null and competitionApplyBeginTime!=''">
+            competition_apply_begin_time,
+        </if>
+        <if test="competitionApplyEndTime!=null and competitionApplyEndTime!=''">
+            competition_apply_end_time,
+        </if>
+        <if test="competitionBeginTime!=null and competitionBeginTime!=''">
+            competition_begin_time,
+        </if>
+        <if test="competitionEndTime!=null and competitionEndTime!=''">
+            competition_end_time,
+        </if>
+        <if test="competitionPlayersCount!=null">
+            competition_players_count,
+        </if>
+        <if test="isClose!=null">
+            is_close,
+        </if>
+        <if test="isPublish!=null">
+            is_publish,
+        </if>
+        <if test="isCanDeclare!=null">
+            is_can_declare,
+        </if>
+        <if test="competitionProblemIds!=null">
+            competition_problem_ids
+        </if>
+        ) values(
+        <if test="competitionName!=null and competitionName!=''">
+            #{competitionName},
+        </if>
+        <if test="competitionDescription!=null and competitionDescription!=''">
+            #{competitionDescription},
+        </if>
+        <if test="competitionApplyBeginTime!=null and competitionApplyBeginTime!=''">
+            #{competitionApplyBeginTime},
+        </if>
+        <if test="competitionApplyEndTime!=null and competitionApplyEndTime!=''">
+            #{competitionApplyEndTime},
+        </if>
+        <if test="competitionBeginTime!=null and competitionBeginTime!=''">
+            #{competitionBeginTime},
+        </if>
+        <if test="competitionEndTime!=null and competitionEndTime!=''">
+            #{competitionEndTime},
+        </if>
+        <if test="competitionPlayersCount!=null">
+            #{competitionPlayersCount},
+        </if>
+        <if test="isClose!=null">
+            #{isClose},
+        </if>
+        <if test="isPublish!=null">
+            #{isPublish},
+        </if>
+        <if test="isCanDeclare!=null">
+            #{isCanDeclare},
+        </if>
+        <if test="competitionProblemIds!=null">
+            #{competitionProblemIds}
+        </if>
+        )
+    </insert>
 </mapper>

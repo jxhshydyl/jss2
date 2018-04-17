@@ -48,4 +48,9 @@ public class CompetitionServiceImpl implements CompetitionService{
         int num = competitionDao.deleteCompetition(competitionId);
         return num;
     }
+    @Override
+    public int addCompetition(Competition competition){
+        int num = competitionDao.addCompetition(competition);
+        return num;
+    }
 }

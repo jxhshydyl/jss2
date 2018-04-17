@@ -10,4 +10,5 @@ public interface CompetitionDao {
     int updateClose(@Param("competitionId")Integer competitionId, @Param("isClose") Integer isClose);
     int updatePublic(@Param("competitionId")Integer competitionId, @Param("isPublish") Integer isPublish);
     int deleteCompetition(@Param("competitionId")Integer competitionId);
+    int addCompetition(Competition competition);
 }
