@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wf.ew.competition.dao.CompetitionApplyDao">
+    <select id="queryCompetitionApply" resultType="com.wf.ew.competition.model.CompetitionApply">
+        select * from competition_application
+        <where>
+            <if test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!=''">
+                AND ${searchKey} like concat(concat("%",#{searchValue}),"%")
+            </if>
+        </where>
+    </select>
+
+    <update id="updateClose">
+        update competition set is_close=#{isClose} where competition_id=#{competitionId}
+    </update>
+
+    <update id="updatePublic">
+        update competition set is_publish=#{isPublish} where competition_id=#{competitionId}
+    </update>
+
+</mapper>
