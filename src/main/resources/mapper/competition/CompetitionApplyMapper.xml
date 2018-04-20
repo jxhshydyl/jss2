@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wf.ew.competition.dao.CompetitionApplyDao">
-    <select id="queryCompetitionApply" resultType="com.wf.ew.competition.model.CompetitionApply">
-        select * from competition_application
+    <resultMap id="competitionApply" type="com.wf.ew.competition.model.CompetitionApply">
+        <id property="competitionApplicationId" column="competition_application_id"></id>
+        <result property="email" column="email"></result>
+        <result property="phone" column="phone"></result>
+        <result property="applicationPeopleCount" column="application_people_count"></result>
+        <result property="applicationSummary" column="application_summary"></result>
+        <result property="applicationContent" column="application_content"></result>
+        <result property="competitionId" column="competition_id"></result>
+        <result property="competitionName" column="competition_name"></result>
+        <result property="level" column="level"></result>
+        <result property="isHaveSendEmail" column="is_have_send_email"></result>
+        <result property="isHaveHandle" column="is_have_handle"></result>
+        <result property="competitionAccountId" column="competition_account_id"></result>
+    </resultMap>
+    <select id="queryCompetitionApply" resultMap="competitionApply">
+        select competition_application.*,competition.competition_name from competition_application,competition
         <where>
+            competition_application.competition_id=competition.competition_id
             <if test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!=''">
                 AND ${searchKey} like concat(concat("%",#{searchValue}),"%")
             </if>

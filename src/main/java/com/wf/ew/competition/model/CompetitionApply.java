@@ -8,6 +8,7 @@ public class CompetitionApply {
     private String applicationSummary;
     private String applicationContent;
     private Integer competitionId;
+    private String competitionName;
     private Integer level;
     private Integer isHaveSendEmail;
     private Integer isHaveHandle;
@@ -99,6 +100,14 @@ public class CompetitionApply {
 
     public void setCompetitionAccountId(Integer competitionAccountId) {
         this.competitionAccountId = competitionAccountId;
+    }
+
+    public String getCompetitionName() {
+        return competitionName;
+    }
+
+    public void setCompetitionName(String competitionName) {
+        this.competitionName = competitionName;
     }
 
     @Override

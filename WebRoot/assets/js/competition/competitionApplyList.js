@@ -81,29 +81,18 @@ function doSearch(table){
 function showEditModel(data){
     layer.open({
         type: 1,
-        title: data==null?"添加用户":"修改用户",
+        title: "申请详情",
         area: '550px',
         offset: '120px',
         content: $("#addModel").html()
     });
-    $("#editForm")[0].reset();
-    $("#editForm").attr("method","POST");
-    var selectItem = "";
     if(data!=null){
-        $("#editForm input[name=userId]").val(data.userId);
-        $("#editForm input[name=userAccount]").val(data.userAccount);
-        $("#editForm input[name=userNickname]").val(data.userNickname);
-        $("#editForm input[name=mobilePhone]").val(data.mobilePhone);
-        $("#editForm").attr("method","PUT");
-        selectItem = data.roleId;
-        if('男'==data.sex){
-            $("#sexMan").attr("checked","checked");
-            $("#sexWoman").removeAttr("checked");
-        }else{
-            $("#sexWoman").attr("checked","checked");
-            $("#sexMan").removeAttr("checked");
-        }
-        layui.form.render('radio');
+        $("#competitionApplicationId").text(data.competitionApplicationId);
+        $("#phone").text(data.phone);
+        $("#competitionName").text(data.competitionName);
+        $("#competitionAccountId").text(data.competitionAccountId);
+        $("#applicationSummary").text(data.applicationSummary);
+        $("#applicationContent").text(data.applicationContent);
     }
     $("#btnCancel").click(function(){
         layer.closeAll('page');
