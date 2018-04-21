@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface CompetitionApplyDao {
     List<CompetitionApply> queryCompetitionApply(@Param("searchKey") String searchKey,@Param("searchValue") String searchValue);
-    CompetitionApply queryCompetitionApplyDetail(String competitionApplicationId);
-    int cancelCompetitionAccount(String competitionApplicationId);
+    int updateSuspendCompetition(@Param("competitionApplicationId")String competitionApplicationId,@Param("isSuspendCompetition")String isSuspendCompetition);
+    String queryCompetitionAccountId(@Param("competitionApplicationId")String competitionApplicationId);
+    int updateCompetitionAccount(String[] competitionAccountIds);
 }

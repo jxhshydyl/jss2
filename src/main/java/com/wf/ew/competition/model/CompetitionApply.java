@@ -12,7 +12,8 @@ public class CompetitionApply {
     private Integer level;
     private Integer isHaveSendEmail;
     private Integer isHaveHandle;
-    private Integer competitionAccountId;
+    private String competitionAccountId;
+    private String isSuspendCompetition;
 
     public String getCompetitionApplicationId() {
         return competitionApplicationId;
@@ -94,11 +95,11 @@ public class CompetitionApply {
         this.isHaveHandle = isHaveHandle;
     }
 
-    public Integer getCompetitionAccountId() {
+    public String getCompetitionAccountId() {
         return competitionAccountId;
     }
 
-    public void setCompetitionAccountId(Integer competitionAccountId) {
+    public void setCompetitionAccountId(String competitionAccountId) {
         this.competitionAccountId = competitionAccountId;
     }
 
@@ -108,6 +109,14 @@ public class CompetitionApply {
 
     public void setCompetitionName(String competitionName) {
         this.competitionName = competitionName;
+    }
+
+    public String getIsSuspendCompetition() {
+        return isSuspendCompetition;
+    }
+
+    public void setIsSuspendCompetition(String isSuspendCompetition) {
+        this.isSuspendCompetition = isSuspendCompetition;
     }
 
     @Override

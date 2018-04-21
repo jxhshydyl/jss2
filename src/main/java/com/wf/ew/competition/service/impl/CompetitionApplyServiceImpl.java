@@ -26,17 +26,16 @@ public class CompetitionApplyServiceImpl implements CompetitionApplyService {
         return result;
     }
 
-    public CompetitionApply queryCompetitionApplyDetail(String competitionApplicationId){
-        CompetitionApply competitionApply = competitionApplyDao.queryCompetitionApplyDetail(competitionApplicationId);
-        return competitionApply;
-    }
-
     public void sengEmail(String email){
 
     }
 
-    public int cancelCompetitionAccount(String competitionApplicationId){
-        int num=competitionApplyDao.cancelCompetitionAccount(competitionApplicationId);
+    public int updateSuspendCompetition(String competitionApplicationId,String isSuspendCompetition){
+        int num=competitionApplyDao.updateSuspendCompetition(competitionApplicationId,isSuspendCompetition);
+        // todo 需要把这个申请的所有比赛帐号更新状态
+        //competitionAccountId = competitionApplyDao.queryCompetitionAccountId(competitionApplicationId);
+        //String[] competitionAccountIds=competitionAccountId.split(",");
+        //int i=competitionApplyDao.updateCompetitionAccount(competitionAccountIds);
         return num;
     }
 }

@@ -25,12 +25,27 @@
         </where>
     </select>
 
-    <update id="updateClose">
-        update competition set is_close=#{isClose} where competition_id=#{competitionId}
+    <update id="updateSuspendCompetition">
+        update competition_application
+        <set>
+            <if test="isSuspendCompetition!=null">
+                is_suspend_competition=#{isSuspendCompetition},
+            </if>
+        </set>
+         where competition_application_id=#{competitionApplicationId}
     </update>
 
-    <update id="updatePublic">
-        update competition set is_publish=#{isPublish} where competition_id=#{competitionId}
+    <select id="queryCompetitionAccountId">
+        select competition_account_id from competition_application where competition_application_id=#{competitionApplicationId}
+    </select>
+
+    <update id="updateCompetitionAccount">
+        UPDATE competition_account set competition_id=-1
+        where competition_account_id in
+        <foreach collection="competitionAccountIds" index="index" item="item"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </update>
 
 </mapper>

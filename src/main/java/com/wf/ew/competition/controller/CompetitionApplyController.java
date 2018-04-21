@@ -28,12 +28,6 @@ public class CompetitionApplyController {
         System.out.println(pageResult);
         return pageResult;
     }
-    @RequestMapping("/queryCompetitionApplyDetail")
-    @ResponseBody
-    public CompetitionApply queryCompetitionApplyDetail(String competitionApplicationId){
-        CompetitionApply competitionApply = competitionApplyService.queryCompetitionApplyDetail(competitionApplicationId);
-        return competitionApply;
-    }
     @RequestMapping("/sengEmail")
     @ResponseBody
     public ResultMap sengEmail(String email){
@@ -41,13 +35,13 @@ public class CompetitionApplyController {
         return ResultMap.ok(200,"成功发送！");
     }
 
-    @DeleteMapping("/cancelCompetitionAccount/{competitionApplicationId}")
+    @RequestMapping("/updateSuspendCompetition")
     @ResponseBody
-    public ResultMap cancelCompetitionAccount(@PathVariable("competitionApplicationId") String competitionApplicationId){
-        int num=competitionApplyService.cancelCompetitionAccount(competitionApplicationId);
+    public ResultMap updateSuspendCompetition(String competitionApplicationId,String isSuspendCompetition){
+        int num=competitionApplyService.updateSuspendCompetition(competitionApplicationId,isSuspendCompetition);
         if(num==1){
-            return ResultMap.ok(200,"取消成功！");
+            return ResultMap.ok(200,"操作成功！");
         }
-        return ResultMap.error(0,"取消失败！");
+        return ResultMap.error(0,"操作失败！");
     }
 }

@@ -13,16 +13,18 @@ $(function() {
             //creatStudentTable(data.cno);
 		} else if(layEvent === 'sendEmail'){ //发布邮件
             shareTask(data);
-        } else if(layEvent === 'isCancel'){ //取消分配
-            console.log(obj.data);
-			doDelete(obj);
-		}
+        }
 	});
 	
 	//搜索按钮点击事件
 	$("#searchBtn").click(function(){
 		doSearch(table);
 	});
+
+    //监听是否关闭开关操作
+    layui.form.on('switch(statusCB1)', function(obj){
+        updateSuspendCompetition(obj);
+    });
 });
 
 function creatClassTable(){
@@ -35,35 +37,14 @@ function creatClassTable(){
         page: true,
         cols: [[
             {type:'numbers'},
-            {field:'email', sort: true,minWidth: 240,title: '邮箱'},
-            {field:'applicationPeopleCount', sort: true,width: 120,title: '申请人数'},
-            {field:'isHaveSendEmail', sort: true,width: 120,templet: '#statusTpl', title: '是否发送邮件'},
+            {field:'email', sort: true,title: '邮箱'},
+            {field:'applicationPeopleCount', sort: true,title: '申请人数'},
+            {field:'isHaveSendEmail', sort: true,templet: '#statusTpl', title: '是否发送邮件'},
             {field:'competitionAccountId', sort: true, title: '分配帐号编号'},
-            {align:'center', toolbar: '#barTpl', minWidth: 280, title: '操作'}
+            {field:'isSuspendCompetition', sort: true,templet: '#statusTpl1',title: '是否禁赛'},
+            {align:'center', toolbar: '#barTpl', title: '操作'}
         ]]
     });
-}
-//删除
-function doDelete(obj){
-	layer.confirm('确定要删除吗？', function(index){
-		layer.close(index);
-		layer.load(1);
-		$.ajax({
-			url: "competitionApply/cancelCompetitionAccount/"+obj.data.competitionApplicationId,
-			type: "DELETE",
-			dataType: "JSON",
-			success: function(data){
-			    console.log(data);
-				layer.closeAll('loading');
-				if(data.code==200){
-					layer.msg(data.msg,{icon: 1});
-					obj.del();
-				}else{
-					layer.msg(data.msg,{icon: 2});
-				}
-			}
-		});
-	});
 }
 
 //搜索
@@ -96,5 +77,21 @@ function showEditModel(data){
     }
     $("#btnCancel").click(function(){
         layer.closeAll('page');
+    });
+}
+function updateSuspendCompetition(obj) {
+    layer.load(1);
+    var newStatus = obj.elem.checked?-1:0;
+    $.post("competitionApply/updateSuspendCompetition", {
+        competitionApplicationId: obj.elem.value,
+        isSuspendCompetition: newStatus,
+    }, function(data){
+        layer.closeAll('loading');
+        if(data.code==200){
+            layui.table.reload('table', {});
+        }else{
+            layer.msg(data.msg,{icon: 2});
+            layui.table.reload('table', {});
+        }
     });
 }
