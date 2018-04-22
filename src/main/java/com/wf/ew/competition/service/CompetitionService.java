@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 public interface CompetitionService {
     PageResult<Competition> queryCompetition(Integer pageNum, Integer pageSize, String searchKey, String searchValue);
     int updateClose(Integer competitionId, Integer isClose);
@@ -14,4 +16,5 @@ public interface CompetitionService {
     int deleteCompetition(Integer competitionId);
     int downloadCompetitionReport(Integer competitionId);
     int addCompetition(Competition competition);
+    List<Competition> queryEndedCompetition();
 }

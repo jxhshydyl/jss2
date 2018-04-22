@@ -10,13 +10,14 @@ public class Competition {
     private String competitionBeginTime;
     private String competitionEndTime;
     private Integer competitionPlayersCount;
-    private Integer problemCount;
     private Integer isClose;
     private Integer isPublish;
     private Integer isCanDeclare;
     private Integer isJudge;
     private String competitionProblemIds;
     private String competitionContentRootPath;
+    private String competition_approve;
+    private Integer competitionProblemCount;
 
     public Long getCompetitionId() {
         return competitionId;
@@ -130,12 +131,21 @@ public class Competition {
         this.competitionContentRootPath = competitionContentRootPath;
     }
 
-    public Integer getProblemCount() {
-        return problemCount;
+
+    public String getCompetition_approve() {
+        return competition_approve;
     }
 
-    public void setProblemCount(Integer problemCount) {
-        this.problemCount = problemCount;
+    public void setCompetition_approve(String competition_approve) {
+        this.competition_approve = competition_approve;
+    }
+
+    public Integer getCompetitionProblemCount() {
+        return competitionProblemCount;
+    }
+
+    public void setCompetitionProblemCount(Integer competitionProblemCount) {
+        this.competitionProblemCount = competitionProblemCount;
     }
 
     @Override
@@ -149,7 +159,6 @@ public class Competition {
                 ", competitionBeginTime='" + competitionBeginTime + '\'' +
                 ", competitionEndTime='" + competitionEndTime + '\'' +
                 ", competitionPlayersCount=" + competitionPlayersCount +
-                ", problemCount=" + problemCount +
                 ", isClose=" + isClose +
                 ", isPublish=" + isPublish +
                 ", isCanDeclare=" + isCanDeclare +

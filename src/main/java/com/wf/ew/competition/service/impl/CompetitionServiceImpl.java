@@ -6,6 +6,7 @@ import com.wf.ew.competition.dao.CompetitionDao;
 import com.wf.ew.competition.model.Competition;
 import com.wf.ew.competition.service.CompetitionService;
 import com.wf.ew.core.PageResult;
+import com.wf.ew.core.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -52,5 +53,9 @@ public class CompetitionServiceImpl implements CompetitionService{
     public int addCompetition(Competition competition){
         int num = competitionDao.addCompetition(competition);
         return num;
+    }
+    @Override
+    public List<Competition> queryEndedCompetition(){
+        return competitionDao.queryEndedCompetition(DateUtil.getCurrentDate());
     }
 }

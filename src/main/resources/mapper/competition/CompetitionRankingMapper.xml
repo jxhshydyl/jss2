@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wf.ew.competition.dao.CompetitionRankingDao">
+    <resultMap id="competitionRanking" type="com.wf.ew.competition.model.CompetitionRanking">
+        <result property="submitUserId" column="submit_user_id"></result>
+        <result property="nickname" column="nickname"></result>
+        <result property="competitionProblemCount" column="competition_problem_count"></result>
+        <collection property="problemSubmitInfos" ofType="com.wf.ew.competition.model.ProblemSubmitInfo">
+            <result property="submitProblemId" column="submit_problem_id"></result>
+            <result property="competitionPeoblemNumber" column="competition_peoblem_number"></result>
+            <result property="acceptedTime" column="accepted_time"></result>
+            <result property="submitCount" column="submit_count"></result>
+        </collection>
+    </resultMap>
+
+    <select id="queryCompetitionRanking" resultMap="competitionRanking">
+ select sr.submit_user_id,`user`.nickname,sr.submit_problem_id,sr.competition_peoblem_number,competition.competition_problem_count,sr.accepted_time,sr.submit_count
+from submit_record0 sr
+ LEFT JOIN user on sr.submit_user_id=`user`.user_id
+LEFT JOIN competition on competition.competition_id=#{competitionId}
+ where sr.is_competition=#{competitionId} and sr.is_accepted='1' limit 20
+
+    </select>
+
+
+</mapper>

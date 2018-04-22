@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RequestMapping("/competition")
 @Controller
@@ -79,6 +81,13 @@ public class CompetitionController {
             return ResultMap.ok(200,"增加成功！");
         }
         return ResultMap.error("增加失败！");
+    }
+
+    @RequestMapping("/queryEndedCompetition")
+    @ResponseBody
+    public ResultMap queryEndedCompetition(){
+        List<Competition> result = competitionService.queryEndedCompetition();
+        return ResultMap.ok().put("competition",result);
     }
 
 }

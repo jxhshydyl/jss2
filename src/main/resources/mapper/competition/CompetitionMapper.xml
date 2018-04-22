@@ -97,4 +97,10 @@
         </if>
         )
     </insert>
+
+    <select id="queryEndedCompetition" resultType="com.wf.ew.competition.model.Competition">
+        select * from competition where
+        (competition_begin_time  &lt;  #{date} and competition_end_time &gt; #{date})
+        or (competition_end_time  &lt;  #{date})
+    </select>
 </mapper>

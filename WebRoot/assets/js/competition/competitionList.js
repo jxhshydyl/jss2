@@ -139,7 +139,7 @@ function creatClassTable(){
             {field:'competitionEndTime', sort: true,title: '结束时间'},
             {field:'isClose', sort: true,templet: '#statusTpl1',title: '是否开启'},
             {field:'isPublish', sort: true,templet: '#statusTpl2',title: '是否发布'},
-            {align:'center', toolbar: '#barTpl', minWidth: 230, title: '操作'}
+            {align:'center', toolbar: '#barTpl', title: '操作'}
         ]]
     });
 }
@@ -280,7 +280,7 @@ function showEditModel(data){
         $("#competitionApplyEndTime").val(data.competitionApplyEndTime);
 
         $("#competitionProblemIds").val(data.competitionProblemIds);
-        $("#problemCount").val(data.problemCount);
+        $("#competitionProblemCount").val(data.competitionProblemCount);
 
         layui.form.render("radio");
     }

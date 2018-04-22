@@ -1,0 +1,77 @@
+<div class="content-header">
+    <h2 class="content-title">比赛排名</h2>
+    <span class="layui-breadcrumb">
+	  <a href="#!home">首页</a>
+	  <a href="#!task/taskList"><cite>比赛排名</cite></a>
+	</span>
+</div>
+
+<div id="showEndCompetition">
+
+</div>
+
+<div id="showCompetitionRanking" style="display: none;">
+    <table class="layui-table" id="table">
+        <colgroup>
+            <col>
+            <col>
+            <col>
+        </colgroup>
+        <thead id="thead">
+        <tr id="totalTR">
+            <th>名次</th>
+            <th>用户名</th>
+            <th>通过题目数量</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+    <div id="noData">
+        暂无数据
+    </div>
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="barTpl">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="view">比赛详情</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="report">比赛报告</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+
+<!-- 表格状态列 -->
+<script type="text/html" id="statusTpl1">
+    <input type="checkbox" value="{{d.competitionId}}" lay-filter="statusCB1" lay-skin="switch" lay-text="是|否" {{ d.isClose == 1 ? 'checked' : '' }}>
+</script>
+<script type="text/html" id="statusTpl2">
+    <input type="checkbox" value="{{d.competitionId}}" lay-filter="statusCB2" lay-skin="switch" lay-text="是|否" {{ d.isPublish == 1 ? 'checked' : '' }}>
+</script>
+
+
+
+<!-- 表单弹窗 -->
+<script type="text/html" id="shareTask">
+    <form id="editForm" action="">
+        <table width="90%" cellpadding="0" cellspacing="0" style="table-layout: fixed;margin: 0 auto">
+            <thead>
+                <tr style="margin-top: 30px">
+                    <td style="margin-left: 10px" width="40px"></td>
+                    <td style="margin-left: 10px">班级</td>
+                    <td style="margin-left: 10px">时间</td>
+                </tr>
+            </thead>
+            <tbody id="shareTaskToClass">
+
+            </tbody>
+        </table>
+        <div class="layui-form-item model-form-footer" style="margin-right: 200px;margin-top: 10px">
+            <button class="layui-btn layui-btn-primary" type="button" id="btnCancel">取消</button>
+            <button type="button" class="layui-btn" id="btnSubmit">保存</button>
+        </div>
+    </form>
+
+</script>
+
+
+<script type="text/javascript" src="assets/js/competition/competitionRanking.js"></script>
