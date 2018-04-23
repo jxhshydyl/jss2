@@ -22,7 +22,7 @@
     <select id="queryClass" resultMap="class">
         select * from class
         <where>
-            and Cno in (select DISTINCT(Cno) from tclass where Tno="1")
+            and Cno in (select DISTINCT(Cno) from tclass where Tno=#{tno})
             <if test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!=''">
                 AND ${searchKey} like concat(concat("%",#{searchValue}),"%")
             </if>

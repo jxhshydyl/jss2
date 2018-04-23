@@ -58,9 +58,8 @@
         console.log(cno);
         console.log(time);
         $.ajax({
-            type : "POST",
             url : "/grade/courseGradeByCnoAndTime",
-            data : {"cno":cno,"time":time,"tno":"1"},
+            data : {"cno":cno,"time":time,"tno":tno},
             dataType : "json",
             success:function(data){
                 console.log(data);
@@ -175,7 +174,7 @@
             $.ajax({
                 type : "POST",
                 url : "/grade/courseDetailGradeByCnameAndTaskName",
-                data : {"cname" : cname,"taskName" : taskName,"cno":cno,"tno":"1"},
+                data : {"cname" : cname,"taskName" : taskName,"cno":cno,"tno":tno},
                 dataType : "json",
                 success : function(data) {
                     var data = data.list;

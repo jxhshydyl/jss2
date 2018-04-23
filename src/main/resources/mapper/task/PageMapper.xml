@@ -65,7 +65,7 @@
     </select>
     <select id="queryBasicPageCodeByTid" resultMap="taskBasic">
         select task.tid,task.Task_name,task.Tscore,task.Tchapter,course.Cno,course.Cname,code.Qtype types,sum(tdetail.Score) score,count(1) count from task,course,tdetail,code
-       where task.Tid=19 and task.Cno=course.Cno and tdetail.Tid=task.Tid and code.Qid=tdetail.Qid and tdetail.type=1
+       where task.Tid=#{tid} and task.Cno=course.Cno and tdetail.Tid=task.Tid and code.Qid=tdetail.Qid and tdetail.type=1
     </select>
     <!--查询非编程题-->
     <select id="queryPageQuestionByTid" resultMap="question">

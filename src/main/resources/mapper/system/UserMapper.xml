@@ -329,14 +329,14 @@
 	</select>
 
   <select id="queryClassByTeacher" resultMap="courseToClassToMajor">
-    select DISTINCT(Cname),Cno from tclass where Tno="1"
+    select DISTINCT(Cname),Cno from tclass where Tno=#{tno}
   </select>
 
   <select id="queryMajorByTeacher" resultMap="courseToClassToMajor">
-    select DISTINCT(Major) ,Mno from class,major where Cno in(select DISTINCT(Cno) from tclass where Tno="1") and class.Major=major.Mname
+    select DISTINCT(Major) ,Mno from class,major where Cno in(select DISTINCT(Cno) from tclass where Tno=#{tno}) and class.Major=major.Mname
   </select>
 
   <select id="queryCourseByTeacher" resultMap="courseToClassToMajor">
-    select DISTINCT(Course_name),Cid from tclass where Tno="1"
+    select DISTINCT(Course_name),Cid from tclass where Tno=#{tno}
   </select>
 </mapper>

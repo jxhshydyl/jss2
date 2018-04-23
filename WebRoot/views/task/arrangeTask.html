@@ -69,6 +69,7 @@
                                class="layui-input" required>
                     </div>
                 </div>
+                <input type="hidden" id="tno" name="tno">
                 <div class="layui-form-item">
                     <label class="layui-form-label" style="width:100px;">所属课程</label>
                     <div class="layui-input-block" style="width:40%;">
@@ -98,19 +99,6 @@
                             </div>
                         </div>
                     </div>
-                    <!--<div class="layui-input-block" style="width:40%;">
-                        <select name="tchapter" id="tchapter" lay-verify="required" lay-filter="aaa" >
-                            <option value="">直接选择或搜索选择</option>
-                            <option value="第一章">第一章</option>
-                            <option value="第二章">第二章</option>
-                            <option value="第三章">第三章</option>
-                            <option value="第四章">第四章</option>
-                            <option value="第五章">第五章</option>
-                            <option value="第六章">第六章</option>
-                            <option value="第七章">第七章</option>
-                            <option value="第八章">第八章</option>
-                        </select>
-                    </div>-->
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-inline">
@@ -196,6 +184,7 @@
     </div>
 </div>
 <script>
+    $("#tno").val(getCurrentUser().userId);
 
     $('.dropdown-mul-2').dropdown({
         searchable: false,

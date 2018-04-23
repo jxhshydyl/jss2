@@ -18,7 +18,7 @@
     <select id="queryTask" resultMap="task">
         select task.*,course.Cname from task,course
         <where>
-            and task.Tno="1"
+            and task.Tno=#{tno}
             and task.Cno=course.Cno
             <choose>
                 <when test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!='' and searchKey!='Cno'">

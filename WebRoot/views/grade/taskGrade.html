@@ -60,7 +60,7 @@
                 $.ajax({
                     type : "POST",
                     url : "/grade/taskGradeDetailByCnameAndTime",
-                    data : {"cname" : cname,"time" : time,"cno" : cno,"tno":"1"},
+                    data : {"cname" : cname,"time" : time,"cno" : cno,"tno":tno},
                     dataType : "json",
                     success : function(data) {
                         var data = data.list;
@@ -218,7 +218,7 @@
         $.ajax({
             type : "POST",
             url : "/grade/taskGradeStatisticByCnoAndTime",
-            data : {"cno" : cno,"time" : time,"tno":"1"},
+            data : {"cno" : cno,"time" : time,"tno":tno},
             dataType : "json",
             success : function(data) {
                 data=data.list;

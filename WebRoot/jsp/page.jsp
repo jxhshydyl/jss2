@@ -38,15 +38,17 @@
         <ul style="margin-left: -20px; margin-bottom: 10px">
             <c:forEach var="detail" items="${taskBasic.list}">
                 <li style="list-style-type: none; margin-top: 10px">
-                    <font style="font-size: 15px;">
-                        ${detail.types}&nbsp;&nbsp;&nbsp;
-                    </font>
-                    <font style="font-size: 15px;">
-                            ${detail.count}题&nbsp;&nbsp;&nbsp;
-                    </font>
-                    <font style="font-size: 15px;">
-                            ${detail.score}分
-                    </font>
+                    <c:if test="${detail.types!=null && detail.types!='' }">
+                        <font style="font-size: 15px;">
+                                ${detail.types}&nbsp;&nbsp;&nbsp;
+                        </font>
+                        <font style="font-size: 15px;">
+                                ${detail.count}题&nbsp;&nbsp;&nbsp;
+                        </font>
+                        <font style="font-size: 15px;">
+                                ${detail.score}分
+                        </font>
+                    </c:if>
                 </li>
             </c:forEach>
         </ul>
