@@ -27,7 +27,9 @@ public class PageServiceImpl implements PageService{
         List<Code> codes = pageDao.queryPageCodeByTid(tid);
         TaskBasic taskBasic = pageDao.queryBasicPageQuestionByTid(tid);
         TaskBasic taskBasic1 = pageDao.queryBasicPageCodeByTid(tid);
-        taskBasic.getList().addAll(taskBasic1.getList());
+        if(taskBasic!=null && taskBasic1 != null){
+            taskBasic.getList().addAll(taskBasic1.getList());
+        }
         for(Question question:questions){
             if("单选题".equals(question.getQtype())||"多选题".equals(question.getQtype())){
                 question.setChoice(question.getQchoice().split("[A-Z][|:|：|、|.]"));

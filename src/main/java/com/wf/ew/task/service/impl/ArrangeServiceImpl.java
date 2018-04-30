@@ -77,7 +77,10 @@ public class ArrangeServiceImpl implements ArrangeService{
                 String[] counts=autoMakePaperPara.getCount().split(",");
                 String[] types=autoMakePaperPara.getTypes().split(",");
                 String courseNo=task.getCno();
-                String[] chapter=task.getTchapter().split(",");
+                String[] chapter=null;
+                if(task.getTchapter() != null){
+                    chapter=task.getTchapter().split(",");
+                }
                 for(int i=0;i<types.length;i++){
                     if("编程题".equals(types[i])){
                         List<Integer> integers = arrangeDao.queryCodeList(courseNo, chapter, Integer.valueOf(counts[i]));
