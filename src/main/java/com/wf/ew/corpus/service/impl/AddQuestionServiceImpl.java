@@ -1,20 +1,30 @@
 package com.wf.ew.corpus.service.impl;
 
+import com.wf.ew.corpus.dao.CodeDao;
 import com.wf.ew.corpus.dao.QuestionDao;
+import com.wf.ew.corpus.dao.SubmitRecordDao;
 import com.wf.ew.corpus.model.AddQuestion;
 import com.wf.ew.corpus.model.Code;
+import com.wf.ew.corpus.model.MyRecord;
 import com.wf.ew.corpus.model.Question;
 import com.wf.ew.corpus.service.AddQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class AddQuestionServiceImpl implements AddQuestionService{
     @Autowired
     QuestionDao questionDao;
-
+    @Autowired
+    CodeDao codeDao;
+    @Autowired
+    SubmitRecordDao submitRecordDao;
     @Override
     public int addQuestion(Question question, AddQuestion addQuestion){
         String type=question.getQtype();
@@ -81,5 +91,29 @@ public class AddQuestionServiceImpl implements AddQuestionService{
         }catch (Exception e){
             return 0;
         }
+    }
+
+    @Override
+    public Map<String,Object> evaluateStatistics(Long qid){
+        List<Code> codes = codeDao.queryCode(null, null, qid);
+        List<MyRecord> myRecords = submitRecordDao.querySubmitCount(qid);
+        MyRecord myRecord1=null;
+        if(myRecords!=null){
+            Integer rightSubmitCount=0;
+            Integer totalSubmitCount=0;
+            myRecord1=new MyRecord();
+            for(MyRecord myRecord:myRecords){
+                totalSubmitCount+=myRecord.getSubmitCount();
+                if("1".equals(myRecord.getIsAccepted())){
+                    rightSubmitCount=myRecord.getRightSubmitCount();
+                }
+            }
+            myRecord1.setRightSubmitCount(rightSubmitCount);
+            myRecord1.setTotalSubmitCount(totalSubmitCount);
+        }
+        Map<String,Object> map=new HashMap<>();
+        map.put("codes",codes);
+        map.put("myRecord",myRecord1);
+        return map;
     }
 }

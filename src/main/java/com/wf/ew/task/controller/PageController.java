@@ -20,10 +20,9 @@ public class PageController {
     @RequestMapping("/queryPage")
     public String queryPage(Integer tid, ModelMap model){
         Map<String, Object> map = pageService.queryPageByTid(tid);
- /*       model.put("questions", map.get("questions"));
-        model.put("codes", map.get("codes"));*/
         model.put("taskDetail", map.get("taskDetail"));
         model.put("taskBasic", map.get("taskBasic"));
+
         return "page";
     }
     @PostMapping("/querySimilarQuestion")
@@ -37,7 +36,6 @@ public class PageController {
     @ResponseBody
     public ResultMap replaceSilimarQuestion(Long newQid, Long oldQid, Integer tid){
        int num=pageService.replaceSilimarQuestion(newQid,oldQid,tid);
-       System.out.println(num);
        if(num!=0){
            return ResultMap.ok(200,"替换成功！");
        }
@@ -46,11 +44,7 @@ public class PageController {
     @PostMapping("/deleteTaskQuestion")
     @ResponseBody
     public ResultMap deleteTaskQuestion(Long qid, Integer tid, String qtype){
-        System.out.println(qid);
-        System.out.println(tid);
-        System.out.println(qtype);
         int num=pageService.deleteTaskQuestion(qid,tid,qtype);
-        System.out.println(num);
         if(num!=0){
             return ResultMap.ok(200,"删除成功！");
         }
@@ -66,11 +60,11 @@ public class PageController {
     }
     @RequestMapping("/saveSubmitTaskDetail")
     @ResponseBody
-    public ResultMap saveSubmitTaskDetail(@RequestParam("qids[]") Long[] qids, @RequestParam("scores[]") float[] scores, @RequestParam("types[]") String[] types,Long id ,float totalScore){
+    public ResultMap saveSubmitTaskDetail(@RequestParam(name="qids[]",required = false) Long[] qids, @RequestParam(name="scores[]",required = false) float[] scores, @RequestParam(name="types[]",required = false) String[] types,Long id ,float totalScore){
         int num=pageService.saveSubmitTaskDetail(qids,scores,types,id,totalScore);
         if(num!=0){
-            return ResultMap.ok(200,"删除成功！");
+            return ResultMap.ok(200,"保存成功！");
         }
-        return ResultMap.error(0,"删除失败！");
+        return ResultMap.error(0,"保存失败！");
     }
 }

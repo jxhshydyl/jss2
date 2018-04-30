@@ -41,6 +41,7 @@
         <result column="Cname" property="cname"></result>
         <result column="Cno" property="cno"></result>
         <result column="Tchapter" property="chapter"></result>
+        <result column="Tappendixes" property="tappendixes"></result>
         <collection property="list" ofType="com.wf.ew.task.model.AutoMakePaperPara">
             <result column="count" property="count"></result>
             <result column="score" property="score"></result>
@@ -53,18 +54,19 @@
         <result column="Sname" property="sname"></result>
         <result column="Sclass" property="sclass"></result>
         <result column="Grade" property="taskGrade"></result>
+        <result column="Sappendixes" property="sappendixes"></result>
         <result column="Task_name" property="taskName"></result>
         <result column="Tchapter" property="taskChapter"></result>
         <result column="Cname" property="courseName"></result>
     </resultMap>
     <!--查询作业基本信息-->
     <select id="queryBasicPageQuestionByTid" resultMap="taskBasic">
-       select task.tid,task.Task_name,task.Tscore,task.Tchapter,course.Cno,course.Cname,question.Qtype types,sum(tdetail.Score) score,count(1) count  from task,course,tdetail,question
+       select task.tid,task.Task_name,task.Tscore,task.Tchapter,task.Tappendixes,course.Cno,course.Cname,question.Qtype types,sum(tdetail.Score) score,count(1) count  from task,course,tdetail,question
        where task.Tid=#{tid} and task.Cno=course.Cno and tdetail.Tid=task.Tid and question.Qid=tdetail.Qid and tdetail.type=0
        GROUP BY question.Qtype
     </select>
     <select id="queryBasicPageCodeByTid" resultMap="taskBasic">
-        select task.tid,task.Task_name,task.Tscore,task.Tchapter,course.Cno,course.Cname,code.Qtype types,sum(tdetail.Score) score,count(1) count from task,course,tdetail,code
+        select task.tid,task.Task_name,task.Tscore,task.Tchapter,task.Tappendixes,course.Cno,course.Cname,code.Qtype types,sum(tdetail.Score) score,count(1) count from task,course,tdetail,code
        where task.Tid=#{tid} and task.Cno=course.Cno and tdetail.Tid=task.Tid and code.Qid=tdetail.Qid and tdetail.type=1
     </select>
     <!--查询非编程题-->
@@ -112,7 +114,7 @@
 		where s.id=#{id}
     </select>
     <select id="queryStudentByStaskId" resultMap="students">
-        select Stask.id,Stask.Grade, s.Sno,s.Sname,s.Sclass,t.Task_name,
+        select Stask.id,Stask.Grade,Stask.Sappendixes,s.Sno,s.Sname,s.Sclass,t.Task_name,
         t.Tchapter,Course.Cname
         from Sinformation s, Task t,Course,Stask where s.Sno=Stask.Sno
         and t.Tid=Stask.Tid and Course.Cno=t.Cno and Stask.id=#{id}
@@ -127,5 +129,9 @@
 
     <update id="saveSubmitTaskCodeDetail">
         update stdetail_code set Score=#{scores} where id=#{id} and Qid=#{qids}
+    </update>
+
+    <update id="updateSubmitTaskState">
+        update stask set Tstate="已批阅" where id=#{id}
     </update>
 </mapper>

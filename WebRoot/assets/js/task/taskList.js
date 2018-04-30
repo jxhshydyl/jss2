@@ -46,38 +46,86 @@ function creatClassTable(){
         ]]
     });
 }
-
 //发布作业
 function shareTask(obj){
     var tid=obj.tid;
     var tno=obj.tno;
     var str='';
+    var datas=null;
+    $.ajax({
+        type:'post',
+        url:"/jss/task/showSharedTask",
+        cache: false,
+        data:{"tid":tid},
+        dataType:'json',
+        async :false,
+        success:function(data){
+            if(data.length>0){
+                datas=data;
+                console.log(datas);
+            }
+        },
+        error:function(){
+            alert("请求失败")
+        }
+    });
+    console.log(datas);
+    var sharedCnos=new Array();
     var clazz=getCurrentClass();
     for(var i=0;i<clazz.length;i++){
         str+= "<tr height='50px'>" +
-                 "<td style=\"margin-left: 10px\"><input type='checkbox' name='cno' value='" + clazz[i].cno + "'></td>" +
-                 "<td style=\"margin-left: 10px\">" +clazz[i].cname+ "</td>" +
-                 "<td style=\"margin-left: 10px\">" +
-                    "<input type='text' style='display: none' class='layui-input' id='test" + i + "' name='time' placeholder='yyyy-MM-dd HH:mm:ss'>" +
-                 "</td>" +
-            "</tr>";
+                    "<td style=\"margin-left: 10px\" id='checks"+i+"'><input type='checkbox' name='cno' value='" + clazz[i].cno + "'></td>" +
+                    "<td style=\"margin-left: 10px\">" +clazz[i].cname+ "</td>" +
+                    "<td style=\"margin-left: 10px\" id='startTimeTd"+i+"'>" +
+                        "<input type='text' style='display: none' class='layui-input' id='test" + i + "' name='time' placeholder='yyyy-MM-dd HH:mm:ss'>" +
+                    "</td>" +
+                    "<td style=\"margin-left: 10px\" id='endTimeTd"+i+"'>" +
+                        "<input type='text' style='display: none' class='layui-input' id='endTime" + i + "' name='endTime' placeholder='yyyy-MM-dd HH:mm:ss'>" +
+                    "</td>" +
+                "</tr>";
     }
     layer.open({
         type: 1,
         title: "发布作业",
         shadeClose: true,
-        area: ['550px','450px'],
+        area: ['650px','450px'],
         offset: '120px',
         content: $("#shareTask").html()
     });
     $("#shareTaskToClass").html(str);
+    if(datas!=null){
+        for(var i=0;i<clazz.length;i++){
+            for(var j=0;j<datas.length;j++){
+                if(clazz[i].cno==datas[j].cno){
+                    console.log(i);
+                    $("#startTimeTd"+i).html(datas[j].startTime);
+                    $("#endTimeTd"+i).html(datas[j].endTime);
+                    $("#checks"+i).html("");
+                }
+            }
+        }
+    }
     for(var i=0;i<clazz.length;i++){
         layui.use('laydate', function() {
             var laydate = layui.laydate;
             //时间选择器
-            laydate.render({
+           var start = laydate.render({
+                min:"",
                 elem: '#test'+i,
-                type: 'datetime'
+                type: 'datetime',
+               done: function(datas){
+                    console.log(datas);
+                    end.min = datas; //开始日选好后，重置结束日的最小日期
+                }
+            });
+
+            var end = laydate.render({
+                min:"",
+                elem: '#endTime'+i,
+                type: 'datetime',
+                done: function(datas){
+                    start.max = datas; //结束日选好后，重置开始日的最大日期
+                }
             });
         });
     }
@@ -88,12 +136,19 @@ function shareTask(obj){
         layer.closeAll('page');
     });
     var time=document.getElementsByName("time");
+    var endTime=document.getElementsByName("endTime");
     $("input[name=cno]").each(function(index,ele){
         $(ele).click(function(){
             if(this.checked){
+                time[index].value="";
+                endTime[index].value="";
                 time[index].style.display='';
+                endTime[index].style.display='';
             }else{
+                time[index].value="";
+                endTime[index].value="";
                 time[index].style.display='none';
+                endTime[index].style.display='none';
             }
         });
     });
@@ -102,10 +157,12 @@ function shareTask(obj){
         var data=$('#editForm').serialize();
         var cno='';
         var time='';
+        var endTime='';
         var key=0;
         var num=0;
         var cnos= document.getElementsByName("cno");
         var times=document.getElementsByName("time");
+        var endTimes=document.getElementsByName("endTime");
         for(var i=0;i<cnos.length;i++){
             if(cnos[i].checked){
                 cno=cno+","+cnos[i].value;
@@ -113,17 +170,20 @@ function shareTask(obj){
             }
             if(times[i].value!=''){
                 time=time+","+times[i].value;
+                endTime=endTime+","+endTimes[i].value;
                 num++;
             }
         }
+        console.log(endTime);
         if(key!=0&&num==key){
             $.ajax({
                 type:'post',
                 url:"/jss/task/shareTask",
                 cache: false,
-                data:{"tno":tno,"tid":tid,"cno":cno,"time":time},
+                data:{"tno":tno,"tid":tid,"cno":cno,"time":time,"endTime":endTime},
                 dataType:'json',
                 success:function(data){
+                    layer.closeAll();
                     alert(data.msg);
                 },
                 error:function(){

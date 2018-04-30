@@ -33,15 +33,19 @@
     </select>
 
     <delete id="deleteTask">
-       delete Task,Tdetail,Ctask from Task
-					LEFT JOIN tdetail on tdetail.Tid=task.Tid
-					LEFT JOIN ctask on task.Tid=ctask.Tid  where task.Tid=#{Tid}
+        delete Task,Tdetail,Ctask from Task
+        LEFT JOIN tdetail on tdetail.Tid=task.Tid
+        LEFT JOIN ctask on task.Tid=ctask.Tid  where task.Tid=#{Tid}
     </delete>
 
     <insert id="shareTask">
-        insert into Ctask(Tid,Cno,End_time) VALUES
+        insert into Ctask(Tid,Cno,Start_time,End_time) VALUES
         <foreach collection="condition" item="condition" index="index" separator=",">
-            (#{tid},#{condition.cno},#{condition.time})
+            (#{tid},#{condition.cno},#{condition.time},#{condition.endTime})
         </foreach>
     </insert>
+
+    <update id="updateState">
+        UPDATE task set Tstate=#{state} where Tid=#{tid}
+    </update>
 </mapper>

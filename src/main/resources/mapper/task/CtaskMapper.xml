@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wf.ew.task.dao.CtaskDao">
+    <resultMap id="cTask" type="com.wf.ew.task.model.Ctask">
+        <result column="Tid" property="tid"></result>
+        <result column="Cno" property="Cno"></result>
+        <result column="Start_time" property="startTime"></result>
+        <result column="End_time" property="endTime"></result>
+    </resultMap>
+
+    <select id="querySharedTask" resultMap="cTask">
+        select * from ctask where Tid=#{tid}
+    </select>
+
+</mapper>

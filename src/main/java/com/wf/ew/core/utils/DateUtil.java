@@ -96,6 +96,15 @@ public class DateUtil {
 	public static String formatDate(Date date){
 		return formatDate(date,"yyyy-MM-dd HH:mm:ss");
 	}
+
+	/**
+	 * Date转化为String(yyyy-MM-dd HH:mm:ss)
+	 * @param date
+	 * @return
+	 */
+	public static String formatMDate(Date date){
+		return formatDate(date,"M");
+	}
 	
 	/**
 	 * String转化为Date
@@ -120,6 +129,15 @@ public class DateUtil {
 	 */
 	public static Date parseDate(String date){
 		return parseDate(date, "yyyy-MM-dd HH:mm:ss");
+	}
+
+	/**
+	 * String转化为Date
+	 * @param date
+	 * @return
+	 */
+	public static Date parseMDate(String date){
+		return parseDate(date, "yyyy-MM-dd");
 	}
 	
 	/**

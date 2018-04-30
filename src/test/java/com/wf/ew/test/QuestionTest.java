@@ -68,7 +68,7 @@ public class QuestionTest {
     }
     @Test
     public void test4(){
-        List<Code> codes = codeDao.queryCode(null, null);
+        List<Code> codes = codeDao.queryCode(null, null,null);
         System.out.println(codes);
     }
     @Test

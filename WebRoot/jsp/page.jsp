@@ -19,6 +19,14 @@
 </head>
 
 <body>
+
+<c:if test="${taskDetail.size()==0}">
+    <script>
+        window.close();
+    </script>
+</c:if>
+
+
 <header class="am-topbar admin-header">
     <div style="margin-top: 15px; margin: 0 auto; width: 300px; height: 40px;">
         <b style="font-size: 30px">
@@ -64,6 +72,16 @@
     <div style="background-color: #f0f0f0">
         <li style="list-style-type: none; font-size: 15px; color: #1E90FF;">所属课程：${taskBasic.cname}</li>
         <li style="list-style-type: none; font-size: 15px; color: #1E90FF;">所属章节：${taskBasic.chapter}</li>
+        <li style="list-style-type: none;font-size:15px;color:	#1E90FF;">作业附件：
+            <c:choose>
+                <c:when test="${taskBasic.tappendixes != null && taskBasic.tappendixes != ''}">
+                    <a href="#">下载</a>
+                </c:when>
+                <c:otherwise>
+                    无
+                </c:otherwise>
+            </c:choose>
+        </li>
     </div>
 </div>
 <div class=" admin-content">

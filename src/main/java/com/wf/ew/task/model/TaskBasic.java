@@ -9,6 +9,7 @@ public class TaskBasic {
     private String cname;
     private String cno;
     private String chapter;
+    private String tappendixes;
     private List<AutoMakePaperPara> list;
 
     public Integer getTid() {
@@ -65,6 +66,14 @@ public class TaskBasic {
 
     public void setList(List<AutoMakePaperPara> list) {
         this.list = list;
+    }
+
+    public String getTappendixes() {
+        return tappendixes;
+    }
+
+    public void setTappendixes(String tappendixes) {
+        this.tappendixes = tappendixes;
     }
 
     @Override

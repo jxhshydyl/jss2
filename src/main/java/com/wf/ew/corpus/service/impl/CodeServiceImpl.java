@@ -19,7 +19,7 @@ public class CodeServiceImpl implements CodeService{
 
     public PageResult<Code> queryCode(int pageNum, int pageSize,String searchKey, String searchValue){
         Page<Object> startPage = PageHelper.startPage(pageNum, pageSize);
-        List<Code> codes = codeDao.queryCode(searchKey, searchValue);
+        List<Code> codes = codeDao.queryCode(searchKey, searchValue,null);
         PageResult<Code> result = new PageResult<Code>();
         result.setData(codes);
         result.setCount(startPage.getTotal());

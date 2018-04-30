@@ -26,4 +26,5 @@ public interface PageDao {
     int saveSubmitTaskScore(@Param("id")Long id,@Param("totalScore")float totalScore);
     int saveSubmitTaskQuestionDetail(@Param("id")Long id,@Param("qids")Long qids,@Param("scores")float scores);
     int saveSubmitTaskCodeDetail(@Param("id")Long id,@Param("qids")Long qids,@Param("scores")float scores);
+    int updateSubmitTaskState(Long id);
 }

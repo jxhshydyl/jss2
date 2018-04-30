@@ -3,6 +3,7 @@ package com.wf.ew.task.model;
 public class Condition {
     private String cno;
     private String time;
+    private String endTime;
     private String classNo;
 
     public String getClassNo() {
@@ -29,11 +30,20 @@ public class Condition {
         this.time = time;
     }
 
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
     @Override
     public String toString() {
         return "Condition{" +
                 "cno='" + cno + '\'' +
                 ", time='" + time + '\'' +
+                ", endTime='" + endTime + '\'' +
                 ", classNo='" + classNo + '\'' +
                 '}';
     }

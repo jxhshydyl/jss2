@@ -3,13 +3,17 @@ package com.wf.ew.task.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.wf.ew.core.PageResult;
+import com.wf.ew.task.dao.CtaskDao;
 import com.wf.ew.task.dao.TaskDao;
 import com.wf.ew.task.model.Condition;
+import com.wf.ew.task.model.Ctask;
 import com.wf.ew.task.model.SubmitTask;
 import com.wf.ew.task.model.Task;
 import com.wf.ew.task.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +23,8 @@ import java.util.Map;
 public class TaskServiceImpl implements TaskService{
     @Autowired
     TaskDao taskDao;
+    @Autowired
+    CtaskDao ctaskDao;
     @Override
     public PageResult<Task> queryTask(Integer page, Integer limit, String searchKey, String searchValue, String tno){
         Page<Object> startPage = PageHelper.startPage(page, limit);
@@ -32,10 +38,13 @@ public class TaskServiceImpl implements TaskService{
     public int deleteTask(Integer tid){
         return taskDao.deleteTask(tid);
     }
+
     @Override
-    public boolean shareTask(String tno,String tid,String cno,String time){
+    @Transactional
+    public boolean shareTask(String tno,String tid,String cno,String time,String endTime){
         String[] cnos=cno.split(",");
         String[] times=time.split(",");
+        String[] endTimes=endTime.split(",");
         int key=0;
         List<Condition> list=new ArrayList<Condition>();
         for(int i=0;i<cnos.length;i++){
@@ -43,6 +52,7 @@ public class TaskServiceImpl implements TaskService{
                 Condition condition=new Condition();
                 condition.setCno(cnos[i]);
                 condition.setTime(times[i]);
+                condition.setEndTime(endTimes[i]);
                 list.add(condition);
                 key++;
             }
@@ -51,6 +61,7 @@ public class TaskServiceImpl implements TaskService{
         map.put("condition",list);
         map.put("tid",tid);
         int num = taskDao.shareTask(map);
+        taskDao.updateState(tid,"已发布");
         if(key==num){
             return true;
         }
@@ -72,5 +83,10 @@ public class TaskServiceImpl implements TaskService{
         result.setData(tasks);
         result.setCount(startPage.getTotal());
         return  result;
+    }
+    @Override
+    public List<Ctask> showSharedTask(String tid){
+        List<Ctask> ctasks = ctaskDao.querySharedTask(tid);
+        return ctasks;
     }
 }

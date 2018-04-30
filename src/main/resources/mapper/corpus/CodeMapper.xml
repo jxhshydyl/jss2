@@ -26,6 +26,9 @@
             <if test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!=''">
                 AND ${searchKey} like '%${searchValue}%'
             </if>
+            <if test="qid != null">
+               and Qid=#{qid}
+            </if>
         </where>
     </select>
 

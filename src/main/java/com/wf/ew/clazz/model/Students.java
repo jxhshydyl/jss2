@@ -14,6 +14,7 @@ public class Students {
     private String sclass;//所属班级
     private String taskName;//作业名称
     private String taskChapter;//作业章节
+    private String sappendixes;//作业附件
     private String courseName;//课程名称
     private Float taskGrade;//作业成绩
 
@@ -135,6 +136,14 @@ public class Students {
 
     public void setTaskGrade(Float taskGrade) {
         this.taskGrade = taskGrade;
+    }
+
+    public String getSappendixes() {
+        return sappendixes;
+    }
+
+    public void setSappendixes(String sappendixes) {
+        this.sappendixes = sappendixes;
     }
 
     @Override

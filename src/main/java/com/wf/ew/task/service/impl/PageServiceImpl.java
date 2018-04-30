@@ -1,6 +1,7 @@
 package com.wf.ew.task.service.impl;
 
 import com.wf.ew.clazz.model.Students;
+import com.wf.ew.core.utils.StringUtil;
 import com.wf.ew.corpus.model.Code;
 import com.wf.ew.corpus.model.Question;
 import com.wf.ew.task.dao.PageDao;
@@ -8,6 +9,8 @@ import com.wf.ew.task.model.TaskBasic;
 import com.wf.ew.task.service.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,18 +90,22 @@ public class PageServiceImpl implements PageService{
     }
 
     @Override
+    @Transactional
     public int saveSubmitTaskDetail(Long[] qids, float[] scores,  String[] types, Long id , float totalScore){
         int num=pageDao.saveSubmitTaskScore(id,totalScore);
-        for(int i=0;i<qids.length;i++){
-            if("单选题".equals(types[i])||"多选题".equals(types[i])||"判断题".equals(types[i])
-                    ||"填空题".equals(types[i])||"简答题".equals(types[i])){
-                 num=pageDao.saveSubmitTaskQuestionDetail(id,qids[i],scores[i]);
-                 num++;
-            }else{
-                 num=pageDao.saveSubmitTaskCodeDetail(id,qids[i],scores[i]);
-                 num++;
+        if(types!=null && qids!=null && scores!=null){
+            for(int i=0;i<qids.length;i++){
+                if("单选题".equals(types[i])||"多选题".equals(types[i])||"判断题".equals(types[i])
+                        ||"填空题".equals(types[i])||"简答题".equals(types[i])){
+                    num=pageDao.saveSubmitTaskQuestionDetail(id,qids[i],scores[i]);
+                    num++;
+                }else{
+                    num=pageDao.saveSubmitTaskCodeDetail(id,qids[i],scores[i]);
+                    num++;
+                }
             }
         }
+        pageDao.updateSubmitTaskState(id);
         return num;
     }
 }

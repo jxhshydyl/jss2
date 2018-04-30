@@ -23,6 +23,12 @@
 </head>
 
 <body>
+<c:if test="${taskSubmitDetail.size()==0}">
+    <script>
+        window.close();
+    </script>
+</c:if>
+
 <header class="am-topbar admin-header">
     <div style="margin-top: 15px;margin: 0 auto;width:300px;height:40px;">
         <b style="font-size: 30px">${studentBasic.taskName}</b>
@@ -72,6 +78,16 @@
     <div style="background-color: #f0f0f0">
         <li style="list-style-type: none;font-size:15px;color:	#1E90FF;">所属课程：${studentBasic.courseName}</li>
         <li style="list-style-type: none;font-size:15px;color:	#1E90FF;">所属章节：${studentBasic.taskChapter}</li>
+        <li style="list-style-type: none;font-size:15px;color:	#1E90FF;">作业附件：
+            <c:choose>
+                <c:when test="${studentBasic.sappendixes != null && studentBasic.sappendixes != ''}">
+                   <a href="#">下载</a>
+                </c:when>
+                <c:otherwise>
+                    无
+                </c:otherwise>
+            </c:choose>
+        </li>
     </div>
     <div style="text-align: right;margin-top: 10%">
         <p style="font-size: 20px;font-weight: bold;margin-right: 10%">分数：<span id="totalScore">${studentBasic.taskGrade}</span></p>
@@ -172,7 +188,7 @@
                                             </div>
                                             <div>
                                                 <c:choose>
-                                                    <c:when test="${question.grade != '' &&question.grade != null}">
+                                                    <c:when test="${question.grade != null}">
                                                         <strong>得分：${question.grade}</strong>
                                                     </c:when>
                                                     <c:otherwise>
@@ -190,10 +206,6 @@
                                         <a onCilck="" href="">学生答案：</a>
                                         <div style="border:1px thin red;display: inline-block;margin-bottom: 20px">
                                             <b style="font-size: 15px">${question.answer}
-                                                fd东方舵手fd东方舵fd东方舵fd东方舵fd东方舵fdd东方舵手fd东方舵fd东方舵fd东方舵fd东方舵fd东方舵fd东方舵
-                                                d东方舵手fd东方舵fd东方舵fd东方舵fd东方舵fd东方舵fd东方舵d东方舵手fd东方舵fd东方舵fd东方舵fd东方舵fd东方舵fd东方舵
-                                                d东方舵手fd东方舵fd东方舵fd东方舵fd东方舵fd东方舵fd东方舵d东方舵手fd东方舵fd东方舵fd东方舵fd东方舵fd东方舵fd东方舵
-                                                东方舵fd东方舵
                                             </b>
                                         </div>
                                         <div>
@@ -283,6 +295,15 @@
         console.log(qids);
         console.log(scores);
         console.log(types);
+        if(qids.length<=0){
+            qids=null;
+        }
+        if(scores.length<=0){
+            scores=null;
+        }
+        if(types.length<=0){
+            types=null;
+        }
         $.ajax({
             type : "POST",
             url : "/page/saveSubmitTaskDetail",

@@ -59,13 +59,13 @@
 </div>
 <div>
     <div class="main">
-        <form action="/jss/arrangeTask/arrange" name="layui-form" method="post" enctype="multipart/form-data">
+        <form action="/jss/arrangeTask/arrange"  name="layui-form" method="post" enctype="multipart/form-data">
             <div id="step"></div>
             <div id="taskBasicCorpus">
                 <div class="layui-form-item">
                     <label class="layui-form-label" style="width:100px;">作业名称</label>
                     <div class="layui-input-block" style="width:40%;">
-                        <input type="text" name="taskName" lay-verify="required" autocomplete="off" placeholder="请输入标题"
+                        <input type="text" name="taskName" id="taskName" lay-verify="required" autocomplete="off" placeholder="请输入标题"
                                class="layui-input" required>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
             </div>
             <div id="confirmQuestions" style="display:none">
                 <div>
-                    <label class="layui-form-label">题型设置</label>
+                    <label class="layui-form-label">题型</label>
                     <div style="display: inline-block;width:50%;">
                         <ul class="ul1" id="user_ul">
                         </ul>
@@ -165,7 +165,8 @@
                     <tr style="margin-top: 30px">
                         <td style="margin-left: 10px" width="40px"></td>
                         <td style="margin-left: 10px">班级</td>
-                        <td style="margin-left: 10px">时间</td>
+                        <td style="margin-left: 10px">开始时间</td>
+                        <td style="margin-left: 10px">结束时间</td>
                     </tr>
                     </thead>
                     <tbody id="shareTaskToClass">
@@ -225,12 +226,16 @@
     });
     $("#nextBtn").on("click", function () {
         if(keyCount==0){
-            $step.nextStep();
-            $("#taskBasicCorpus").css("display","none");
-            $("#confirmQuestions").css("display","");
-            $("#confirmClass").css("display","none");
-            $index.text($step.getIndex());
-            keyCount++;
+            if($("#taskName").val()!=""){
+                $step.nextStep();
+                $("#taskBasicCorpus").css("display","none");
+                $("#confirmQuestions").css("display","");
+                $("#confirmClass").css("display","none");
+                $index.text($step.getIndex());
+                keyCount++;
+            }else{
+                layui.layer.msg("请填写作业名称！");
+            }
         }else if(keyCount==1){
             var k=0;
             if($("span[name='tixing_count']").length!=0){
@@ -265,13 +270,14 @@
             }
         }else if(keyCount==2){
             var time=$("input[name=time]");
+            var endTime=$("input[name=endTime]");
             var clzz=$("input[name=classNo]");
             var x=0,y=0;
             for(var i=0;i<clzz.length;i++){
                 if(clzz[i].checked){
                     x++;
                 }
-                if(time[i].value!=''){
+                if(time[i].value!='' && endTime[i].value != ''){
                     y++;
                 }
             }
@@ -443,7 +449,10 @@
                 "<td style=\"margin-left: 10px\"><input type='checkbox' name='classNo' lay-skin='primary' lay-filter='classNo' value='" + clazz[i].cno + "'></td>" +
                 "<td style=\"margin-left: 10px\">" +clazz[i].cname+ "</td>" +
                 "<td style=\"margin-left: 10px\">" +
-                "<input type='text' style='display: none;width: 50%;' class='layui-input'  id='" + clazz[i].cno + "' name='time' placeholder='yyyy-MM-dd HH:mm:ss'>" +
+                "<input type='text' style='display: none;margin-left: 10px' class='layui-input'  id='" + clazz[i].cno + "' name='time' placeholder='yyyy-MM-dd HH:mm:ss'>" +
+                "</td>" +
+                "<td style=\"margin-left: 10px\">" +
+                "<input type='text' style='display: none;margin-left: 10px' class='layui-input' id='" + clazz[i].cno + "s' name='endTime' placeholder='yyyy-MM-dd HH:mm:ss'>" +
                 "</td>" +
                 "</tr>";
         }
@@ -453,37 +462,74 @@
                 var laydate = layui.laydate;
                 //时间选择器
                 console.log("时间");
-                laydate.render({
+                var start =laydate.render({
+                    min:"",
                     elem: "#"+clazz[i].cno+"",
                     type: 'datetime'
+                });
+                var end = laydate.render({
+                    min:"",
+                    elem: "#"+clazz[i].cno+"s",
+                    type: 'datetime',
+                    done: function(datas){
+                        start.max = datas; //结束日选好后，重置开始日的最大日期
+                    }
                 });
             });
             layui.form.render();
         }
-        layui.form.on('checkbox(classNo)', function(data){
-            console.log(data.elem); //得到checkbox原始DOM对象
-            console.log(data.elem.checked); //是否被选中，true或者false
-            console.log(data.value); //复选框value值，也可以通过data.elem.value得到
+/*        layui.form.on('checkbox(classNo)', function(data){
+            console.log(data.value);
             if(data.elem.checked){
                 $("#"+data.value+"").css("display","");
+                $("#"+data.value+"s").css("display","");
                 $("#"+data.value+"").val("");
+                $("#"+data.value+"s").val("");
             }else{
                 $("#"+data.value+"").css("display","none");
+                $("#"+data.value+"s").css("display","none");
                 $("#"+data.value+"").val("");
+                $("#"+data.value+"s").val("");
             }
-        });
+        });*/
         $("input[name=classNo]").each(function(index,ele){
             $(ele).click(function(){
                 var str=$(this).val();
                 if(this.checked){
                     $("#"+str+"").css("display","");
                     $("#"+str+"").val("");
+                    $("#"+str+"s").css("display","");
+                    $("#"+str+"s").val("");
                 }else{
                     $("#"+str+"").css("display","none");
                     $("#"+str+"").val("");
+                    $("#"+str+"s").css("display","none");
+                    $("#"+str+"s").val("");
                 }
             });
         });
         layui.form.render();
+    }
+    function checkData(){
+        var classNo=document.getElementsByName("classNo");
+        var time=document.getElementsByName("time");
+        var endTime=document.getElementsByName("endTime");
+        var k=0;
+        var y=0;
+        for(var i=0;i<classNo.length;i++){
+            if(classNo.checked){
+                k++;
+            }
+        }
+        for(var i=0;i<time.length;i++){
+            if(time.value!="" && time.value!="" ){
+                y++;
+            }
+        }
+        if(x==y){
+            return true;
+        }else{
+            return false;
+        }
     }
 </script>

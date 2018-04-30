@@ -4,6 +4,7 @@ import com.wf.ew.corpus.model.Code;
 import com.wf.ew.corpus.model.Question;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public interface QuestionDao {

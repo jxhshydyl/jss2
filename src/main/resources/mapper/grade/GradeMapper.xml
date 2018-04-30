@@ -27,7 +27,26 @@
     <select id="courseGradeByCnoAndTime" resultMap="TaskGradeStatistic">
         select t.Tid,t.Task_name,t.Cno as cid,t.Tchapter,ct.Cno,ct.End_time,ct.Start_time,co.Cname as courseName,cl.Cname,sum(st.Grade) as sumGrade
         from task t,ctask ct,course co,class cl,stask st
-        where t.Tid=ct.Tid and t.Cno=#{cno} and t.Tno=#{tno} and co.Cno=t.Cno and cl.Cno=ct.Cno and st.Tid=t.Tid and st.Cno=ct.Cno GROUP BY t.Tid,cl.Cname
+        <where>
+            t.Tid=ct.Tid
+            and co.Cno=t.Cno and cl.Cno=ct.Cno and st.Tid=t.Tid and st.Cno=ct.Cno
+            <if test="cno != null">
+                and t.Cno=#{cno}
+            </if>
+            <if test="tno != null">
+                and t.Tno=#{tno}
+            </if>
+            <if test="cno != null">
+                and t.Cno=#{cno}
+            </if>
+            <if test="startTime != null">
+                and ct.Start_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+               and ct.End_time &lt; #{endTime}
+            </if>
+        </where>
+        GROUP BY t.Tid,cl.Cname
     </select>
 
     <select id="courseDetailGradeByCnameAndTaskName" resultMap="ClassDeatilGrade">
@@ -40,9 +59,17 @@
     <select id="taskGradeStatisticByCnoAndTime" resultMap="TaskGradeStatistic">
         select ct.Cno,Class.Cname,ct.Start_time,ct.End_time,t.Task_name,t.Cno,c.Cname as courseName,
         t.Tid,s.Sno,sum(s.Grade) as sumGrade
-		from Ctask ct,task t,Course c,Stask s,Class where t.Tno=#{tno} and ct.Cno=#{cno}
+		from Ctask ct,task t,Course c,Stask s,Class
+		where t.Tno=#{tno} and ct.Cno=#{cno}
 		and t.Tid=ct.Tid and c.Cno=t.Cno and s.Tid=t.Tid
-		and Class.cno=#{cno} and s.Sno in (select sno from Sinformation where Sclass=(select Cname from Class where Cno=#{cno})) GROUP BY c.Cname,t.Tid ORDER BY ct.End_time
+		and Class.cno=#{cno}
+        <if test="startTime != null">
+            and ct.Start_time &gt; #{startTime}
+        </if>
+        <if test="endTime != null">
+            and ct.End_time &lt; #{endTime}
+        </if>
+		and s.Sno in (select sno from Sinformation where Sclass=(select Cname from Class where Cno=#{cno})) GROUP BY c.Cname,t.Tid ORDER BY ct.End_time
     </select>
     <select id="taskGradeDetailByCnameAndTime" resultMap="ClassDeatilGrade">
         select si.Sno,si.Sname,si.Sclass,t.Tid,t.Task_name,st.Grade,t.Cno,co.Cname

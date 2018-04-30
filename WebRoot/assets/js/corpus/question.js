@@ -10,7 +10,6 @@ $(function() {
 		page: true,
 		cols: [[
 			{type:'numbers'},
-			{field:'qid', sort: true, title: 'ID'},
 			{field:'qtype', sort: true, title: '类型'},
 			{field:'qcontent', sort: true, title: '内容'},
 			{field:'qchoice', sort: true, title: '选项'},
@@ -19,7 +18,7 @@ $(function() {
             {field:'cname', sort: true,title: '课程名称'},
             {field:'qchapter', sort: true,title: '章节'},
             {field:'qparagraph', sort: true,title: '节'},
-			{align:'center', toolbar: '#barTpl', minWidth: 180, title: '操作'}
+			{align:'center', toolbar: '#barTpl', title: '操作'}
     	]]
 	});
     console.log("question1");
@@ -167,11 +166,11 @@ $(function() {
 		var layEvent = obj.event;
 		console.log(obj);
 		if(layEvent === 'edit'){ //修改
-            console.log(data);
             $("#showQuestionDetail").css("display","");
             $("#showTable").css("display","none");
             $("#showForm").css('display','none');
             showDataModel(data);
+            showCharts(data);
             showEditModel(data);
 			//showEditModel(data);
 		} else if(layEvent === 'del'){ //删除
@@ -195,6 +194,61 @@ $(function() {
         showEditModel(null);
 	});*/
 });
+
+function showCharts(data){
+    var myChart = echarts.init(document.getElementById('chartStatistic'));
+    // 指定图表的配置项和数据
+    console.log(data);
+    var legend = [""];
+    var item = ['提交', '通过'];
+    var data = [
+        [data.totalSubmitCount, data.totalRightCount]
+    ];
+    //柱状图
+    var option = {
+        title: {
+            text: '次数',
+        },
+        // 提示框，鼠标悬浮交互时的信息提示
+        tooltip: {
+            show: true,
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        // 图例
+        legend: {
+            data: legend
+        },
+        // 横轴坐标轴
+        xAxis: [{
+            type: 'category',
+            data: item
+        }],
+        // 纵轴坐标轴
+        yAxis: [{
+            type: 'value'
+        }],
+        // 数据内容数组
+        series: function () {
+            var serie = [];
+            for (var i = 0; i < legend.length; i++) {
+                var item = {
+                    name: legend[i],
+                    type: 'bar',
+                    barWidth: '40%',
+                    data: data[i]
+                };
+                serie.push(item);
+            }
+            return serie;
+        }()
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+}
+
 
 function showDataModel(data){
     var course=getCurrentCourse();

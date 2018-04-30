@@ -14,6 +14,8 @@ public class Question {
     private String qchapter;//课程章
     private String qparagraph;//课程节
     private String qdescribe;
+    private Integer totalSubmitCount;//课程节
+    private Integer totalRightCount;
 
     private Float score;//题目分数
     private String answer;//学生答案
@@ -130,6 +132,22 @@ public class Question {
 
     public void setQdescribe(String qdescribe) {
         this.qdescribe = qdescribe;
+    }
+
+    public Integer getTotalSubmitCount() {
+        return totalSubmitCount;
+    }
+
+    public void setTotalSubmitCount(Integer totalSubmitCount) {
+        this.totalSubmitCount = totalSubmitCount;
+    }
+
+    public Integer getTotalRightCount() {
+        return totalRightCount;
+    }
+
+    public void setTotalRightCount(Integer totalRightCount) {
+        this.totalRightCount = totalRightCount;
     }
 
     @Override

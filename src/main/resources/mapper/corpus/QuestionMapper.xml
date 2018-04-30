@@ -11,6 +11,8 @@
         <result column="Cname" property="cname"></result>
         <result column="Qchapter" property="qchapter"></result>
         <result column="Qparagraph" property="qparagraph"></result>
+        <result column="Total_submit_count" property="totalSubmitCount"></result>
+        <result column="Total_right_count" property="totalRightCount"></result>
     </resultMap>
     <select id="queryQuestion" resultMap="question">
         select * from Question

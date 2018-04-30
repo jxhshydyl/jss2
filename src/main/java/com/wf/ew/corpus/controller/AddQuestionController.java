@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigInteger;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/jss/addQuestion")
@@ -42,5 +44,23 @@ public class AddQuestionController {
         }catch (Exception e){
             return "redirect:"+request.getScheme()+"://"+ request.getServerName()+":"+request.getServerPort()+"/"+request.getContextPath()+"index.html#!corpus/code";
         }
+    }
+    @RequestMapping("/evaluateStatistics")
+    @ResponseBody
+    public Map<String, Object> evaluateStatistics(Long qid){
+        Map<String, Object> map = addQuestionService.evaluateStatistics(qid);
+        if(map != null){
+            map.put("code",200);
+        }
+        return map;
+    }
+    @RequestMapping("/evaluateStatisticsQuestion")
+    @ResponseBody
+    public Map<String, Object> evaluateStatisticsQuestion(Long qid){
+        Map<String, Object> map = addQuestionService.evaluateStatistics(qid);
+        if(map != null){
+            map.put("code",200);
+        }
+        return map;
     }
 }
