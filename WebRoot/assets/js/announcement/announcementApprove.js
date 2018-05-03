@@ -28,15 +28,6 @@ $(function() {
 	$("#searchBtn").click(function(){
 		doSearch(table);
 	});
-	$("#addBtn").click(function(){
-	    $("#showTable").css("display","none");
-        $("#addForm").css("display","");
-    });
-    $("#reset").click(function(){
-        $("#showTable").css("display","");
-        $("#addForm").css("display","none");
-    });
-
 	//渲染表单
 });
 

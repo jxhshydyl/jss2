@@ -18,6 +18,7 @@ public class Competition {
     private String competitionContentRootPath;
     private String competition_approve;
     private Integer competitionProblemCount;
+    private String roleId;
 
     public Long getCompetitionId() {
         return competitionId;
@@ -146,6 +147,14 @@ public class Competition {
 
     public void setCompetitionProblemCount(Integer competitionProblemCount) {
         this.competitionProblemCount = competitionProblemCount;
+    }
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 
     @Override

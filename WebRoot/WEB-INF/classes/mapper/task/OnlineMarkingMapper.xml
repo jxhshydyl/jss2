@@ -27,7 +27,7 @@
                     select Task.Task_name,Task.Tid,Task.Tchapter,Ctask.End_time,Class.Cname,Class.Cno,Course.Cname as course_name
                     from Task,Ctask,Class,Course
                     <where>
-                        Task.Tno="1" and Task.Tid=Ctask.Tid and Class.Cno=Ctask.Cno and Task.Cno=Course.Cno
+                        Task.Tno=#{tno} and Task.Tid=Ctask.Tid and Class.Cno=Ctask.Cno and Task.Cno=Course.Cno
                         <choose>
                             <when test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!='' and searchKey=='Task_name'">
                                 and Task.${searchKey} like concat(concat("%",#{searchValue}),"%")

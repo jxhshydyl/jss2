@@ -1,7 +1,5 @@
 package com.wf.ew.announcement.model;
 
-import java.util.Date;
-
 public class Announcement {
     private Long announcementId;
     private String announcementTitle;
@@ -11,6 +9,7 @@ public class Announcement {
     private String announcementCreateTime;
     private String announcementPublishTime;
     private String isPublish;
+    private String roleId;
 
     public Long getAnnouncementId() {
         return announcementId;
@@ -76,6 +75,14 @@ public class Announcement {
         this.isPublish = isPublish;
     }
 
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
     @Override
     public String toString() {
         return "Announcement{" +
@@ -84,9 +91,10 @@ public class Announcement {
                 ", announcementIntroduction='" + announcementIntroduction + '\'' +
                 ", announcementContent='" + announcementContent + '\'' +
                 ", announcementCreateManagerId=" + announcementCreateManagerId +
-                ", announcementCreateTime=" + announcementCreateTime +
-                ", announcementPublishTime=" + announcementPublishTime +
-                ", isPublish=" + isPublish +
+                ", announcementCreateTime='" + announcementCreateTime + '\'' +
+                ", announcementPublishTime='" + announcementPublishTime + '\'' +
+                ", isPublish='" + isPublish + '\'' +
+                ", roleId='" + roleId + '\'' +
                 '}';
     }
 }

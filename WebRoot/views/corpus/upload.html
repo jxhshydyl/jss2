@@ -9,8 +9,9 @@
     <form class="layui-form">
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <input type="radio" name="type" value="code" lay-filter="encrypt" title="编程题" >
                 <input type="radio" name="type" value="noCode" lay-filter="encrypt" title="非编程题" checked>
+                <input type="radio" name="type" value="code" lay-filter="encrypt" title="编程题" >
+                <input type="radio" name="type" value="corpus" lay-filter="encrypt" title="学习资料" >
                 <a class="layui-btn layui-btn-sm layui-btn-normal" href="/fileDownLoad">
                     <i class="layui-icon">&#xe601;</i>下载模板
                 </a>
@@ -35,6 +36,7 @@
 </div>
 <script>
     var types="noCode";
+    var tno=getCurrentUser().userId;
     layui.use(['form'], function(){
         var form = layui.form
             ,layer = layui.layer;
@@ -58,7 +60,7 @@
             , multiple: true
             ,before: function(obj){
                 layer.load(); //上传loading
-                this.data={'questionType':types};
+                this.data={'questionType':types,'tno':tno};
             }
             , auto: false
             , bindAction: '#testListAction'

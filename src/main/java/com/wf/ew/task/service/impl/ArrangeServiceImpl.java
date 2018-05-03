@@ -41,7 +41,6 @@ public class ArrangeServiceImpl implements ArrangeService{
             }
             //task.setTno("1");                        //111 110 101 011 100 010 001 000
             //TODO 教师编号，名称，类型(是否开启答案，是否开启信息，是否学生题目相同)共八种类型
-            task.setSubtime(DateUtil.getCurrentDate());
             arrangeDao.arrangeTask(task);
             int tid=task.getTid();//返回的主键
             if(condition.getClassNo()!=null && !"".equals(condition.getClassNo()) && !"null".equals(condition.getClassNo())){

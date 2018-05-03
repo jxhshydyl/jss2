@@ -138,7 +138,7 @@ function creatClassTable(){
             {field:'competitionApplyEndTime', sort: true, title: '申请结束'},
             {field:'competitionBeginTime', sort: true, title: '开始时间'},
             {field:'competitionEndTime', sort: true,title: '结束时间'},
-            {field:'isPublish', sort: true,templet: '#statusTpl2',title: '是否发布'},
+            {field:'isClose', sort: true,templet: '#statusTpl1',title: '是否开启'},
             {align:'center', toolbar: '#barTpl', title: '操作'}
         ]]
     });

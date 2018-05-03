@@ -1,6 +1,7 @@
 package com.wf.ew.task.controller;
 
 import com.wf.ew.core.ResultMap;
+import com.wf.ew.core.utils.DateUtil;
 import com.wf.ew.task.model.AutoMakePaperPara;
 import com.wf.ew.task.model.Condition;
 import com.wf.ew.task.model.Task;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/jss/arrangeTask")
@@ -38,11 +40,14 @@ public class ArrangeTaskController {
         System.out.println(condition);
         System.out.println(request.getRequestURI());
         MultipartFile file=task.getAppendixesFile();
+        String currentDate = DateUtil.getCurrentDate();
+        task.setSubtime(currentDate);
         try {
             file.getInputStream();
             if (!file.isEmpty()) {
                 //上传文件路径
-                String path = request.getServletContext().getRealPath("test");
+                String tashPath="file//teacher//"+task.getTno()+"//task//"+new Date().getTime()+task.getTaskName();
+                String path = request.getServletContext().getRealPath(tashPath);
                 //上传文件名
                 String filename = file.getOriginalFilename();
 
@@ -54,6 +59,7 @@ public class ArrangeTaskController {
                 task.setTappendixes(filename);
                 //将上传文件保存到一个目标文件当中
                 file.transferTo(new File(path + File.separator + filename));
+                task.setTappendixes(path + File.separator + filename);
             }
         } catch (Exception e) {
         }

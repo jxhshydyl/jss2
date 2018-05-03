@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -59,13 +60,36 @@ public class UploadController {
 
     @RequestMapping("/upload")
     @ResponseBody
-    public ResultMap bulkAddQuestion(@RequestParam("file") MultipartFile file, HttpServletRequest request,String questionType) throws Exception {
+    public ResultMap bulkAddQuestion(@RequestParam("file") MultipartFile file, HttpServletRequest request,String questionType,String tno) throws Exception {
         InputStream is = file.getInputStream();
         String fileName = file.getOriginalFilename();
         System.out.println(questionType);
-        int num = uploadService.bulkAddQuestion(file.getInputStream(), questionType, file.getOriginalFilename());
-        if(num!=0){
-            return ResultMap.ok(0,"上传成功");
+        int num=0;
+        if(!file.isEmpty()){
+            if("corpus".equals(questionType)){
+                try{
+                    String tashPath="file//teacher//"+tno+"//corpus";
+                    String path = request.getServletContext().getRealPath(tashPath);
+                    //上传文件名
+                    String filename = file.getOriginalFilename();
+
+                    File filepath = new File(path, filename);
+                    //判断路径是否存在，如果不存在就创建一个
+                    if (!filepath.getParentFile().exists()) {
+                        filepath.getParentFile().mkdirs();
+                    }
+                    //将上传文件保存到一个目标文件当中
+                    file.transferTo(new File(path + File.separator + filename));
+                    return ResultMap.ok(0,"上传成功");
+                }catch (Exception e){
+                    return ResultMap.ok(1,"上传失败");
+                }
+            }else{
+                num = uploadService.bulkAddQuestion(file.getInputStream(), questionType, file.getOriginalFilename());
+                if(num!=0){
+                    return ResultMap.ok(0,"上传成功");
+                }
+            }
         }
         return ResultMap.ok(1,"上传失败");
     }

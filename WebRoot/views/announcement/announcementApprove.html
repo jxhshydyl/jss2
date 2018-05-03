@@ -1,0 +1,38 @@
+<div class="content-header">
+    <h2 class="content-title">作业列表</h2>
+    <span class="layui-breadcrumb">
+	  <a href="#!home">首页</a>
+	  <a href="#!task/taskList"><cite>作业列表</cite></a>
+	</span>
+</div>
+
+<div id="showTable">
+    <div class="layui-form toolbar">
+        搜索：
+        <select id="searchKey">
+            <option value="">-请选择-</option>
+            <option value="announcement_title">公告标题</option>
+            <option value="announcement_introduction">公告简介</option>
+            <option value="announcement_content">公告内容</option>
+        </select>&emsp;
+        <input id="searchValue" class="layui-input search-input" type="text" placeholder="输入搜索内容"/>&emsp;
+        <button id="searchBtn" class="layui-btn search-btn"><i class="layui-icon">&#xe615;</i>搜索</button>&emsp;
+    </div>
+
+    <table class="layui-table" id="table" lay-filter="table"></table>
+
+</div>
+
+<!-- 表格操作列 -->
+<script type="text/html" id="barTpl">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="view">详情</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script type="text/html" id="statusTpl">
+    <input type="checkbox" value="{{d.announcementId}}" lay-filter="statusCB2" lay-skin="switch" lay-text="是|否"
+           {{ d.isPublish== 1 ? 'checked' : '' }}>
+</script>
+
+
+<script type="text/javascript" src="assets/js/announcement/announcementApprove.js"></script>

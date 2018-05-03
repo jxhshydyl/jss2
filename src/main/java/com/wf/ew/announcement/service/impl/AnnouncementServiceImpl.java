@@ -49,6 +49,9 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         }else{
             announcement.setIsPublish("0");
         }
+        if(!"admin".equals(announcement.getRoleId())){
+            announcement.setIsPublish("0");
+        }
         return announcementDao.addAnnouncement(announcement);
     }
     public int updatePublic(Long announcementId,Integer isPublish){
