@@ -60,4 +60,13 @@ public class ArrangeTaskController {
         arrangeService.arrangeTask(task,autoMakePaperPara,condition);
         return "redirect:"+request.getScheme()+"://"+ request.getServerName()+":"+request.getServerPort()+"/"+request.getContextPath()+"index.html#!task/arrangeTask";
     }
+    @RequestMapping("/judgeTaskName")
+    @ResponseBody
+    public ResultMap judgeTaskName(String taskName){
+        int i = arrangeService.judgeTaskName(taskName);
+        if(i==1){
+            return ResultMap.error(0,"有相同名称");
+        }
+        return ResultMap.ok(200,"无相同名称");
+    }
 }

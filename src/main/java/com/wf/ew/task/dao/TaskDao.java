@@ -14,4 +14,5 @@ public interface TaskDao {
     List<SubmitTask> querySubmitedTask(@Param("searchKey") String searchKey, @Param("searchValue") String searchValue, @Param("tno") String tno);
     List<SubmitTask> queryStudentSubmitTask(@Param("searchKey") String searchKey, @Param("searchValue") String searchValue, @Param("cno") String cno,@Param("tid") String tid);
     int updateState(@Param("tid")String tid,@Param("state") String state);
+    Integer judgeTaskName(@Param("taskName") String taskName,@Param("startTime") String startTime,@Param("endTime") String endTime);
 }

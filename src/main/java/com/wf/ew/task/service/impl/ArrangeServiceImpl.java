@@ -1,6 +1,7 @@
 package com.wf.ew.task.service.impl;
 
 import com.wf.ew.core.utils.DateUtil;
+import com.wf.ew.grade.service.impl.GradeServiceImpl;
 import com.wf.ew.task.dao.ArrangeDao;
 import com.wf.ew.task.dao.TaskDao;
 import com.wf.ew.task.model.AutoMakePaperPara;
@@ -12,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ArrangeServiceImpl implements ArrangeService{
@@ -99,5 +97,22 @@ public class ArrangeServiceImpl implements ArrangeService{
             return 0;
         }
         return 0;
+    }
+    @Override
+    public int judgeTaskName(String taskName){
+        String s = DateUtil.formatMDate(new Date());
+        String semester = GradeServiceImpl.isSemester(s);
+        String startTime=null;
+        String endTime=null;
+        String year = DateUtil.getCurrentYear();
+        String nextYear =String.valueOf (Integer.valueOf(year)+1);
+        if("2".equals(semester)||"3".equals(semester)||"4".equals(semester)||"5".equals(semester)||"6".equals(semester)||"7".equals(semester)||"8".equals(semester)){
+            startTime=year+"-"+"02";
+            endTime=year+"-"+"09";
+        }else{
+            startTime=year+"-"+"09";
+            endTime=nextYear+"-"+"02";
+        }
+        return taskDao.judgeTaskName(taskName,startTime,endTime);
     }
 }

@@ -532,4 +532,19 @@
             return false;
         }
     }
+
+    $("#taskName").blur(function(){
+        var taskName=$("#taskName").val();
+        $.ajax({
+            type : "POST",
+            url : "jss/arrangeTask/judgeTaskName",
+            data : {"taskName" : taskName},
+            dataType : "json",
+            success : function(data) {
+                if(data.code!=200){
+                    layui.layer.msg("该作业名称在该学期已重复！");
+                }
+            }
+        });
+    });
 </script>

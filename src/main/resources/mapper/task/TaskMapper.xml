@@ -48,4 +48,19 @@
     <update id="updateState">
         UPDATE task set Tstate=#{state} where Tid=#{tid}
     </update>
+
+    <select id="judgeTaskName" resultType="java.lang.Integer">
+        select count(1) from task
+        <where>
+            <if test="taskName!=null">
+                and Task_name=#{taskName}
+            </if>
+            <if test="startTime!=null">
+                and SubTime &gt; #{startTime}
+            </if>
+            <if test="endTime!=null">
+                and SubTime &lt; #{endTime}
+            </if>
+        </where>
+    </select>
 </mapper>
