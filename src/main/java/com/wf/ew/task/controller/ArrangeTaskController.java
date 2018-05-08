@@ -48,6 +48,7 @@ public class ArrangeTaskController {
                 //上传文件路径
                 String tashPath="file//teacher//"+task.getTno()+"//task//"+new Date().getTime()+task.getTaskName();
                 String path = request.getServletContext().getRealPath(tashPath);
+                path=path.split("webapps")[0]+"webapps";
                 //上传文件名
                 String filename = file.getOriginalFilename();
 
@@ -75,4 +76,8 @@ public class ArrangeTaskController {
         }
         return ResultMap.ok(200,"无相同名称");
     }
+/*    public static void main(String[] args){
+        String path="D:\\apache-tomcat-8.0.49\\webapps\\jss2\\file\\teacher\\1\\task\\1525786948778test\\班级E-R图.vsd";
+        System.out.println(path.split("webapps")[0]+"webapps");
+    }*/
 }

@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 		if(getUserByAccount(user.getUserAccount())!=null){
 			throw new BusinessException("账号已经存在");
 		}
-		String decryptMd5 = EndecryptUtils.encrytMd5(user.getUserPassword(), user.getUserId(), 3);
+		String decryptMd5 = EndecryptUtils.encrytMd5(user.getUserPassword(), "null", 3);
 		user.setUserPassword(decryptMd5);
 		user.setUserStatus(0);
 		user.setCreateTime(new Date());
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
 	public boolean updateUserPsw(String userId, String password) {
 		User user = new User();
 		user.setUserId(userId);
-		String decryptMd5 = EndecryptUtils.encrytMd5(password, userId, 3);
+		String decryptMd5 = EndecryptUtils.encrytMd5(password, "null", 3);
 		user.setUserPassword(decryptMd5);
 		return userMapper.updateByPrimaryKeySelective(user)>0;
 	}

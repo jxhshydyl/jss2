@@ -88,7 +88,7 @@
     <div class="admin-biaogelist" style="background-color: white">
         <div class="fbneirong">
             <c:forEach var="question" items="${taskDetail}" varStatus="status" >
-                <div name="replaceQuestionDiv" id="replaceQuestion<s:property value="#no.getCount()"/>">
+                <div name="replaceQuestionDiv" id='replaceQuestion<s:property value="#no.getCount()"/>'>
                     <div class="am-panel am-panel-default" style="margin-left: 10%;margin-right: 10%">
                         <div id="Question${status.index+1}">
                             <div class="am-panel-hd">

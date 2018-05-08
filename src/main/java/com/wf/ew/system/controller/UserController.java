@@ -101,7 +101,7 @@ public class UserController extends BaseController {
 			return ResultMap.error("演示系统关闭该功能");
 		}
 		String userId = getUserId(request);
-		String encryPsw = EndecryptUtils.encrytMd5(oldPsw, userId, 3);
+		String encryPsw = EndecryptUtils.encrytMd5(oldPsw, "null", 3);
 		User tempUser = userService.getUserById(userId);
 		if(tempUser==null||!encryPsw.equals(tempUser.getUserPassword())){
 			return ResultMap.error("旧密码输入不正确");

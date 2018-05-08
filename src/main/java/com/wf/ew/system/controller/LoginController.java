@@ -61,7 +61,7 @@ public class LoginController extends BaseController {
 		if (loginUser.getUserStatus() != 0) {
 			return ResultMap.error("账号被锁定");
 		}
-		String encryPsw = EndecryptUtils.encrytMd5(password, loginUser.getUserId(), 3);
+		String encryPsw = EndecryptUtils.encrytMd5(password, "null", 3);
 		if (!loginUser.getUserPassword().equals(encryPsw)) {
 			return ResultMap.error("密码错误");
 		}
