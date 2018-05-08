@@ -7,6 +7,8 @@ public class Students {
     private String sname;//姓名
     private String ssex;//性别
     private String sbirthday;//出生年月
+    private String email;//邮箱
+    private String phone;//电话
     private String sage;//年龄
     private String syear;//入学年份
     private String sacademy;//所属学院
@@ -144,6 +146,22 @@ public class Students {
 
     public void setSappendixes(String sappendixes) {
         this.sappendixes = sappendixes;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @Override

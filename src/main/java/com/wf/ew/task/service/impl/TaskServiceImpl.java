@@ -2,6 +2,7 @@ package com.wf.ew.task.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.wf.ew.asynchronous.service.SendMailService;
 import com.wf.ew.core.PageResult;
 import com.wf.ew.task.dao.CtaskDao;
 import com.wf.ew.task.dao.TaskDao;
@@ -25,6 +26,8 @@ public class TaskServiceImpl implements TaskService{
     TaskDao taskDao;
     @Autowired
     CtaskDao ctaskDao;
+    @Autowired
+    SendMailService sendMailService;
     @Override
     public PageResult<Task> queryTask(Integer page, Integer limit, String searchKey, String searchValue, String tno){
         Page<Object> startPage = PageHelper.startPage(page, limit);
@@ -47,6 +50,7 @@ public class TaskServiceImpl implements TaskService{
         String[] endTimes=endTime.split(",");
         int key=0;
         List<Condition> list=new ArrayList<Condition>();
+        sendMailService.sendTaskMail(tno,tid,cno,time,endTime);
         for(int i=0;i<cnos.length;i++){
             if(!"".equals(cnos[i].trim())){
                 Condition condition=new Condition();

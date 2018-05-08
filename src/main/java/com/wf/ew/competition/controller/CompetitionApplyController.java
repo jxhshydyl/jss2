@@ -1,5 +1,6 @@
 package com.wf.ew.competition.controller;
 
+import com.wf.ew.asynchronous.service.SendMailService;
 import com.wf.ew.competition.model.CompetitionApply;
 import com.wf.ew.competition.service.CompetitionApplyService;
 import com.wf.ew.core.PageResult;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class CompetitionApplyController {
     @Autowired
     CompetitionApplyService competitionApplyService;
+    @Autowired
+    SendMailService sendMailService;
 
     @RequestMapping("/queryCompetitionApply")
     @ResponseBody
@@ -31,7 +34,7 @@ public class CompetitionApplyController {
     @RequestMapping("/sengEmail")
     @ResponseBody
     public ResultMap sengEmail(String email){
-        competitionApplyService.sengEmail(email);
+        sendMailService.sendCompetitionApplyAccount(email);
         return ResultMap.ok(200,"成功发送！");
     }
 

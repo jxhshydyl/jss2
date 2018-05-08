@@ -58,7 +58,7 @@
         console.log(cno);
         console.log(time);
         $.ajax({
-            url : "/grade/courseGradeByCnoAndTime",
+            url : "grade/courseGradeByCnoAndTime",
             data : {"cno":cno,"time":time,"tno":tno},
             dataType : "json",
             success:function(data){
@@ -172,7 +172,7 @@
             console.log(params.name);
             $.ajax({
                 type : "POST",
-                url : "/grade/courseDetailGradeByCnameAndTaskName",
+                url : "grade/courseDetailGradeByCnameAndTaskName",
                 data : {"cname" : cname,"taskName" : taskName,"cno":cno,"tno":tno},
                 dataType : "json",
                 success : function(data) {

@@ -15,6 +15,8 @@
         <result column="Sname" property="sname"></result>
         <result column="Ssex" property="ssex"></result>
         <result column="Syear" property="syear"></result>
+        <result column="Email" property="email"></result>
+        <result column="Phone" property="phone"></result>
         <result column="Sacademy" property="sacademy"></result>
         <result column="Smajor" property="smajor"></result>
         <result column="Sclass" property="sclass"></result>
