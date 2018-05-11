@@ -28,8 +28,8 @@
 
 
 <header class="am-topbar admin-header">
-    <div style="margin-top: 15px; margin: 0 auto; width: 300px; height: 40px;">
-        <b style="font-size: 30px">
+    <div style="margin-top: 25px; margin: 0 auto; width: 600px; height: 40px;text-align:center;" id="taskNewName">
+        <b style="font-size: 20px;" id="taskOldName">
           ${taskBasic.taskName}
         </b>
     </div>
@@ -75,13 +75,22 @@
         <li style="list-style-type: none;font-size:15px;color:	#1E90FF;">作业附件：
             <c:choose>
                 <c:when test="${taskBasic.tappendixes != null && taskBasic.tappendixes != ''}">
-                    <a href="#">下载</a>
+                    <a href="${taskBasic.tappendixes}">下载</a>
                 </c:when>
                 <c:otherwise>
                     无
                 </c:otherwise>
             </c:choose>
         </li>
+        <c:if test='${taskBasic.tstate!="未发布"}'>
+            <input type="hidden" value="${taskBasic.tid}" id="tid">
+            <li  style="list-style-type: none; font-size: 15px; color: #1E90FF;">
+                是否作新作业：<select class="form-control" id="isNewTask">
+                                    <option value="true">是</option>
+                                    <option value="false" selected = selected">否</option>
+                               </select>
+            </li>
+        </c:if>
     </div>
 </div>
 <div class=" admin-content">
@@ -121,22 +130,26 @@
                                 </c:if>
                             </div>
                         </div>
-                        <div style="display: block; margin-left: 80%; margin-bottom: 10px">
-                            <button type="button" class="am-btn am-btn-default am-round"
-                                    data-am-modal="{target: '#my-popup'}"
-                                    style="border: 1px solid #555555"
-                                    onClick="queryQuestion('${question.qtype}','${question.cname}','${question.qchapter}',${status.count},
-                                        ${question.qid},${taskBasic.tid})">更换
-                            </button>
-                            <button type="button" class="am-btn am-btn-default am-round"
-                                    style="border: 1px solid #555555;"
-                                    onClick="deleteQuestion(${question.qid},${taskBasic.tid},'${question.qtype}')">删除
-                            </button>
-                        </div>
+                        <c:if test='${taskBasic.tstate=="未发布"}'>
+                            <div style="display: block; margin-left: 80%; margin-bottom: 10px">
+                                <button type="button" class="am-btn am-btn-default am-round"
+                                        data-am-modal="{target: '#my-popup'}"
+                                        style="border: 1px solid #555555"
+                                        onClick="queryQuestion('${question.qtype}','${question.cname}','${question.qchapter}',${status.count},
+                                            ${question.qid},${taskBasic.tid})">更换
+                                </button>
+                                <button type="button" class="am-btn am-btn-default am-round"
+                                        style="border: 1px solid #555555;"
+                                        onClick="deleteQuestion(${question.qid},${taskBasic.tid},'${question.qtype}')">删除
+                                </button>
+                            </div>
+                        </c:if>
                     </div>
                     <br>
                 </div>
             </c:forEach>
+            <div style="margin-left: 30%" id="ensureButton">
+            </div>
         </div>
         <div class="foods">
             <ul>版权所有@2015
@@ -326,6 +339,35 @@
             $modal.modal('close');
         }
     }
+</script>
+<script>
+    var taskOldName=$("#taskOldName").html().trim();
+    $("#isNewTask").change(function(){
+        console.log("daying");
+        if($(this).val()=="true"){
+            if(window.confirm('您确定要重新作为新作业吗？')){
+                var html="<input type='text' style='margin-top: 10px;height: 30px;width:250px;font-size:15px;border: none' value='"+taskOldName+"' name='newTaskName' id='tasksName'>"
+                $("#taskNewName").html(html);
+                $("#ensureButton").html("<button type=\"button\" class=\"am-btn am-btn-primary am-round\" id='saveNewTask'>确定</button>\n" +
+                    "                    <button type=\"button\" class=\"am-btn am-btn-primary am-round\">取消</button>");
+                var tid=$("#tid").val();
+                //window.location.href="/jss/arrangeTask";
+                $("#saveNewTask").click(function(){
+                    var tid=$("#tid").val();
+                    var newTaskName=$("#tasksName").val();
+                    window.location.href="/jss/arrangeTask/arrangeNewTask?tid="+tid+"&newTaskName="+newTaskName;
+                });
+            }else{
+                $(this).val("false");
+            }
+        }else{
+            var html=" <b style=\"font-size: 20px\" id=\"taskOldName\">\n" +
+                "          "+taskOldName+"\n" +
+                "        </b>";
+            $("#taskNewName").html(html);
+            $("#ensureButton").html("");
+        }
+    });
 </script>
 </body>
 </html>

@@ -1,6 +1,8 @@
 package com.wf.ew.grade.dao;
 
 import com.wf.ew.grade.model.ClassDeatilGrade;
+import com.wf.ew.grade.model.ExportGrade;
+import com.wf.ew.grade.model.QuestionStatistic;
 import com.wf.ew.grade.model.TaskGradeStatistic;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,4 +13,7 @@ public interface GradeDao {
     List<ClassDeatilGrade> courseDetailGradeByCnameAndTaskName(@Param("cname")String cname, @Param("taskName")String taskName,@Param("cno") String cno,@Param("tno") String tno);
     List<TaskGradeStatistic> taskGradeStatisticByCnoAndTime(@Param("cno")String cno,@Param("startTime") String startTime,@Param("endTime") String endTime,@Param("tno")String tno);
     List<ClassDeatilGrade> taskGradeDetailByCnameAndTime(@Param("cname")String cname,@Param("time") String time,@Param("cno") String cno,@Param("tno")String tno);
+    List<ExportGrade> exportGrade(@Param("className") String className,@Param("tno") String tno);
+    List<String> queryTaskName(@Param("className") String className,@Param("tno") String tno);
+    List<QuestionStatistic> queryQuestionStatistic(@Param("cname")String cname,@Param("time") String time,@Param("cno") String cno,@Param("tno")String tno);
 }

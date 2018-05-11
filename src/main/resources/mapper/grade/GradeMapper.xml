@@ -23,6 +23,24 @@
         <result column="Task_name" property="taskName"></result>
         <result column="sumGrade" property="totalGrade"></result>
     </resultMap>
+    <resultMap id="exportGrade" type="com.wf.ew.grade.model.ExportGrade">
+        <result column="Sclass" property="className"></result>
+        <result column="Sno" property="sno"></result>
+        <result column="Sname" property="sname"></result>
+        <result column="Tid" property="tid"></result>
+        <result column="Grade" property="grade"></result>
+        <result column="Task_name" property="taskName"></result>
+    </resultMap>
+
+    <resultMap id="questionStatistic" type="com.wf.ew.grade.model.QuestionStatistic">
+        <result column="Tid" property="tid"></result>
+        <result column="Qid" property="qid"></result>
+        <result column="Score" property="score"></result>
+        <result column="Qtype" property="type"></result>
+        <result column="Qcontent" property="qcontent"></result>
+        <result column="Qanswer" property="qanswer"></result>
+        <result column="count" property="totalCount"></result>
+    </resultMap>
 
     <select id="courseGradeByCnoAndTime" resultMap="TaskGradeStatistic">
         select t.Tid,t.Task_name,t.Cno as cid,t.Tchapter,ct.Cno,ct.End_time,ct.Start_time,co.Cname as courseName,cl.Cname,sum(st.Grade) as sumGrade
@@ -78,4 +96,43 @@
 		LEFT JOIN task t on t.Cno=(select Cno from course where Cname=#{cname}) and t.tid=ct.Tid
 		left JOIN course co on co.Cno=t.Cno where Sclass=(select Cname from class where Cno=#{cno}) and t.Tno=#{tno}
     </select>
+
+    <select id="exportGrade" resultMap="exportGrade">
+        select si.Sclass,si.Sno,si.Sname,st.Tid,st.Grade,task.Task_name from sinformation si
+        LEFT JOIN stask st on st.Sno=si.Sno
+        LEFT JOIN task on task.Tid=st.Tid
+        <where>
+            <if test="className != null and className!=''">
+                and si.Sclass=#{className}
+            </if>
+            <if test="tno != null and tno!=''">
+                and task.Tno=#{tno}
+            </if>
+        </where>
+        ORDER BY task.SubTime,si.Sno
+    </select>
+
+    <select id="queryTaskName" resultType="java.lang.String">
+        select task.Task_name from sinformation si
+        LEFT JOIN stask st on st.Sno=si.Sno
+        LEFT JOIN task on task.Tid=st.Tid
+        <where>
+            <if test="className != null and className!=''">
+               and si.Sclass=#{className}
+            </if>
+            <if test="tno != null and tno!=''">
+                and task.Tno=#{tno}
+            </if>
+        </where>
+        GROUP BY task.Task_name
+        ORDER BY task.SubTime,si.Sno
+    </select>
+
+    <select id="queryQuestionStatistic" resultMap="questionStatistic">
+        select st.Tid,std.Qid,std.Score,qu.Qtype,qu.Qcontent,qu.Qanswer,count(1) count
+        from stask st LEFT JOIN stdetail std on st.id=std.id
+        LEFT JOIN question qu on std.Qid=qu.Qid LEFT JOIN ctask ct on ct.Tid=st.Tid
+        where st.Cno=#{cno} and ct.Start_time=#{time} and qu.Qtype not in('简答题','填空题') GROUP BY qu.qid,std.Score>0 ORDER BY qu.Qid
+    </select>
+
 </mapper>

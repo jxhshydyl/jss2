@@ -37,6 +37,7 @@
     <resultMap id="taskBasic" type="com.wf.ew.task.model.TaskBasic">
         <result column="tid" property="tid"></result>
         <result column="Task_name" property="taskName"></result>
+        <result column="Tstate" property="tstate"></result>
         <result column="Tscore" property="score"></result>
         <result column="Cname" property="cname"></result>
         <result column="Cno" property="cno"></result>
@@ -61,12 +62,12 @@
     </resultMap>
     <!--查询作业基本信息-->
     <select id="queryBasicPageQuestionByTid" resultMap="taskBasic">
-       select task.tid,task.Task_name,task.Tscore,task.Tchapter,task.Tappendixes,course.Cno,course.Cname,question.Qtype types,sum(tdetail.Score) score,count(1) count  from task,course,tdetail,question
+       select task.tid,task.Tstate,task.Task_name,task.Tscore,task.Tchapter,task.Tappendixes,course.Cno,course.Cname,question.Qtype types,sum(tdetail.Score) score,count(1) count  from task,course,tdetail,question
        where task.Tid=#{tid} and task.Cno=course.Cno and tdetail.Tid=task.Tid and question.Qid=tdetail.Qid and tdetail.type=0
        GROUP BY question.Qtype
     </select>
     <select id="queryBasicPageCodeByTid" resultMap="taskBasic">
-        select task.tid,task.Task_name,task.Tscore,task.Tchapter,task.Tappendixes,course.Cno,course.Cname,code.Qtype types,sum(tdetail.Score) score,count(1) count from task,course,tdetail,code
+        select task.tid,task.Tstate,task.Task_name,task.Tscore,task.Tchapter,task.Tappendixes,course.Cno,course.Cname,code.Qtype types,sum(tdetail.Score) score,count(1) count from task,course,tdetail,code
        where task.Tid=#{tid} and task.Cno=course.Cno and tdetail.Tid=task.Tid and code.Qid=tdetail.Qid and tdetail.type=1
     </select>
     <!--查询非编程题-->

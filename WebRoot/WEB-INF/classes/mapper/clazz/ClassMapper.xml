@@ -39,4 +39,12 @@
             </if>
         </where>
     </select>
+
+    <select id="queryStudentsByClassName" resultMap="students">
+        select * from Sinformation
+        <where>
+            and Sclass=#{className}
+        </where>
+    </select>
+
 </mapper>

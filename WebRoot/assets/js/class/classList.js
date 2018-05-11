@@ -65,7 +65,7 @@ function creatStudentTable(cno){
             {field:'sacademy', sort: true, title: '所属学院'},
             {field:'smajor', sort: true,title: '所属专业'},
             {field:'sclass', sort: true,title: '所属班级'},
-            {align:'center', toolbar: '#view', minWidth: 180, title: '操作'}
+           /* {align:'center', toolbar: '#view', minWidth: 180, title: '操作'}*/
         ]]
     });
 }

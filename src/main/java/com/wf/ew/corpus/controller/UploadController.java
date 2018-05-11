@@ -70,6 +70,7 @@ public class UploadController {
                 try{
                     String tashPath="file//teacher//"+tno+"//corpus";
                     String path = request.getServletContext().getRealPath(tashPath);
+                    path=path.split("webapps")[0]+"webapps"+tashPath;
                     //上传文件名
                     String filename = file.getOriginalFilename();
 
@@ -107,7 +108,7 @@ public class UploadController {
         //ServletContext servletContext = request.getServletContext();
         String fileName="问题模板.rar";
         //String realPath = servletContext.getRealPath("D:\\IDEAWorkspace\\jss2\\WebRoot\\WEB-INF\\muban\\"+fileName);//得到文件所在位置
-        InputStream in=new FileInputStream(new File("D:\\IDEAWorkspace\\jss2\\WebRoot\\WEB-INF\\muban\\"+fileName));//将该文件加入到输入流之中
+        InputStream in=new FileInputStream(new File("/WEB-INF/muban/"+fileName));//将该文件加入到输入流之中
         byte[] body=null;
         body=new byte[in.available()];// 返回下一次对此输入流调用的方法可以不受阻塞地从此输入流读取（或跳过）的估计剩余字节数
         in.read(body);//读入到输入流里面

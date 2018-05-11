@@ -57,4 +57,11 @@
             (#{tid},#{type},#{item},#{score})
         </foreach>
     </insert>
+
+    <insert id="insertTdetail">
+        insert into tdetail(tid,type,Qid,Score) VALUES
+        <foreach  collection="list" item="item" separator=",">
+            (#{newTid},#{item.type},#{item.qid},#{item.score})
+        </foreach>
+    </insert>
 </mapper>

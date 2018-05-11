@@ -15,6 +15,12 @@
         <result column="Cname" property="cname"></result>
         <result column="Tchapter" property="tchapter"></result>
     </resultMap>
+    <resultMap id="taskDetail" type="com.wf.ew.task.model.TaskDetail">
+        <id column="Tid" property="tid"></id>
+        <result column="type" property="type"></result>
+        <result column="Qid" property="qid"></result>
+        <result column="Score" property="score"></result>
+    </resultMap>
     <select id="queryTask" resultMap="task">
         select task.*,course.Cname from task,course
         <where>
@@ -33,13 +39,13 @@
     </select>
 
     <delete id="deleteTask">
-        delete Task,Tdetail,Ctask from Task
+        delete task,tdetail,ctask from task
         LEFT JOIN tdetail on tdetail.Tid=task.Tid
         LEFT JOIN ctask on task.Tid=ctask.Tid  where task.Tid=#{Tid}
     </delete>
 
     <insert id="shareTask">
-        insert into Ctask(Tid,Cno,Start_time,End_time) VALUES
+        insert into ctask(Tid,Cno,Start_time,End_time) VALUES
         <foreach collection="condition" item="condition" index="index" separator=",">
             (#{tid},#{condition.cno},#{condition.time},#{condition.endTime})
         </foreach>
@@ -62,5 +68,13 @@
                 and SubTime &lt; #{endTime}
             </if>
         </where>
+    </select>
+
+    <select id="queryTaskByTid" resultMap="task">
+        select * from task where Tid=#{tid}
+    </select>
+
+    <select id="queryTaskDetailByTid" resultMap="taskDetail">
+        select * from tdetail where Tid=#{tid}
     </select>
 </mapper>

@@ -152,56 +152,64 @@ function showCharts(data){
             layer.closeAll('loading');
             console.log(data);
             if(data.code==200){
-                // 指定图表的配置项和数据
-                var legend = ["oj系统","作业系统"];
-                var item = ['提交', '通过'];
-                var data = [
-                    [data.myRecord.totalSubmitCount, data.myRecord.rightSubmitCount], //Berlin
-                    [data.codes[0].totalSubmitCount, data.codes[0].totalRightCount]
-                ];
-                //柱状图
-                var option = {
-                    title: {
-                        text: '编程题',
-                    },
-                    // 提示框，鼠标悬浮交互时的信息提示
-                    tooltip: {
-                        show: true,
-                        trigger: 'axis',
-                        axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                        }
-                    },
-                    // 图例
-                                    legend: {
-                                        data: legend
-                                    },
-                    // 横轴坐标轴
-                    xAxis: [{
-                        type: 'category',
-                        data: item
-                    }],
-                    // 纵轴坐标轴
-                    yAxis: [{
-                        type: 'value'
-                    }],
-                    // 数据内容数组
-                    series: function () {
-                        var serie = [];
-                        for (var i = 0; i < legend.length; i++) {
-                            var item = {
-                                name: legend[i],
-                                type: 'bar',
-                                barWidth: '40%',
-                                data: data[i]
-                            };
-                            serie.push(item);
-                        }
-                        return serie;
-                    }()
-                };
-                // 使用刚指定的配置项和数据显示图表。
-                myChart.setOption(option);
+                if(data.myRecord.totalSubmitCount==0&& data.myRecord.rightSubmitCount==0 && data.codes[0].totalSubmitCount==0 && data.codes[0].totalRightCount==0){
+                    $("#noData").css("display","");
+                    $("#noData").html("暂无数据");
+                    $("#chartStatistic").css("display","none");
+                }else{
+                    $("#noData").css("display","none");
+                    $("#chartStatistic").css("display","");
+                    // 指定图表的配置项和数据
+                    var legend = ["oj系统","作业系统"];
+                    var item = ['提交', '通过'];
+                    var data = [
+                        [data.myRecord.totalSubmitCount, data.myRecord.rightSubmitCount], //Berlin
+                        [data.codes[0].totalSubmitCount, data.codes[0].totalRightCount]
+                    ];
+                    //柱状图
+                    var option = {
+                        title: {
+                            text: '编程题',
+                        },
+                        // 提示框，鼠标悬浮交互时的信息提示
+                        tooltip: {
+                            show: true,
+                            trigger: 'axis',
+                            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                            }
+                        },
+                        // 图例
+                        legend: {
+                            data: legend
+                        },
+                        // 横轴坐标轴
+                        xAxis: [{
+                            type: 'category',
+                            data: item
+                        }],
+                        // 纵轴坐标轴
+                        yAxis: [{
+                            type: 'value'
+                        }],
+                        // 数据内容数组
+                        series: function () {
+                            var serie = [];
+                            for (var i = 0; i < legend.length; i++) {
+                                var item = {
+                                    name: legend[i],
+                                    type: 'bar',
+                                    barWidth: '40%',
+                                    data: data[i]
+                                };
+                                serie.push(item);
+                            }
+                            return serie;
+                        }()
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
+                }
             }else{
                 layer.msg(data.msg,{icon: 2});
             }

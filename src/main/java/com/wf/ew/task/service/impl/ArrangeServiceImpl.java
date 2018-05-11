@@ -7,6 +7,7 @@ import com.wf.ew.task.dao.TaskDao;
 import com.wf.ew.task.model.AutoMakePaperPara;
 import com.wf.ew.task.model.Condition;
 import com.wf.ew.task.model.Task;
+import com.wf.ew.task.model.TaskDetail;
 import com.wf.ew.task.service.ArrangeService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,5 +114,18 @@ public class ArrangeServiceImpl implements ArrangeService{
             endTime=nextYear+"-"+"02";
         }
         return taskDao.judgeTaskName(taskName,startTime,endTime);
+    }
+    @Transactional
+   public int arrangeNewTask(Integer tid,String newTaskName){
+       Task task = taskDao.queryTaskByTid(tid);
+       task.setTaskName(newTaskName);
+       task.setTstate("未发布");
+       task.setSubtime(DateUtil.getCurrentDate());
+       arrangeDao.arrangeTask(task);
+       int newTid=tid;
+       newTid=task.getTid();//返回的主键
+       List<TaskDetail> taskDetails = taskDao.queryTaskDetailByTid(tid);
+       int i = arrangeDao.insertTdetail(newTid, taskDetails);
+       return newTid;
     }
 }

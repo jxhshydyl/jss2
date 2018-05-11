@@ -199,54 +199,62 @@ function showCharts(data){
     var myChart = echarts.init(document.getElementById('chartStatistic'));
     // 指定图表的配置项和数据
     console.log(data);
-    var legend = [""];
-    var item = ['提交', '通过'];
-    var data = [
-        [data.totalSubmitCount, data.totalRightCount]
-    ];
-    //柱状图
-    var option = {
-        title: {
-            text: '次数',
-        },
-        // 提示框，鼠标悬浮交互时的信息提示
-        tooltip: {
-            show: true,
-            trigger: 'axis',
-            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-                type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-            }
-        },
-        // 图例
-        legend: {
-            data: legend
-        },
-        // 横轴坐标轴
-        xAxis: [{
-            type: 'category',
-            data: item
-        }],
-        // 纵轴坐标轴
-        yAxis: [{
-            type: 'value'
-        }],
-        // 数据内容数组
-        series: function () {
-            var serie = [];
-            for (var i = 0; i < legend.length; i++) {
-                var item = {
-                    name: legend[i],
-                    type: 'bar',
-                    barWidth: '40%',
-                    data: data[i]
-                };
-                serie.push(item);
-            }
-            return serie;
-        }()
-    };
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
+    if(data.totalSubmitCount==null && data.totalRightCount==null){
+        $("#noData").css("display","");
+        $("#noData").html("暂无数据");
+        $("#chartStatistic").css("display","none");
+    }else{
+        $("#noData").css("display","none");
+        $("#chartStatistic").css("display","");
+        var legend = [""];
+        var item = ['提交', '通过'];
+        var data = [
+            [data.totalSubmitCount, data.totalRightCount]
+        ]
+        //柱状图
+        var option = {
+            title: {
+                text: '次数',
+            },
+            // 提示框，鼠标悬浮交互时的信息提示
+            tooltip: {
+                show: true,
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            // 图例
+            legend: {
+                data: legend
+            },
+            // 横轴坐标轴
+            xAxis: [{
+                type: 'category',
+                data: item
+            }],
+            // 纵轴坐标轴
+            yAxis: [{
+                type: 'value'
+            }],
+            // 数据内容数组
+            series: function () {
+                var serie = [];
+                for (var i = 0; i < legend.length; i++) {
+                    var item = {
+                        name: legend[i],
+                        type: 'bar',
+                        barWidth: '40%',
+                        data: data[i]
+                    };
+                    serie.push(item);
+                }
+                return serie;
+            }()
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
 }
 
 
@@ -276,7 +284,7 @@ function showDataModel(data){
                 html+=`<tr name="xuanxianghangshu">
 							<td>${char[k]}</td>
 							<td><textarea name="answer${k+1}" style="resize:none;border:0;height:40px;width:100%;margin: 0 0" disabled>${arr[i]}</textarea></td>
-							<td><input type="radio" name="daans" value="A" ></td>
+							<td><input type="radio" name="daans" value="A" disabled></td>
 						</tr>`;
                 k++;
             }

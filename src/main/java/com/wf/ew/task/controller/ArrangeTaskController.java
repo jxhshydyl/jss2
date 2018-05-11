@@ -48,7 +48,7 @@ public class ArrangeTaskController {
                 //上传文件路径
                 String tashPath="file//teacher//"+task.getTno()+"//task//"+new Date().getTime()+task.getTaskName();
                 String path = request.getServletContext().getRealPath(tashPath);
-                path=path.split("webapps")[0]+"webapps";
+                path=path.split("webapps")[0]+"webapps//"+tashPath;
                 //上传文件名
                 String filename = file.getOriginalFilename();
 
@@ -60,7 +60,7 @@ public class ArrangeTaskController {
                 task.setTappendixes(filename);
                 //将上传文件保存到一个目标文件当中
                 file.transferTo(new File(path + File.separator + filename));
-                task.setTappendixes(path + File.separator + filename);
+                task.setTappendixes(tashPath + File.separator + filename);
             }
         } catch (Exception e) {
         }
@@ -75,6 +75,19 @@ public class ArrangeTaskController {
             return ResultMap.error(0,"有相同名称");
         }
         return ResultMap.ok(200,"无相同名称");
+    }
+    @RequestMapping("/arrangeNewTask")
+    public String arrangeNewTask(String newTaskName,Integer tid,HttpServletRequest request){
+        System.out.println(tid);
+        System.out.println(newTaskName);
+        int i = arrangeService.arrangeNewTask(tid,newTaskName);
+        System.out.println(i);
+        if(tid != i){
+            System.out.println("/page/queryPage?tid="+i+"");
+           return "redirect:/page/queryPage?tid="+i;
+        }
+        System.out.println("redirect:"+request.getScheme()+"://"+ request.getServerName()+":"+request.getServerPort()+"/"+request.getContextPath()+"/"+request.getRequestURI());
+        return "redirect:"+request.getScheme()+"://"+ request.getServerName()+":"+request.getServerPort()+"/"+request.getContextPath()+"/"+request.getRequestURI();
     }
 /*    public static void main(String[] args){
         String path="D:\\apache-tomcat-8.0.49\\webapps\\jss2\\file\\teacher\\1\\task\\1525786948778test\\班级E-R图.vsd";

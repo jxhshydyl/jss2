@@ -17,12 +17,12 @@ import java.util.Map;
 public class PageController {
     @Autowired
     PageService pageService;
+
     @RequestMapping("/queryPage")
     public String queryPage(Integer tid, ModelMap model){
         Map<String, Object> map = pageService.queryPageByTid(tid);
         model.put("taskDetail", map.get("taskDetail"));
         model.put("taskBasic", map.get("taskBasic"));
-
         return "page";
     }
     @PostMapping("/querySimilarQuestion")

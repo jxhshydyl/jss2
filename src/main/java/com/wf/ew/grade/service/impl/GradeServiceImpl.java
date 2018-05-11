@@ -1,20 +1,28 @@
 package com.wf.ew.grade.service.impl;
 
+import com.wf.ew.clazz.dao.ClassDao;
+import com.wf.ew.clazz.model.Students;
 import com.wf.ew.core.utils.DateUtil;
 import com.wf.ew.grade.dao.GradeDao;
 import com.wf.ew.grade.model.ClassDeatilGrade;
+import com.wf.ew.grade.model.ExportGrade;
+import com.wf.ew.grade.model.QuestionStatistic;
 import com.wf.ew.grade.model.TaskGradeStatistic;
 import com.wf.ew.grade.service.GradeService;
+import com.wf.ew.task.util.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.*;
 
 @Service
 public class GradeServiceImpl implements GradeService{
     @Autowired
     GradeDao gradeDao;
+    @Autowired
+    ClassDao classDao;
     /**
      * 通过班级和时间获取最近的作业的班级成绩
      * @param cno
@@ -23,15 +31,19 @@ public class GradeServiceImpl implements GradeService{
      */
     @Override
     public List<TaskGradeStatistic> taskGradeStatisticByCnoAndTime(String cno, String time, String tno){
+        String year;
         if(time==null ||"".equals(time)){
             time=DateUtil.getCurrentDate();
+            year = DateUtil.getCurrentYear();
+        }else{
+            year=time.split("-")[0];
         }
         Date date = DateUtil.parseMDate(time);
         String s = DateUtil.formatMDate(date);
         String semester = isSemester(s);
         String startTime=null;
         String endTime=null;
-        String year = DateUtil.getCurrentYear();
+        //String year = DateUtil.getCurrentYear();
         String nextYear =String.valueOf (Integer.valueOf(year)+1);
         if("2".equals(semester)||"3".equals(semester)||"4".equals(semester)||"5".equals(semester)||"6".equals(semester)||"7".equals(semester)||"8".equals(semester)){
             startTime=year+"-"+"02";
@@ -51,9 +63,15 @@ public class GradeServiceImpl implements GradeService{
      * @return
      */
     @Override
-    public List<ClassDeatilGrade> taskGradeDetailByCnameAndTime(String cname, String time,String cno, String tno) {
+    public Map<String,Object> taskGradeDetailByCnameAndTime(String cname, String time,String cno, String tno) {
         List<ClassDeatilGrade> list = gradeDao.taskGradeDetailByCnameAndTime(cname,time,cno,tno);
-        return list;
+        List<QuestionStatistic> questionStatistics = gradeDao.queryQuestionStatistic(cname,time,cno,tno);
+        System.out.println(list);
+        System.out.println(questionStatistics);
+        Map<String,Object> map=new HashMap<String,Object>();
+        map.put("list",list);
+        map.put("questionStatistics",questionStatistics);
+        return map;
     }
     /**
      *  通过课程查看某教师每个班级的成绩
@@ -63,15 +81,18 @@ public class GradeServiceImpl implements GradeService{
      */
     @Override
     public List<TaskGradeStatistic> courseGradeByCnoAndTime(String cno,String time, String tno) {
+        String year;
         if(time==null ||"".equals(time)){
             time=DateUtil.getCurrentDate();
+            year = DateUtil.getCurrentYear();
+        }else{
+            year=time.split("-")[0];
         }
         Date date = DateUtil.parseMDate(time);
         String s = DateUtil.formatMDate(date);
         String semester = isSemester(s);
         String startTime=null;
         String endTime=null;
-        String year = DateUtil.getCurrentYear();
         String nextYear =String.valueOf (Integer.valueOf(year)+1);
         if("2".equals(semester)||"3".equals(semester)||"4".equals(semester)||"5".equals(semester)||"6".equals(semester)||"7".equals(semester)||"8".equals(semester)){
             startTime=year+"-"+"02";
@@ -100,9 +121,43 @@ public class GradeServiceImpl implements GradeService{
         }
         return null;
     }
+    public InputStream exportGrade(String className, String tno){
+        List<ExportGrade> exportGrades = gradeDao.exportGrade(className, tno);
+        ArrayList<Object> lists=new ArrayList<>();
+        ArrayList<ArrayList<Object>> result=new ArrayList<>();
+        lists.add("学号");
+        lists.add("姓名");
+        List<String> strings = gradeDao.queryTaskName(className, tno);
+        lists.addAll(strings);
+        result.add(lists);
+        List<Students> students = classDao.queryStudentsByClassName(className);
+        for(Students student:students){
+            ArrayList<Object> list=new ArrayList<>();
+            list.add(student.getSno());
+            list.add(student.getSname());
+            for(String string:strings){//初始化list
+                list.add("");
+            }
+            for(ExportGrade exportGrade:exportGrades){
+                for(int i=0;i<lists.size();i++){
+                    if(exportGrade.getSno().equals(student.getSno())){
+                        if(((String)lists.get(i)).equals(exportGrade.getTaskName())){
+                            list.add(i,exportGrade.getGrade());
+                        }
+                    }
+                }
+            }
+            result.add(list);
+        }
+        ByteArrayInputStream byteArrayInputStream = ExcelUtil.writeExcelWeb(result);
+        return byteArrayInputStream;
+    }
 
+/*    public List<QuestionStatistic> queryQuestionStatistic(){
+        return gradeDao.queryQuestionStatistic();
+    }*/
     public static void main(String[] args){
-        Date date = DateUtil.parseMDate("2018-09-27");
+        Date date = DateUtil.parseMDate("2017-09-27");
         String s = DateUtil.formatMDate(date);
         System.out.println(s);
         String semester = isSemester(s);

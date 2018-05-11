@@ -5,6 +5,7 @@ import java.util.List;
 public class TaskBasic {
     private Integer tid;
     private String taskName;
+    private String tstate;
     private String score;
     private String cname;
     private String cno;
@@ -74,6 +75,14 @@ public class TaskBasic {
 
     public void setTappendixes(String tappendixes) {
         this.tappendixes = tappendixes;
+    }
+
+    public String getTstate() {
+        return tstate;
+    }
+
+    public void setTstate(String tstate) {
+        this.tstate = tstate;
     }
 
     @Override
