@@ -160,15 +160,17 @@
                                             </c:choose>
                                         </c:if>
                                         <c:if test='${question.qtype=="填空题"}'>
+                                            <a onCilck="" href="">参考答案：</a>
+                                            <b style="font-size: 15px"> ${question.qanswer}</b>
+                                            <br>
                                             <a onCilck="" href="">学生答案：</a>
                                             <div style="border:1px thin red;display: inline-block;margin-bottom: 20px">
                                                 <b style="font-size: 15px">${question.answer}
-                                                    fd东方舵手fd东方舵fd东方
                                                 </b>
                                             </div>
                                             <div>
                                                 <c:choose>
-                                                    <c:when test="${question.grade != '' &&question.grade != null}">
+                                                    <c:when test="${question.grade != null}">
                                                         <strong>得分：${question.grade}</strong>
                                                     </c:when>
                                                     <c:otherwise>

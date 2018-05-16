@@ -19,6 +19,9 @@
         <result column="Qchapter" property="qchapter"></result>
         <result column="Qparagraph" property="qparagraph"></result>
         <result column="Cname" property="cname"></result>
+        <result column="Score" property="score"></result>
+        <result column="Sanswer" property="answer"></result>
+        <result column="grade" property="grade"></result>
     </resultMap>
     <resultMap id="question" type="com.wf.ew.corpus.model.Question">
         <id column="Qid" property="qid"></id>

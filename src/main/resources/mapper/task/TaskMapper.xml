@@ -77,4 +77,11 @@
     <select id="queryTaskDetailByTid" resultMap="taskDetail">
         select * from tdetail where Tid=#{tid}
     </select>
+
+    <insert id="insertStask">
+        insert into stask(Tid,Tstate,Sno,Cno) VALUES
+        <foreach collection="students" item="item" index="index" separator=",">
+            (#{stask.tid},#{stask.tstate},#{item.sno},#{item.sclass})
+        </foreach>
+    </insert>
 </mapper>

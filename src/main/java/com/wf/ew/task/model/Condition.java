@@ -1,10 +1,10 @@
 package com.wf.ew.task.model;
 
 public class Condition {
-    private String cno;
+    private String cno;//课程编号
     private String time;
     private String endTime;
-    private String classNo;
+    private String classNo;//班级编号
 
     public String getClassNo() {
         return classNo;

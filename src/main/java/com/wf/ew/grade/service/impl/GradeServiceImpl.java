@@ -122,35 +122,48 @@ public class GradeServiceImpl implements GradeService{
         return null;
     }
     public InputStream exportGrade(String className, String tno){
-        List<ExportGrade> exportGrades = gradeDao.exportGrade(className, tno);
-        ArrayList<Object> lists=new ArrayList<>();
-        ArrayList<ArrayList<Object>> result=new ArrayList<>();
-        lists.add("学号");
-        lists.add("姓名");
-        List<String> strings = gradeDao.queryTaskName(className, tno);
-        lists.addAll(strings);
-        result.add(lists);
-        List<Students> students = classDao.queryStudentsByClassName(className);
-        for(Students student:students){
-            ArrayList<Object> list=new ArrayList<>();
-            list.add(student.getSno());
-            list.add(student.getSname());
-            for(String string:strings){//初始化list
-                list.add("");
-            }
-            for(ExportGrade exportGrade:exportGrades){
-                for(int i=0;i<lists.size();i++){
-                    if(exportGrade.getSno().equals(student.getSno())){
-                        if(((String)lists.get(i)).equals(exportGrade.getTaskName())){
-                            list.add(i,exportGrade.getGrade());
+        try{
+            List<ExportGrade> exportGrades = gradeDao.exportGrade(className, tno);
+            System.out.println("导出成绩：");
+            System.out.println(exportGrades);
+            ArrayList<Object> lists=new ArrayList<>();
+            ArrayList<ArrayList<Object>> result=new ArrayList<>();
+            lists.add("学号");
+            lists.add("姓名");
+            List<String> strings = gradeDao.queryTaskName(className, tno);
+            System.out.println("作业名称：");
+            System.out.println(strings);
+            lists.addAll(strings);
+            result.add(lists);
+            List<Students> students = classDao.queryStudentsByClassName(className);
+            System.out.println("班级学生：");
+            System.out.println(students);
+            for(Students student:students){
+                ArrayList<Object> list=new ArrayList<>();
+                list.add(student.getSno());
+                list.add(student.getSname());
+                for(String string:strings){//初始化list
+                    list.add("");
+                }
+                for(ExportGrade exportGrade:exportGrades){
+                    for(int i=0;i<lists.size();i++){
+                        if(exportGrade.getSno().equals(student.getSno())){
+                            if(((String)lists.get(i)).equals(exportGrade.getTaskName())){
+                                list.add(i,exportGrade.getGrade());
+                            }
                         }
                     }
                 }
+                result.add(list);
             }
-            result.add(list);
+            System.out.println("数据：");
+            System.out.println(result);
+            ByteArrayInputStream byteArrayInputStream = ExcelUtil.writeExcelWeb(result);
+            return byteArrayInputStream;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
         }
-        ByteArrayInputStream byteArrayInputStream = ExcelUtil.writeExcelWeb(result);
-        return byteArrayInputStream;
     }
 
 /*    public List<QuestionStatistic> queryQuestionStatistic(){

@@ -1,13 +1,12 @@
 package com.wf.ew.task.service.impl;
 
+import com.wf.ew.clazz.dao.ClassDao;
+import com.wf.ew.clazz.model.Students;
 import com.wf.ew.core.utils.DateUtil;
 import com.wf.ew.grade.service.impl.GradeServiceImpl;
 import com.wf.ew.task.dao.ArrangeDao;
 import com.wf.ew.task.dao.TaskDao;
-import com.wf.ew.task.model.AutoMakePaperPara;
-import com.wf.ew.task.model.Condition;
-import com.wf.ew.task.model.Task;
-import com.wf.ew.task.model.TaskDetail;
+import com.wf.ew.task.model.*;
 import com.wf.ew.task.service.ArrangeService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,8 @@ public class ArrangeServiceImpl implements ArrangeService{
     ArrangeDao arrangeDao;
     @Autowired
     TaskDao taskDao;
+    @Autowired
+    ClassDao classDao;
     @Override
     public int queryQuestionCountByType(String type,String cno,String[] chapter){
         if("编程题".equals(type)){
@@ -69,6 +70,11 @@ public class ArrangeServiceImpl implements ArrangeService{
                 map.put("condition",lists);
                 map.put("tid",tid);
                 taskDao.shareTask(map);
+                Stask stask=new Stask();
+                stask.setTstate("未提交");
+                stask.setTid(tid);
+                List<Students> students = classDao.queryStudentByClassCno(lists);
+                taskDao.insertStask(students, stask);
             }
             if(autoMakePaperPara.getTypes()!=null && autoMakePaperPara.getScore()!=null){
                 String[] scores=autoMakePaperPara.getScore().split(",");
@@ -94,6 +100,7 @@ public class ArrangeServiceImpl implements ArrangeService{
                 }
             }
         }catch (Exception e){
+            e.printStackTrace();
             return 0;
         }
         return 0;

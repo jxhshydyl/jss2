@@ -33,7 +33,7 @@
     <select id="queryStudentsByClass" resultMap="students">
         select * from Sinformation
         <where>
-            and Sclass=(select Cname from class where cno=#{cno})
+            and Sclass=#{cno}
             <if test="searchKey!=null and searchValue!=null and searchKey!='' and searchValue!=''">
                 AND ${searchKey} like '%${searchValue}%'
             </if>
@@ -43,8 +43,19 @@
     <select id="queryStudentsByClassName" resultMap="students">
         select * from Sinformation
         <where>
-            and Sclass=#{className}
+            and Sclass=(select Cno from class where Cname=#{className})
         </where>
     </select>
+
+    <select id="queryStudentByClassCno" resultMap="students">
+        select * from Sinformation
+        <where>
+            and Sclass in
+            <foreach collection="list" index="index" item="condition" open="(" separator="," close=")">
+                #{condition.cno}
+            </foreach>
+        </where>
+    </select>
+
 
 </mapper>

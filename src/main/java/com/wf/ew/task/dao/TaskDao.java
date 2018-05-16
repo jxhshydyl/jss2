@@ -1,5 +1,7 @@
 package com.wf.ew.task.dao;
 
+import com.wf.ew.clazz.model.Students;
+import com.wf.ew.task.model.Stask;
 import com.wf.ew.task.model.SubmitTask;
 import com.wf.ew.task.model.Task;
 import com.wf.ew.task.model.TaskDetail;
@@ -18,4 +20,5 @@ public interface TaskDao {
     Integer judgeTaskName(@Param("taskName") String taskName,@Param("startTime") String startTime,@Param("endTime") String endTime);
     Task queryTaskByTid(@Param("tid") Integer tid);
     List<TaskDetail> queryTaskDetailByTid(@Param("tid") Integer tid);
+    int insertStask(@Param("students") List<Students> students,@Param("stask") Stask stask);
 }

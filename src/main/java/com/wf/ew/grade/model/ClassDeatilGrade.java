@@ -3,12 +3,21 @@ package com.wf.ew.grade.model;
 public class ClassDeatilGrade {
     private String sno;//学号
     private String sname;//姓名
-    private String sclass;//班级
+    private String sclass;//班级编号
+    private String className;
     private Integer tid;//作业id
     private String taskName;//作业名称
     private Float grade;//成绩
     private String cno;//课程号
     private String cname;//课程名
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
 
     public String getSno() {
         return sno;
