@@ -108,7 +108,7 @@
     insert into sys_login_record (id, user_id, os_name, 
       device, browser_type, ip_address, 
       create_time)
-    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{osName,jdbcType=VARCHAR}, 
+    values (#{id}, #{userId}, #{osName,jdbcType=VARCHAR},
       #{device,jdbcType=VARCHAR}, #{browserType,jdbcType=VARCHAR}, #{ipAddress,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>

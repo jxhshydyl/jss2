@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.wf.ew.util.md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -101,7 +102,7 @@ public class UserController extends BaseController {
 			return ResultMap.error("演示系统关闭该功能");
 		}
 		String userId = getUserId(request);
-		String encryPsw = EndecryptUtils.encrytMd5(oldPsw, "null", 3);
+		String encryPsw = md5Util.md5jdk(oldPsw);;
 		User tempUser = userService.getUserById(userId);
 		if(tempUser==null||!encryPsw.equals(tempUser.getUserPassword())){
 			return ResultMap.error("旧密码输入不正确");

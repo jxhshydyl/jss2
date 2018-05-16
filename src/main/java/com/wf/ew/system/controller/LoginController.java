@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.wf.ew.clazz.model.Course;
+import com.wf.ew.util.md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,7 +62,7 @@ public class LoginController extends BaseController {
 		if (loginUser.getUserStatus() != 0) {
 			return ResultMap.error("账号被锁定");
 		}
-		String encryPsw = EndecryptUtils.encrytMd5(password, "null", 3);
+		String encryPsw = md5Util.md5jdk(password);
 		if (!loginUser.getUserPassword().equals(encryPsw)) {
 			return ResultMap.error("密码错误");
 		}

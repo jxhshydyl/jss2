@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.wf.ew.clazz.model.Course;
+import com.wf.ew.util.md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,8 @@ public class UserServiceImpl implements UserService {
 		if(getUserByAccount(user.getUserAccount())!=null){
 			throw new BusinessException("账号已经存在");
 		}
-		String decryptMd5 = EndecryptUtils.encrytMd5(user.getUserPassword(), "null", 3);
+		String decryptMd5 = md5Util.md5jdk(user.getUserPassword());
+		user.setUserId(UUIDUtil.randomUUID32());
 		user.setUserPassword(decryptMd5);
 		user.setUserStatus(0);
 		user.setCreateTime(new Date());
