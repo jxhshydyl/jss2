@@ -89,11 +89,13 @@ public class TaskBasic {
     public String toString() {
         return "TaskBasic{" +
                 "tid=" + tid +
-                ", TaskName='" + taskName + '\'' +
+                ", taskName='" + taskName + '\'' +
+                ", tstate='" + tstate + '\'' +
                 ", score='" + score + '\'' +
                 ", cname='" + cname + '\'' +
                 ", cno='" + cno + '\'' +
                 ", chapter='" + chapter + '\'' +
+                ", tappendixes='" + tappendixes + '\'' +
                 ", list=" + list +
                 '}';
     }

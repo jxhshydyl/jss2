@@ -40,6 +40,19 @@
         ORDER BY RAND() LIMIT #{count}
     </select>
 
+
+    <select id="queryCodeListByType" resultType="java.lang.Integer">
+        select Qid from code where Cname=(select Cname from course where Cno=#{cno})
+        <if test="type!=null and type!=''">
+            and  Qtype in
+            <foreach collection="type" index="index" item="item"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        ORDER BY RAND() LIMIT #{count}
+    </select>
+
     <select id="queryQuestionList" resultType="java.lang.Integer">
         select Qid from question where Cname=(select Cname from course where Cno=#{cno}) and Qtype=#{type}
         <if test="chapter!=null and chapter!=''">
@@ -52,9 +65,16 @@
         ORDER BY RAND() LIMIT #{count}
     </select>
     <insert id="autoMakeQuestionPaper">
-        insert into tdetail(tid,type,Qid,Score) VALUES
+        insert into tdetail(tid,type,Qid
+        <if test="score !=null ">
+            ,Score
+        </if>
+        ) VALUES
         <foreach  collection="list" item="item" separator=",">
-            (#{tid},#{type},#{item},#{score})
+            (#{tid},#{type},#{item}
+            <if test="score !=null ">
+                ,#{score}
+            </if>)
         </foreach>
     </insert>
 

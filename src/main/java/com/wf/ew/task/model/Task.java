@@ -14,6 +14,7 @@ public class Task {
     private String subtime;//创建时间
     private String ttype;//作业类型
     private String tstate;//作业状态
+    private Integer taskDiff;//任务难度
     private String cno;//课程编号
     private String cname;//课程名称
     private String tchapter;//所属章节
@@ -148,6 +149,14 @@ public class Task {
 
     public void setTchapter(String tchapter) {
         this.tchapter = tchapter;
+    }
+
+    public Integer getTaskDiff() {
+        return taskDiff;
+    }
+
+    public void setTaskDiff(Integer taskDiff) {
+        this.taskDiff = taskDiff;
     }
 
     @Override

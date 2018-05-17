@@ -67,6 +67,21 @@ public class ArrangeTaskController {
         arrangeService.arrangeTask(task,autoMakePaperPara,condition);
         return "redirect:"+request.getScheme()+"://"+ request.getServerName()+":"+request.getServerPort()+"/"+request.getContextPath()+"index.html#!task/arrangeTask";
     }
+
+    @PostMapping("/arrangeCode")
+    public String arrangeCodeTask(Task task,AutoMakePaperPara autoMakePaperPara,Condition condition,HttpServletRequest request){
+        System.out.println(task);
+        System.out.println(autoMakePaperPara);
+        System.out.println(condition);
+        String currentDate = DateUtil.getCurrentDate();
+        task.setSubtime(currentDate);
+        int i = arrangeService.arrangeCodeTask(task, autoMakePaperPara, condition);
+        if(i==0){
+            return "redirect:"+request.getScheme()+"://"+ request.getServerName()+":"+request.getServerPort()+"/"+request.getContextPath()+"index.html#!task/taskList";
+        }
+        return "redirect:"+request.getScheme()+"://"+ request.getServerName()+":"+request.getServerPort()+"/"+request.getContextPath()+"index.html#!task/arrangeTask";
+    }
+
     @RequestMapping("/judgeTaskName")
     @ResponseBody
     public ResultMap judgeTaskName(String taskName){

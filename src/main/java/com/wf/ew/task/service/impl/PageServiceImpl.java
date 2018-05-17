@@ -27,6 +27,8 @@ public class PageServiceImpl implements PageService{
         List<Code> codes = pageDao.queryPageCodeByTid(tid);
         TaskBasic taskBasic = pageDao.queryBasicPageQuestionByTid(tid);
         TaskBasic taskBasic1 = pageDao.queryBasicPageCodeByTid(tid);
+        System.out.println(codes);
+        System.out.println(taskBasic1);
         if(taskBasic!=null && taskBasic1 != null){
             taskBasic.getList().addAll(taskBasic1.getList());
         }

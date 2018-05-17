@@ -15,4 +15,5 @@ public interface ArrangeDao {
     List<Integer> queryQuestionList(@Param("cno") String cno,@Param("chapter") String[] chapter,@Param("count") int count,@Param("type") String type);
     int autoMakeQuestionPaper(@Param("tid")int tid,@Param("list")List<Integer> list,@Param("score")String score,@Param("type")int type);
     int insertTdetail(@Param("newTid") int newTid,@Param("list")List<TaskDetail> list);
+    List<Integer> queryCodeListByType(@Param("cno") String cno,@Param("type") String[] type,@Param("count") int count);
 }

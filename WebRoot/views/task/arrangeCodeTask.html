@@ -59,7 +59,7 @@
 </div>
 <div>
     <div class="main">
-        <form action="/jss/arrangeTask/arrange"  name="layui-form" method="post" enctype="multipart/form-data">
+        <form action="/jss/arrangeTask/arrangeCode"  name="layui-form" method="post" enctype="multipart/form-data">
             <div id="step"></div>
             <div id="taskBasicCorpus">
                 <div class="layui-form-item">
@@ -80,84 +80,36 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label" style="width:100px;">所属章节</label>
+                    <label class="layui-form-label" style="width:100px;">知识类型</label>
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="dropdown-mul-2">
                                 <select name="tchapter" id="mul-2" multiple placeholder="请选择">
-                                    <option value="第一章">第一章</option>
-                                    <option value="第二章">第二章</option>
-                                    <option value="第三章">第三章</option>
-                                    <option value="第四章">第四章</option>
-                                    <option value="第五章">第五章</option>
-                                    <option value="第六章">第六章</option>
-                                    <option value="第七章">第七章</option>
-                                    <option value="第八章">第八章</option>
-                                    <option value="第九章">第九章</option>
-                                    <option value="第十章">第十章</option>
+                                    <option value="语言入门">语言入门</option>
+                                    <option value="递归与分治">递归与分治</option>
+                                    <option value="贪心算法">贪心算法</option>
+                                    <option value="动态规划">动态规划</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <div class="layui-inline">
-                        <label class="layui-form-label" style="width:100px;">作业附件</label>
-                        <div class="layui-input-inline">
-                            <input type="file" name="appendixesFile" id="appendixesFile">
+                    <label class="layui-form-label" style="width:100px;">难易程度</label>
+                    <div class="layui-input-block" style="width:40%;">
+                        <div class="col-sm-4">
+                            <input type="number"  class="layui-input" name="taskDiff" id="paperElusive" placeholder="请填写难度">
                         </div>
                     </div>
                 </div>
-<!--                <div class="layui-form-item">
-                    <label class="layui-form-label" style="width:120px;">开启答案功能</label>
-                    <div class="layui-input-block">
-                        <input type="checkbox" name="isAnswer" lay-skin="switch" lay-text="是|否">
-                    </div>
-                </div>-->
-<!--                <div class="layui-form-item">
-                    <label class="layui-form-label" style="width:120px;">开启消息功能</label>
-                    <div class="layui-input-block">
-                        <input type="checkbox" checked="" name="isMessage" lay-skin="switch" lay-filter="switchTest"
-                               lay-text="是|否">
-                    </div>
-                </div>-->
                 <div class="layui-form-item">
-                    <label class="layui-form-label" style="width:100px;">作业类型</label>
-                    <div class="layui-input-block">
-                        <input type="radio" name="isEqully" value="true" title="题型一" checked="">题型一
-                        <input type="radio" name="isEqully" value="false" title="题型二">题型二
+                    <label class="layui-form-label" style="width:100px;">题目数量</label>
+                    <div class="layui-input-block" style="width:40%;">
+                        <div class="col-sm-4">
+                            <input type="number"  class="layui-input" name="count" id="problemCount" placeholder="请填写题目数量">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div id="confirmQuestions" style="display:none">
-                <div>
-                    <label class="layui-form-label">题型</label>
-                    <div style="display: inline-block;width:50%;">
-                        <ul class="ul1" id="user_ul">
-                        </ul>
-                    </div>
-                    <div id="most_tixing" style="display: inline-block;margin-right: 30%;position:absolute;left:50%;" >
-                        <dl id="ddbutton">
-                            <dd id="ddbutton1" style="margin-top: 10px;">
-                                <input type="button" id="tixing_danxuan" class="layui-btn" value="单选题">
-                                <input type="button" id="tixing_duoxuan" class="layui-btn" value="多选题">
-                            </dd>
-                            <dd id="ddbutton2" style="margin-top: 10px;">
-                                <input type="button" id="tixing_tiankong" class="layui-btn" value="填空题">
-                                <input type="button" id="tixing_panduan" class="layui-btn" value="判断题">
-                            </dd>
-                            <dd id="ddbutton3" style="margin-top: 10px;">
-                                <input type="button" id="tixing_jianda" class="layui-btn" value="简答题">
-                                <input type="button" id="tixing_daima" class="layui-btn" value="编程题">
-                            </dd>
-                        </dl>
-                    </div>
-                    <div style="margin-left: 180px">
-                        <input type="hidden" name="tscore" id="tscore" value=0>
-                        <b style="font-size: 20px" id="total_score">
-                        </b>
-                    </div>
-            </div>
             </div>
             <div id="confirmClass" style="display:none">
                 <table width="90%" cellpadding="0" cellspacing="0" style="table-layout: fixed;margin: 0 auto">
@@ -185,27 +137,25 @@
     </div>
 </div>
 <script>
-    var myDate = new Date();
-    var year = myDate.getFullYear();
-    var month=myDate.getMonth()+1;
-    console.log(year);
-    console.log(month);
-    var title="";
-    if(2 <= month && month <= 8){
-        title=year+"下学期";
-    }else{
-        title=year+"上学期";
-    }
-    $("#taskName").val(title);
-    $("#tno").val(getCurrentUser().userId);
-
     $('.dropdown-mul-2').dropdown({
         searchable: false,
         choice: function() {
             console.log('.dropdown-mul-2 picked')
         }
     });
+    $("#tno").val(getCurrentUser().userId);
+    $("#paperElusive").blur(function(){
+        if($(this).val()>5 || $(this).val()<0 ){
+            $(this).val("");
+        }
+    });
+    $("#problemCount").blur(function(){
+        if($(this).val()<0){
+            $(this).val("");
+        }
+    });
 </script>
+
 <script type="text/javascript">
 
     var $step = $("#step");
@@ -214,73 +164,43 @@
     $step.step({
         index: 0,
         time: 500,
-        title: ["填写作业信息", "选择题型", "确认班级", "完成"]
+        title: ["填写作业信息", "确认班级", "完成"]
     });
     $index.text($step.getIndex());
     $("#prevBtn").on("click", function () {
-        if(keyCount==2){
+        if(keyCount==1){
             $step.prevStep();
-            $("#taskBasicCorpus").css("display","none");
-            $("#confirmQuestions").css("display","");
+            $("#taskBasicCorpus").css("display","");
             $("#confirmClass").css("display","none");
             $index.text($step.getIndex());
             $("#nextBtn").text("下一步");
             $("#nextBtn").attr("type","button");
             keyCount--;
-        }else if(keyCount==1){
-            $step.prevStep();
-            $("#taskBasicCorpus").css("display","");
-            $("#confirmQuestions").css("display","none");
-            $("#confirmClass").css("display","none");
-            $index.text($step.getIndex());
-            keyCount--;
         }
     });
     $("#nextBtn").on("click", function () {
         if(keyCount==0){
-            if($("#taskName").val()!=""){
+            if($("#taskName").val()!="" &&$("#paperElusive").val()!=""&&$("#problemCount").val()!="" ){
                 $step.nextStep();
                 $("#taskBasicCorpus").css("display","none");
-                $("#confirmQuestions").css("display","");
-                $("#confirmClass").css("display","none");
+                $("#confirmClass").css("display","");
+                $("#nextBtn").text("完成");
                 $index.text($step.getIndex());
                 keyCount++;
             }else{
-                layui.layer.msg("请填写作业名称！");
-            }
-        }else if(keyCount==1){
-            var k=0;
-            if($("span[name='tixing_count']").length!=0){
-                $("span[name='tixing_count']").each(function(data,index){
-                    if($(this).text()=='0'){
-                        k++;
+                layer.open({
+                    type: 1
+                    ,id: 'layerDemo' //防止重复弹出
+                    ,content: '<div style="padding: 20px 100px;">请把信息填写完整！</div>'
+                    ,btn: '确定'
+                    ,btnAlign: 'c' //按钮居中
+                    ,shade: 0 //不显示遮罩
+                    ,yes: function(){
+                        layer.closeAll();
                     }
                 });
-                if(k!=0){
-                    layui.layer.msg("请选择题型！");
-                }else{
-                    $step.nextStep();
-                    $("#taskBasicCorpus").css("display","none");
-                    $("#confirmQuestions").css("display","none");
-                    $("#confirmClass").css("display","");
-                    $("#nextBtn").text("完成");
-                    $index.text($step.getIndex());
-                    keyCount++;
-                }
-            }else{
-                if($("#appendixesFile").val()!=''){
-                    $step.nextStep();
-                    $("#taskBasicCorpus").css("display","none");
-                    $("#confirmQuestions").css("display","none");
-                    $("#confirmClass").css("display","");
-                    $("#nextBtn").text("完成");
-                    $index.text($step.getIndex());
-                    keyCount++;
-                }else{
-                    layui.layer.msg("请选择题型或文件！");
-                }
             }
-        }else if(keyCount==2){
+        }else if(keyCount==1){
             var time=$("input[name=time]");
             var endTime=$("input[name=endTime]");
             var clzz=$("input[name=classNo]");
@@ -299,6 +219,26 @@
             }else{
                 layui.layer.msg("请选择班级或截止时间！");
             }
+            /*if($("span[name='tixing_count']").length!=0){
+                $step.nextStep();
+                $("#taskBasicCorpus").css("display","none");
+                $("#confirmClass").css("display","");
+                $("#nextBtn").text("完成");
+                $("#nextBtn").attr("type","button");
+                $index.text($step.getIndex());
+                keyCount++;
+            }else{
+                if($("#appendixesFile").val()!=''){
+                    $step.nextStep();
+                    $("#taskBasicCorpus").css("display","none");
+                    $("#confirmClass").css("display","");
+                    $("#nextBtn").text("完成");
+                    $index.text($step.getIndex());
+                    keyCount++;
+                }else{
+                    layui.layer.msg("请选择题型或文件！");
+                }
+            }*/
         }
     });
 </script>
